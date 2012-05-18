@@ -1,0 +1,22 @@
+#Mon Jul 27 16:23:40 CEST 2009
+function.16.displayName=ExecuteScript
+function.19.displayName=toString
+function.20.displayName=toRichString
+function.21.displayName=test
+module.displayName=tools
+plain.3=d.M.y HH\:mm\:ss.SSS
+query.11.displayName=CastToScript
+renderer.12.displayName=html
+renderer.13.displayName=ResultText
+renderer.2.displayName=MsgDate
+task.14.displayName=ExecuteGroovyScript
+task.15.displayName=StoreScriptOnclipboard
+view.10.displayName=ScriptList
+view.17.displayName=ScriptEditorPanel
+view.18.displayName=ScriptEditor
+view.4.displayName=TextResults
+view.5.displayName=SelTopologyObject
+view.6.displayName=text_display
+view.7.displayName=SelectTypes
+view.8.displayName=SaveScriptDLG
+view.9.displayName=ScriptExecutor

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<type extends="DataObject" name="IDE_Object">
+		<property is-identity="true" name="name" type="String" />
+		<property name="label" type="String" />
+	</type>
+	<type extends="IDE_Object" name="IDE_Definition" />
+	<type extends="IDE_Definition" name="IDE_Type_Base" />
+	<type extends="IDE_Type_Base" name="IDE_Type">
+		<property is-containment="true" name="supertype" type="IDE_Type_Base" />
+		<property is-containment="true" is-many="true" name="supertypes"
+			type="IDE_Type_Base" />
+		<property is-containment="true" is-many="true" name="subtypes"
+			type="IDE_Type_Base" />
+		<property is-containment="true" is-many="true" name="properties"
+			type="IDE_Type_Property" />
+		<property is-containment="true" is-many="true" name="directProperties"
+			type="IDE_Type_Property" />
+		<property is-containment="true" is-many="true" name="annotations"
+			type="IDE_Type_Annotation" />
+	</type>
+
+	<type extends="IDE_Object" name="IDE_Type_Property">
+		<property is-identity="true" name="type" type="IDE_Type_Base" />
+		<property name="manyDef" type="Boolean" />
+		<property name="containmentDef" type="Boolean" />
+		<property name="identityDef" type="Boolean" />
+		<property name="definedIn" type="IDE_Type_Base" />
+		<property name="labelProp" type="Boolean" />
+		<property name="exprProp" type="Boolean" />
+		<property name="exprValue" type="String" />
+		<property name="unit" type="String" />
+	</type>
+	<type extends="IDE_Object" name="IDE_Type_Annotation">
+		<property is-identity="true" name="definedIn" type="String" />
+		<property is-identity="true" name="typeName" type="String" />
+		<property is-identity="true" name="type" type="String" />
+		<property name="typeEnum" type="IDE_AnnotationType"></property>
+		<property name="value" type="Object" />
+	</type>
+	<type extends="Enumeration" name="IDE_AnnotationType">
+		<instances>
+			<instance>
+				<property-value name="value" value="0" />
+				<property-value name="name" value="Property" />
+				<property-value name="index" value="0" />
+			</instance>
+			<instance>
+				<property-value name="value" value="1" />
+				<property-value name="name" value="Type" />
+				<property-value name="index" value="1" />
+			</instance>
+		</instances>
+	</type>
+	<type extends="DataObject" name="IDE_Rule">
+		<property is-identity="true" name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="type" type="String" />
+		<property name="trigger" type="String" />
+		<property name="comment" type="String" />
+		<property name="scopingType" type="String" />
+	</type>
+
+	<type extends="DataObject" name="IDE_Rulette_base">
+		<property name="scopingID" type="String" is-identity="true" />
+		<property name="scope" type="TopologyObject" />
+
+		<property name="diagnostic" type="String" />
+	</type>
+
+	<type extends="IDE_Rulette_base" name="IDE_Rulette">
+	
+		<property name="resetTime" type="Date" />
+		<property name="lastFired" type="Date" />
+		<property name="lastHit" type="Date" />
+		<property name="lastMiss" type="Date" />
+
+		<property name="numFire" type="Integer" />
+		<property name="numHit" type="Integer" />
+		<property name="numMiss" type="Integer" />
+	
+	</type>
+	<type extends="DataObject" name="IDE_LogMessage">
+		<property name="msg" type="String" />
+		<property name="level" type="String" />
+		<property name="region" type="String" />
+		<property name="date" type="Timestamp" />
+		<property name="scope" type="DataObject" />
+	</type>
+
+	<!--            SCRIPTS            -->
+	<!-- ############################# -->
+	<type extends="DataObject" name="IDE_Script_Attribute">
+		<property is-identity="true" name="name" type="String" />
+		<property name="value" type="String" />
+	</type>
+	<type extends="DataObject" name="IDE_Script_Argument">
+		<property is-identity="true" name="name" type="String" />
+		<property name="type" type="IDE_Script_ArgType" />
+		<property name="description" type="String" />
+		<property is-many="true" name="attributes" type="IDE_Script_Attribute" />
+		<property name="optional" type="Boolean" />
+	</type>
+
+	<type name="IDE_SavedScript" extends="TopologyObject">
+		<property is-identity="true" type="String" name="name" />
+		<property name="script" type="String" />
+	</type>
+
+	<type extends="DataObject" name="IDE_Script_Definition">
+		<property is-identity="true" name="name" type="String" />
+		<property name="script" type="String" />
+		<property is-identity="true" name="name" type="String" />
+		<property name="description" type="String" />
+		<property is-many="true" name="attributes" type="IDE_Script_Attribute" />
+		<property is-many="true" name="arguments" type="IDE_Script_Argument" />
+		<property name="returnType" type="IDE_Script_ArgType" />
+	</type>
+
+	<type extends="DataObject" name="IDE_Script_ArgType">
+		<property name="type" type="String" />
+		<property name="listMode" type="IDE_ListMode" />
+	</type>
+
+	<type extends="Enumeration" name="IDE_ListMode">
+		<instances>
+			<instance>
+				<property-value name="value" value="0" />
+				<property-value name="name" value="list" />
+				<property-value name="index" value="0" />
+			</instance>
+			<instance>
+				<property-value name="value" value="1" />
+				<property-value name="name" value="notList" />
+				<property-value name="index" value="1" />
+			</instance>
+			<instance>
+				<property-value name="value" value="2" />
+				<property-value name="name" value="either" />
+				<property-value name="index" value="2" />
+			</instance>
+		</instances>
+	</type>
+
+
+
+	<type name='IDE_Type_Instance_StatisticsModel' extends='CollectionModelRoot'>
+
+		<property name="stats" type="IDE_Type_Instance_Statistics"
+			is-containment="true" is-many="true"></property>
+
+		<annotation name="LabelProperty" value="name" />
+	</type>
+
+
+	<type name="IDE_Type_Instance_Statistics" extends="TopologyObject">
+		<property name="typename" is-identity="true" type="String" />
+	</type>
+	
+	
+	<type name='IDE_WCF_Parameters' extends="Object" instance-class='java.util.Map'>
+    	<annotation name='ImplementedInterfaces' value='wcf:Context'/>
+    </type>
+</types>

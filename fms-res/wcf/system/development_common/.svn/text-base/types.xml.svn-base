@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types xmlns="urn:quest-com:wcf-types-3-0">
+    <type name="ObjSelectorContent" extends="wcf:DataObject">
+        <set annotation="reloadable">false</set>
+        <property name="objs" type="foglight-5:TopologyObject" is-many="true"/>
+    </type>
+</types>

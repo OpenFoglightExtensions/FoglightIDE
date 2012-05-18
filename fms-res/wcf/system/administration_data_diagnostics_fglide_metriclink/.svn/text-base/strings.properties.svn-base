@@ -1,0 +1,14 @@
+#Wed May 12 17:29:26 CEST 2010
+module.displayName=fglIDE_metricLink
+plain.0=Name
+plain.1=Value Type
+plain.10=Cartridge
+plain.2=Unit
+plain.3=Scope
+plain.4=Count
+plain.5=Error
+plain.6=Version
+plain.7=Last Modified
+plain.8=In Error
+plain.9=Rulettes
+view.1.displayName=Derived Metrics Table as Popup

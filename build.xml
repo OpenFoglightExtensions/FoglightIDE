@@ -1,12 +1,12 @@
-<project default="cartridge" basedir="." name="IDE-TRUNK">
+<project default="cartridge" basedir="." name="IDE">
 
 	<property environment="env" />
 
 	<property name="cartridgeName" value="fglIDE" />
 
-	<property name="cartridgeVersion" value="5.6.2.1" />
-	<property name="cartridgeFileName" value="fglIDE-5_6_2_1.car" />
-	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_2_1.car" />
+	<property name="cartridgeVersion" value="5.5.5.9" />
+	<property name="cartridgeFileName" value="fglIDE-5_5_5_9.car" />
+	<property name="cartridgeExportFileName" value="fglIDE-export-5_5_5_9.car" />
 	<import file="${basedir}/env.xml" />
 
  
@@ -18,34 +18,32 @@
 
 		<car destdir="build" final="false" append="false">
 			<cartridge name="${cartridgeName}-export" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
-				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/ExportScripts.xml" />
-				<monitoringpolicy name="Commands" version="${cartridgeVersion}" file="${basedir}/src/ExportCartridgeScriptlets.xml" />
+				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/ExportScripts.xml" federateDeployType="ALWAYS_DEPLOY"/>
+				<monitoringpolicy name="Commands" version="${cartridgeVersion}" file="${basedir}/src/ExportCartridgeScriptlets.xml" federateDeployType="ALWAYS_DEPLOY"/>
 				
 				<!-- controll This Version or remind to change it synchronously in the export Scriptlets !!!!-->
-				<installers name="Templates" version="5.5.5.2" >
+				<installers name="Templates" version="5.5.5.2" federateDeployType="ALWAYS_DEPLOY">
 					<installer name="ProjectTemplate" version="5.5.5.2" type="fglIDE-template"  file="${basedir}/build/ProjectTemplate.zip"/>
 				</installers>
 
-<!--
-				<component name="IDETasks" version="1.0" author="stefan.marx" type="WCF Task Jar" deploymentitem="IDETasks.jar">
+				<component name="IDETasks" version="1.0" author="stefan.marx" type="WCF Task Jar" deploymentitem="IDETasks.jar" federateDeployType="ALWAYS_DEPLOY">
 					<fileset dir="build/" casesensitive="yes">
 						<include name="**/IDETasks.jar" />
 					</fileset>
-				</component>-->
-
-				<monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" />
+				</component>
+				<monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" federateDeployType="ALWAYS_DEPLOY"/>
 
 				
-				<jarcomponent name="helper" ispublic="true">
+				<jarcomponent name="helper" ispublic="true" federateDeployType="ALWAYS_DEPLOY">
 					<fileset dir="build/" includes="IDEHelper.jar" />
 
 				</jarcomponent>
 
-				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war">
+				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war" federateDeployType="ALWAYS_DEPLOY">
 					<fileset file="build/fglide.war" />
 				</component>
 
-				<wcf name="IDE_Core_UI" version="${cartridgeVersion}">
+				<wcf name="IDE_Core_UI" version="${cartridgeVersion}" federateDeployType="ALWAYS_DEPLOY">
 					<fileset dir="./fms-res-export/" includes="wcf/**/*" />
 				</wcf>
 
@@ -65,10 +63,10 @@
 		<car destdir="build" final="false" append="false">
 			<cartridge name="${cartridgeName}" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
 				<topologytypes name="Core_Types" version="${cartridgeVersion}" file="${basedir}/types/core/topology-types.xml" />
-				<monitoringpolicy name="IDEUIQueries" version="${cartridgeVersion}" file="${basedir}/src/uiquery-monitoring-policies.xml" />
-				<monitoringpolicy name="DebugScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts.xml" />
+				<monitoringpolicy name="IDEUIQueries" version="${cartridgeVersion}" file="${basedir}/src/uiquery-monitoring-policies.xml" federateDeployType="ALWAYS_DEPLOY"/>
+				<monitoringpolicy name="DebugScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts.xml" federateDeployType="ALWAYS_DEPLOY" />
 
-				<monitoringpolicy name="StatsThreshold" version="${cartridgeVersion}" file="${basedir}/src/Stats.xml" />
+				<monitoringpolicy name="StatsThreshold" version="${cartridgeVersion}" file="${basedir}/src/Stats.xml" federateDeployType="ALWAYS_DEPLOY"/>
 
 				<jarcomponent name="helper" ispublic="true">
 					<fileset dir="build/" includes="IDEHelper.jar" />
@@ -194,18 +192,18 @@
 
 	<target name="installCar" depends="cartridge" description="Install Car">
 		<echo message="Installing ${basedir}/build/${cartridgeFileName}" />
-		<java jar="${fgldev.server.dir}/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+		<java jar="${fgldev.server.tools.dir}/fglcmd/foglight-cmdline-client.jar" fork="true" failonerror="true">
 			<arg line='-usr ${fgldev.usr} -srv ${fgldev.Server} -pwd ${fgldev.pwd} -cmd ${fgldev.cmd.installCar} -f "${basedir}/build/${cartridgeFileName}" ' />
-			<classpath path="${fgldev.server.dir}/client">
+			<classpath path="${fgldev.server.tools.dir}/fglcmd">
 			</classpath>
 		</java>
 	</target>
 	
 	<target name="installExpCar" depends="cartridge" description="Install Car">
 		<echo message="Installing ${basedir}/build/${cartridgeExportFileName}" />
-		<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+		<java jar="${fgldev.server.tools.dir}/fglcmd/foglight-cmdline-client.jar" fork="true" failonerror="true">
 			<arg line='-usr ${fgldev.usr} -srv ${fgldev.Server} -pwd ${fgldev.pwd} -cmd ${fgldev.cmd.installCar} -f "${basedir}/build/${cartridgeExportFileName}" ' />
-			<classpath path="${fgldev.server.dir}/client">
+			<classpath path="${fgldev.server.tools.dir}/fglcmd">
 			</classpath>
 		</java>
 	</target>
@@ -239,9 +237,9 @@
 		<attribute name="command" />
 		<attribute name="server" />
 		<sequential>
-			<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+			<java jar="${fgldev.server.tools.dir}/fglcmd/foglight-cmdline-client.jar" fork="true" failonerror="true">
 				<arg line='-usr ${fgldev.usr} -pwd ${fgldev.usr} -srv @{server}  -cmd @{command}' />
-				<classpath path="${fglclient.dir}">
+				<classpath path="${fgldev.server.tools.dir}/fglcmd">
 				</classpath>
 			</java>
 		</sequential>
@@ -263,29 +261,31 @@
 
 	<target name="exportRessources" description="Export Ressources from the local FMS to FS" depends="init">
 		<!-- FGLIDE Export  WCF Modules
-			     **************************   -->
-			
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_scripts" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors_topologyexports" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_data" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
-			
+		     **************************   -->
 		
-			<!-- FGLIDE WCF Modules 
-			     ******************  -->
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_debug" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_wcf" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_metrics" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:administration_data_diagnostics_fglide_metriclink" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_common" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_rules" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_topology" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors_topologyexports" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_data" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+				
+		
+	
+		<!-- FGLIDE WCF Modules 
+		     ******************  -->
+		
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_debug" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_wcf" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_metrics" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:administration_data_diagnostics_fglide_metriclink" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_common" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_rules" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_topology" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
 
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
-			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha_tools" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+		<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha_tools" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+
 
 	</target>
 

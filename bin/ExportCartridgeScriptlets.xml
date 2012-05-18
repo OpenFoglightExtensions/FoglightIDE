@@ -186,10 +186,9 @@ wr << '''
 		<body><![CDATA[
 		def version = args[3]
 		if (version == null) version = "1.0.0"
-	
 		def car = #!IDE_CAR_ExportContainer#.topologyObjects.find{it.name == args[1]}
 
-println "STEP1"
+
 def msg = new StringBuffer()
 def carBuild = ["task":new StringBuffer(),
                  "prepare":new StringBuffer(),
@@ -212,15 +211,11 @@ msg.append("Exporting to Cartridge !!! (tmp:"+tmpDir+"\n----------------------\n
 
 msg.append("Cartidge Name :"+car.getString("name")+"\nVersion: "+version+"\n");
 
+
 // call all closures
 car.definitionGroups.expToProject.findAll {it != null}.each{ cl->
-	try {
-		cl.call(tmpDir,carBuild,version,msg)
-	} catch (Exception ex) { 
-		msg.append("Error while adding :"+it.name+ "   -->" + ex.toString());
-		ex.printStackTrace();
-	}
-}
+cl.call(tmpDir,carBuild,version,msg) }
+
 
 // enrich with Template
 def ZT = createZipTool() 
@@ -236,7 +231,7 @@ props["cartridge.name"] = car.getString("name")
 props["cartridge.version"] = version
 props["cartridge.author"] = car.getString("author")
 props["foglight.server"] =server.HaMembershipService.getPrimaryServerHostName() 
-props["foglight.port"] = "8080"
+props["foglight.port"] = server.HaMembershipService.getPrimaryServerSystemConfig("foglight.http.port") 
 
 msg.append("--- Properties changed.");
 
@@ -350,7 +345,7 @@ createObject = {n->
            return objs[r.attributes().refId]
    }
 
-   if (obj.topologyType.getProperty(pname).isMany()) {
+   if (obj.type.getProperty(pname).isMany()) {
            obj.getList(pname).addAll(tmp)
         }
         else obj.set(p.attributes().name,tmp[0])
@@ -705,7 +700,7 @@ createObject = {n->
            return objs[r.attributes().refId]
    }
 
-   if (obj.topologyType.getProperty(pname).isMany()) {
+   if (obj.type.getProperty(pname).isMany()) {
            obj.getList(pname).addAll(tmp)
         }
         else obj.set(p.attributes().name,tmp[0])

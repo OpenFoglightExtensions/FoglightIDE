@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  this declares a Script as an wcf-component -->
+<component 
+	class="com.quest.foglight.fglide.downloadTask.DownloadFileItemTask"
+    xmlns="urn:quest-com:wcf-component-2-0"
+    >
+    <action name="OK"/>
+    <action name="Error"/>
+</component>
