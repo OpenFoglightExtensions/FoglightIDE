@@ -1,0 +1,10 @@
+FGLDEV.clearLib
+FGLDEV.prepareLib
+FGLDEV.showProperties
+[echo]
+cartridge
+clean
+exportRessources
+fullRebuild
+installCar
+installExpCar
