@@ -1,0 +1,438 @@
+
+<foglight-config version="1.0.0" exported-on="2006-06-21T14:12:01.323Z">
+  <persistable-script>
+            <script_name>idecore_returnTypes</script_name>
+            <![CDATA[
+            
+            typeNameFilter = args[1];
+            if (typeNameFilter == null) typeNameFilter = ""; 
+def set = server["TopologyService"].getTypeNames()
+def definition = server["TopologyService"].getType("IDE_Definition")
+
+def r = set.findAll{ name -> name =~ typeNameFilter } . collect { name -> 
+ def data = server["TopologyService"].createAnonymousDataObject(definition)
+ data.setString("name",name)
+ return data
+}
+return r
+            ]]>
+            <script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a List of types ]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[java.util.List of IDE_Definition]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[TopologyObject<IDE_Definition>]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[typenameFilter]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a Regexp Filter]]>
+</script-property>
+
+            </script-meta-information>
+
+      </persistable-script>
+
+<persistable-script>
+            <script_name>idecore_returnTypeDefinition</script_name>
+            <![CDATA[
+String typeName = args[1]
+
+println "Retrieve Props and TypeInfo for $typeName!"
+def ts = server["TopologyService"]
+
+public List getSupertypes(def aType){
+  def types = []
+  def i = 0;
+  while (aType != null) {
+    def sTypeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+    sTypeData.setString("name",aType.getName())
+    sTypeData.setString("label",(i<10?"0":"")+i+":"+aType.getName())
+    i++
+    types.add(sTypeData)
+    aType = aType.getSuperType()
+
+  }
+  return types
+}
+
+public def getIDEDef(String name) {
+  def data = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+  sTypeData.setString("name",name)
+  return data
+}
+public List getSubtypes(String aTypeName) {
+    def ts = server["TopologyService"]
+    return ts.getTypeNames().findAll{ name ->
+       return ts.getType(name).getSuperType()!=null && ts.getType(name).getSuperType().getName().equals(aTypeName)
+    }.collect{ name ->
+   def bType = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+   bType.setString("name",name)
+
+       return bType
+    }
+}
+public List getProperties(def aType) {
+   def erg = []
+   def bType = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+   bType.setString("name",aType.getName())
+   println "PROPS"
+   def labelPropName = aType.getAnnotationValue(server["TopologyService"].getType("LabelProperty"))
+   return aType.getProperties().collect { prop->
+        def propData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Property"))
+        propData.setString("name",prop.getName())
+        
+        def typeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+        typeData.setString("name",prop.getType().getName())
+        propData.set("type",typeData)
+
+        typeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+        typeData.setString("name",prop.getContainingType().getName())
+        propData.set("definedIn",typeData)
+       
+        propData.setBoolean("manyDef",prop.isMany())      
+        propData.setBoolean("containmentDef",prop.isContainment())         
+        propData.setBoolean("identityDef",prop.isIdentity())         
+  def exprProp = prop.getAnnotations().findAll{it.getType().getName().equals("DerivationExpression")}.size()>0
+  propData.setBoolean("exprProp",exprProp)
+  if (exprProp) {
+	  def value = prop.getAnnotationValue(server["TopologyService"].getType("DerivationExpression"))
+  	  propData.set("exprValue",(value != null)?value:"")
+  	  } else propData.set("exprValue","")
+        
+        propData.setBoolean("labelProp",prop.getName().equals(labelPropName))
+
+        return propData
+   }
+
+}
+public List getDirectProperties(def aType) {
+   def erg = []
+   def bType = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+   bType.setString("name",aType.getName())
+    def labelPropName = aType.getAnnotationValue(server["TopologyService"].getType("LabelProperty"))
+  return aType.getProperties().findAll { p->
+      p.getContainingType().getName().equals(aType.getName())
+   }.collect { prop->
+        def propData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Property"))
+        propData.setString("name",prop.getName())
+        
+        def typeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+        typeData.setString("name",prop.getType().getName())
+        propData.set("type",typeData)
+
+        typeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type_Base"))
+        typeData.setString("name",prop.getContainingType().getName())
+        propData.set("definedIn",typeData)
+       
+        propData.setBoolean("manyDef",prop.isMany())      
+        propData.setBoolean("containmentDef",prop.isContainment())         
+        propData.setBoolean("identityDef",prop.isIdentity())         
+  def exprProp = prop.getAnnotations().findAll{it.getType().getName().equals("DerivationExpression")}.size()>0
+  propData.setBoolean("exprProp",exprProp)
+  if (exprProp) {
+	  def value = prop.getAnnotationValue(server["TopologyService"].getType("DerivationExpression"))
+  	  propData.set("exprValue",(value != null)?value:"")
+  	  } else propData.set("exprValue","")
+        
+        propData.setBoolean("labelProp",prop.getName().equals(labelPropName))
+
+        return propData
+   }
+
+}
+
+def type = server["TopologyService"].getType(typeName)
+
+// create the Data holder
+def typeData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_Type"))
+
+typeData.setString("name",typeName)
+
+def supertypes = getSupertypes(type.getSuperType())
+typeData.setList("supertypes",supertypes)
+typeData.set("supertype",supertypes[0])
+
+typeData.setList("properties",getProperties(type))
+typeData.setList("directProperties",getDirectProperties(type))
+typeData.setList("subtypes",getSubtypes(typeName))
+
+def anno = type.getAnnotations().collect { 
+    def name = it.getName()
+    def value = type.getAnnotationValue(it)
+    
+    def data =     ts.createAnonymousDataObject(ts.getType("IDE_Type_Annotation"))
+    data.set("definedIn",type.getName())
+    data.set("type","(Type Annotation)")
+    data.set("typeName",name)
+    data.set("value",(value != null)?value.toString():"")
+    return data
+}
+
+type.getProperties().each { prop ->
+    anno.addAll(prop.getAnnotations().collect { 
+    def name = it.getName()
+    def value = prop.getAnnotationValue(it)
+    
+    def data =     ts.createAnonymousDataObject(ts.getType("IDE_Type_Annotation"))
+    data.set("definedIn",prop.getName())
+    data.set("type","(Property Annotation)")
+    data.set("typeName",name)
+    data.set("value",(value != null)?value.toString():"")
+    return data
+})
+}
+typeData.set("annotations",anno)
+println "Finished"
+
+return typeData
+            ]]>
+            <script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a specific Type (Part of the IDE Core Cartridge) ]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[DataObject]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[TopologyObject<IDE_Type>]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[typename]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a Typename Filter]]>
+</script-property>
+ 
+            </script-meta-information>
+
+      </persistable-script>
+      <!-- 
+<persistable-script><script_name>idecore_returnRegValues</script_name>
+            <![CDATA[
+			import com.quest.nitro.service.sl.interfaces.registry.*;
+
+			def tname = args[1]
+			server.get("SecurityService").findAllObjects().findAll {
+ 			try {
+   				server["RegistryService"].getByID(it.getId())
+   				return true;
+ 			} catch (Throwable t) {return false;}
+			}.findAll{server["RegistryService"].getByID(it.getId()).registryValues.size()>0}.collect{
+				server["RegistryService"].getByID(it.getId())
+			}.findAll { regVal ->
+    			return regVal.getRegistryValues().findAll { val ->
+     				if (val instanceof TopologyTypeRegistryValueInterface) return val.getTopologyType().equals(tname)
+				    return false
+    			}.size()>0
+			}.collect{        
+				def regData = server["TopologyService"].createAnonymousDataObject(server["TopologyService"].getType("IDE_RegistryValue"))
+        		regData.setString("name",it.getName())
+        		regData.setString("ci_id",it.getId())
+        		return regData;
+			}
+            ]]>
+<script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a list of RegValues for the given Type]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[DataObject]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[TopologyObject<IDE_CI>]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[typename]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a Typename Filter]]>
+</script-property>
+</script-meta-information>
+</persistable-script>
+
+-->
+<persistable-script><script_name>idecore_returnrules</script_name>
+            <![CDATA[
+def typename = args[1]
+boolean includeSupertypes = args[2]
+boolean includeSubtypes = args[3]
+
+def rs = server["RuleService"]
+def ts = server["TopologyService"]
+def qs = server["QueryService"]
+def type = ts.getType(typename)
+def ruleType = ts.getType("IDE_Rule")
+
+def erg = ""
+def rules = rs.getAllRulesInfo().findAll{ ruleInfo ->
+//println "processing Rule: $ruleInfo.name"
+  try { 
+  return (includeSubtypes && type.isAssignableFrom(qs.getScopingTopologyObjectType( ruleInfo.getScopingQuery()))) ||
+         (includeSupertypes && qs.getScopingTopologyObjectType( ruleInfo.getScopingQuery()).isAssignableFrom(type))
+  } catch (Exception ex) {
+   println "Error while looking at topType of Rule : $ruleInfo.name "
+   return false
+  } 
+}.collect { ri ->
+	def r = ts.createAnonymousDataObject(ruleType)
+	r.setString("id",ri.getId())
+	r.setString("name",ri.getName())
+	r.setString("comment",ri.getComments())
+	
+	// Trigger
+	if (ri.isDataDriven()) r.setString("trigger","DataDriven")
+	else if (ri.isTimeDriven()) r.setString("trigger","TimeDriven")
+	else if (ri.isEventDriven()) r.setString("trigger","EventDriven")
+	
+	// Family
+	if (ri.isSimple()) r.setString("type","SimpleRule")
+	else if (ri.isEventDriven()) r.setString("type","EventDriven")
+	else r.setString("type","MultiSeverityRule")
+	
+	r.setString("scopingType",qs.getScopingTopologyObjectType( ri.getScopingQuery()).getName())
+	
+	//TODO: RulettCount retrieval !!HACK
+	
+	
+	return r
+}
+
+
+            ]]>
+		<script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a list of Rules Scoped to the Type]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[DataObject]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[TopologyObject<IDE_Rule>]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[typename]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a Typename Filter]]>
+</script-property>
+<script-property name="arg2_name">
+	<![CDATA[supertypes]]>
+</script-property>
+<script-property name="arg2_type">
+	<![CDATA[Boolean]]>
+</script-property>
+
+<script-property name="arg2_description">
+	<![CDATA[set this to true to include Rules that are scoped on Supertypes of this type]]>
+</script-property>
+<script-property name="arg3_name">
+	<![CDATA[subtypes]]>
+</script-property>
+<script-property name="arg3_type">
+	<![CDATA[Boolean]]>
+</script-property>
+
+<script-property name="arg2_description">
+	<![CDATA[set this to true to include Rules that are scoped on Subtypes of this type]]>
+</script-property>
+</script-meta-information>
+</persistable-script>
+
+<persistable-script>
+
+<script_name>idecore_executeTopologyQuery</script_name>
+<![CDATA[
+def s = server["QueryService"]
+return s.queryTopologyObjects(args[1])
+]]>
+<script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a list TopologyObjects as a result of an TopologyQuery]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[DataObject]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[TopologyObject<TopologyObject>]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[query]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a Query]]>
+</script-property>
+</script-meta-information></persistable-script>
+<persistable-script>
+<script_name>idecore_getRuletteInfo</script_name>
+<![CDATA[
+import com.quest.foglight.ide.backdoor.*
+def rsbd = Backdoor.getMBean("com.quest.nitro:service=Rule")
+def tss = Backdoor.getMBean("com.quest.nitro:service=Topology")
+
+rsbd.diagnosticSnapshotAsString().split("Rule name: ").findAll{ it.contains(args[1])}[0]
+]]>
+<script-meta-information>
+                  <script-property name="script_description">
+                        <![CDATA[ Returns a RulettInfoDump]]>
+                  </script-property>
+                  <script-property name="attributes">
+                        <![CDATA[UIQuery]]>
+                  </script-property>
+                  <script-property name="return_description">
+                        <![CDATA[a String]]>
+                  </script-property>
+                  <script-property name="return_type">
+                        <![CDATA[String]]>
+                  </script-property>
+<script-property name="arg1_name">
+	<![CDATA[rule ID]]>
+</script-property>
+<script-property name="arg1_type">
+	<![CDATA[String]]>
+</script-property>
+
+<script-property name="arg1_description">
+	<![CDATA[a rule ID]]>
+</script-property>
+</script-meta-information></persistable-script>
+</foglight-config>

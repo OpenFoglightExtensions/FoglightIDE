@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="Development" last-entity-id="6">
+    <relevant-role name="Cartridge Developer"/>
+    <relevant-role name="Dashboard Designer"/>
+    <allowed-role name="Administrator"/>
+    <allowed-role name="Cartridge Developer"/>
+    <allowed-role name="Dashboard Designer"/>
+    <view-fwd-ref id="2" display-name="Type Definitions" ts="1254923739527" ref-id="system:development_topology.6">
+        <uuid>d321a93f-1213-4a11-8179-3392dc9e9d93</uuid>
+    </view-fwd-ref>
+    <composite-view id="3" display-name="FGL Development Environment" ts="1285922249236" public="false" component="wcf.grid2">
+        <uuid>0f76ec45-68d5-43a6-9228-d7895db4d109</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="homepage"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="selectedDefinition" data-type="foglight-5:IDE_CAR_ExportContainer" usage="internal"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development.5">
+            <size width="200" height="200"/>
+            <config>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="3" view="system:development_export.3">
+            <size/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+            <config-override type="component.wcf.table.row-table:Root">
+                <property name="title">
+                    <string xml:space="preserve">Cartridges Exports</string>
+                </property>
+            </config-override>
+        </window>
+        <window id="2" view="system:development.4">
+            <size/>
+            <config>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <composite-view id="4" display-name="HomepageDetails" ts="1257782015794" public="false" component="wcf.tab-container">
+        <uuid>c40b8db4-7c83-42b3-b464-ec5d6abcc118</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <config>
+            <property name="displayStyle">
+                <enum value="standard"/>
+            </property>
+            <property name="cooperativeLayout">
+                <enum value="on"/>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="1" view="system:development_topology.41" scrollbars="auto">
+            <size/>
+            <config/>
+        </window>
+        <window id="0" view="system:development_debug.2" scrollbars="auto">
+            <size/>
+            <config/>
+        </window>
+    </composite-view>
+    <composite-view id="5" display-name="FGLIDE Menu" ts="1296136506156" public="false" component="wcf.grid2">
+        <uuid>7b0560cb-99d3-4b48-8817-342bde2aac60</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size/>
+            <config/>
+            <view id="nested" display-name="nv)Types" ts="1257780566963" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_topology.6"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">TopologyType Explorer</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Rules" ts="1257777426579" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_rules.27"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Rules Debugger</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="2" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Metrics" ts="1257777798043" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_metrics.116"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Derrived Metrics Debug</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="3" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="3"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Debug" ts="1257780267073" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_debug.2"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Debug Output</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="4" view="nested">
+            <size height="20"/>
+            <config>
+                <property name="row">
+                    <integer value="4"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(Nested View)" ts="1257780437372" public="false" component="wcf.separator">
+                <config>
+                    <property name="direction">
+                        <enum value="horizontal"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="5" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="5"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)ManagedExports" ts="1296136505808" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_export.2"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Export Cartridges</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="8" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="6"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)DataExport" ts="1293091647730" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="timeRange" data-type="wcf:TimeRange"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <next-page id="system:development_export_data.1"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Topology export wizard</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="6" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="7"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(Nested View)" ts="1257857221490" public="false" component="wcf.separator">
+                <config>
+                    <property name="direction">
+                        <enum value="horizontal"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="7" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="8"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Feedback" ts="1257857409589" public="false" component="wcf.label">
+                <flow>
+                    <on action="selection">
+                        <external-url href="mailto:stefan.marx@quest.com"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:development.6">
+                            <value xml:space="preserve">Feedback</value>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+    </composite-view>
+    <renderer id="6" display-name="Menu Text Renderer" ts="1257780490630" handler="wcf.text" value-type="wcf:String">
+        <uuid>e625daae-71c4-4c87-85ce-1d6e9b3020ee</uuid>
+        <config>
+            <property name="font-style">
+                <enum value="strong"/>
+            </property>
+        </config>
+    </renderer>
+</module>

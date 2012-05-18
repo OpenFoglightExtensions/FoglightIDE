@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foglight-config version="1.0.2.0" exported-on="2008-12-17T23:52:40.406Z">
+	<complex-derivation-definition id="d305041c-c975-4086-9b9c-76a41910ffad"
+		property-name="objectcount" comments="" unit-name="count" value-type="Metric">
+		<DerivationCalculation description=""
+			domain-query="IDE_Type_Instance_Statistics"
+			trigger="com.quest.nitro.service.rule.rule.Rule$TriggerType TIME_DRIVEN"
+			firing-interval="600000"><![CDATA[
+				def name = scope.typename
+
+				server.QueryService.queryTopologyObjects("$name" as String).size()]]></DerivationCalculation>
+	</complex-derivation-definition>
+	<complex-derivation-definition id="448750ff-7f44-4ecd-b66a-36fe1540a016"
+		property-name="concreteObjectcount" comments="" unit-name="count"
+		value-type="Metric">
+		<DerivationCalculation description=""
+			domain-query="IDE_Type_Instance_Statistics"
+			trigger="com.quest.nitro.service.rule.rule.Rule$TriggerType TIME_DRIVEN"
+			firing-interval="600000"><![CDATA[
+				def name = scope.typename
+
+				server.QueryService.queryTopologyObjects("$name : topologyTypeName = '$name'" as String).size()]]></DerivationCalculation>
+	</complex-derivation-definition>
+    <simple-threshold id="90144743-9307-4584-8a92-f3ecb21ea6c8" topology-type="IDE_Type_Instance_Statistics" observation-property="objectcount" enum-type="ThresholdSeverity">
+        <bounds>
+            <registry-bound variable="foglight.limit.instances" state="2"/>
+        </bounds>
+    </simple-threshold>
+</foglight-config>

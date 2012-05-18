@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Version 1.3
+    
+    There is nothing to edit in this file all user set up
+    is now in configuration.properties
+-->
+
+<project name="ExportedCartridge" basedir="." default="car" >
+	
+	<!-- User configuration -->
+	<property file="${basedir}/configuration.properties"/>
+
+	<!-- these properties are filled in automagically -->
+	<property name="cartridge.carfile" value=""/>
+
+	<!-- build environment -->
+	<property name="fglant.dir" value="lib/fglant"/>
+	<property name="fglclient.dir" value="lib/client"/>
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="wcf.dir" value="wcf"/>
+	<property name="res.dir" value="${basedir}/res"/>
+	<property environment="env"/>
+	
+	
+	<!-- set the timestamp -->
+	<tstamp/>
+        <property name="build.id" value="${DSTAMP}-${TSTAMP}"/>
+
+	<!-- Groovy script definition -->
+	<path id="groovy.path">
+		<fileset dir="${groovy.home}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpathref="groovy.path"/>
+
+	
+	<target name="init">
+
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${wcf.dir}"/>
+		
+	
+		<!-- munge the version number -->
+		<groovy><![CDATA[
+			version = properties.get("cartridge.version");
+			name = properties.get("cartridge.name");
+			us = version.replace('.', '_');
+			println "munged version $us";
+			properties.put("cartridge.carfile", "${name}-${us}.car");
+		]]></groovy>
+		
+		<!-- define car task -->
+		<path id="fglant.path">
+			<fileset dir="${fglant.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+		<taskdef name="car" classname="com.quest.nitro.tools.ant.cartridge.Car" classpathref="fglant.path"/>
+	</target>
+	
+	
+	<target name="car" depends="init">
+		
+		<ant antfile="${basedir}/src/build/build_content.xml" inheritall="true" target="_car">
+			</ant>
+		
+		<!--
+		 Please use this section to add static overwrites and additions to the Cartridge.
+		 Please DO NOT change build_content.xml because this will overwritten on the next Ressource Export
+		 
+		<car destdir="${dist.dir}" final="false" append="true">
+					<cartridge name="${cartridge.name}" version="${cartridge.version}" buildId="${build.id}" author="${cartridge.author}" foglightversion="5.0" classloadingstyle="local_first" type="user">
+		
+					</cartridge>
+				</car>
+		-->
+	</target>
+	
+	<target name="clean" description="Clean before rebuild">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+	
+	<target name="scrub" depends="clean" description="Remove Src!!!">
+		<delete dir="${src.dir}"/>
+		<delete dir="${res.dir}"/>
+		<delete dir="${wcf.dir}"/>
+	</target>
+	
+	<!-- Automation -->
+	<target name="uninstallCar" depends="init" description="Uninstall Cartridge">
+		<!-- disable the cartridge first - belt and braces -->
+		<java jar="${fglclient.dir}/foglight-cmdline-client.jar" fork="true" failonerror="false">
+			<arg line='-usr ${foglight.user} -pwd ${foglight.password} -srv ${foglight.server} -port ${foglight.port} -cmd cartridge:disable -n "${cartridge.name}" -v ${cartridge.version} ' />
+			<classpath path="${env.FGLHOME}/client">
+			</classpath>
+		</java>
+		<!-- really uninstall it now -->
+		<java jar="${fglclient.dir}/foglight-cmdline-client.jar" fork="true" failonerror="false">
+			<arg line='-usr ${foglight.user} -pwd ${foglight.password} -srv ${foglight.server} -port ${foglight.port} -cmd cartridge:uninstall -n "${cartridge.name}" -v ${cartridge.version} ' />
+			<classpath path="${env.FGLHOME}/client">
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="installCar" depends="car" description="Install Cartridge">
+		<java jar="${fglclient.dir}/foglight-cmdline-client.jar" fork="true" failonerror="true">
+			<arg line="-usr ${foglight.user} -pwd ${foglight.password} -srv ${foglight.server} -port ${foglight.port} -cmd cartridge:install -f ${dist.dir}/${cartridge.carfile} "/>
+			<classpath path="${env.FGLHOME}/client">
+			</classpath>
+		</java>
+	</target>
+	<target name="reinstallCar" depends="car" description="Re Install Cartridge">
+		<antcall target="uninstallCar"/>
+		<antcall target="installCar"/>
+	</target>
+
+	<macrodef name="fglcmd">
+			<attribute name="command" />
+		<attribute name="server" />		
+			<sequential>
+				<java jar="lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+							<arg line='-usr ${foglight.user} -pwd ${foglight.password} -srv @{server} -port ${foglight.port} -cmd @{command}' />
+							<classpath path="${fglclient.dir}">
+							</classpath>
+				</java>				   
+			</sequential>
+		</macrodef>
+	<macrodef name="exportRes">
+			<attribute name="tmpFilename" />
+			<attribute name="module"  />
+			<attribute name="server" />		
+			<sequential>
+				<delete file="@{tmpFilename}" failonerror="true"></delete>
+				<fglcmd command="fglide:exportCartridgeContent -file @{tmpFilename} -name @{module} " server="@{server}"/>
+				
+				
+			</sequential>
+		</macrodef>
+	
+	<target name="exportResources" description="Export Resources from the local FMS to FS" depends="init,exportDefinition">
+		<exportRes tmpfilename="tmp.zip" module="${cartridge.name}" server="${foglight.server}"/>
+		<delete dir="res" includes="**/*"></delete>
+						<delete dir="wcf" includes="**/*"></delete>
+						<unzip dest="${basedir}/" src="tmp.zip" overwrite="true"  >
+							
+							</unzip>
+	</target>
+
+	<target name="exportDefinition" description="Export Container Definition from the local FMS to ${basedir}" depends="init">
+		<delete file="${basedir}/src/containerDefinition.xml" failonerror="true"></delete>
+		<fglcmd command="fglide:save -file ${basedir}/src/containerDefinition.xml -name ${cartridge.name} " server="${foglight.server}"/>
+		
+	</target>
+<target name="importDefinition" description="Import Container Definition to the local FMS from ${basedir}" depends="init">
+		<fglcmd command="fglide:importTopology -file ${basedir}/src/containerDefinition.xml  " server="${foglight.server}"/>
+		
+	</target>
+</project>

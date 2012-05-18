@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<type extends="IDE_CAR_CIDefinitionGroup" name="IDE_ExpGroup_ASP">
+			<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting Group :"+scope.name+"\n");
+
+def configs = scope.includes.ci_id.collect{aspid->
+def names = aspid.split("/")
+def c = server.ConfigService.getNamedConfig(names[0],names[1],names[3])
+def cm = c.persistableConfigModel
+return cm
+}
+
+IBindingFactory bfact = BindingDirectory.getFactory(FoglightConfiguration.class)
+
+IMarshallingContext mctx = bfact.createMarshallingContext();
+
+mctx.setIndent(4);
+
+FoglightConfiguration config = new FoglightConfiguration();
+// latest version always
+config.setVersion("1.0.3.0");
+
+config.setConfigItems(configs);
+def oFile = new File(dir,"src"+File.separator+"xml")
+oFile.mkdirs();
+oFile = new File(oFile,File.separator+scope.getString("name")+".xml")
+mctx.marshalDocument(config, "UTF-8", null, new FileOutputStream(oFile));
+
+// Store to Car
+
+msg.append("Adding to Cartridge !!!\n")
+def component = new Component(new Identity(scope.getString("name"), version, scope.controller.getString("author")),
+				"Monitoring Policy");
+CartFile cartFile = new CartFile(scope.getString("name")+".xml",oFile.absolutePath);	
+component.getItems().add(cartFile);
+		component.setDeploymentItem(cartFile);
+		car.getComponentList().add(component);
+}
+
+
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting Group :"+scope.name+"\n");
+
+def configs = scope.includes.ci_id.collect{aspid->
+def names = aspid.split("/")
+def c = server.ConfigService.getNamedConfig(names[0],names[1],names[3])
+def cm = c.persistableConfigModel
+return cm
+}
+
+IBindingFactory bfact = BindingDirectory.getFactory(FoglightConfiguration.class)
+
+IMarshallingContext mctx = bfact.createMarshallingContext();
+
+mctx.setIndent(4);
+
+FoglightConfiguration config = new FoglightConfiguration();
+// latest version always
+config.setVersion("1.0.3.0");
+
+config.setConfigItems(configs);
+def oFile = new File(dir,"src"+File.separator+"xml")
+oFile.mkdirs();
+oFile = new File(oFile,File.separator+scope.getString("name")+".xml")
+mctx.marshalDocument(config, "UTF-8", null, new FileOutputStream(oFile));
+
+// add Cartridge Build
+car["task"].append('<monitoringpolicy name="'+scope.getString("name")+'" version="${cartridge.version}" file="${basedir}/src/xml/'+scope.getString("name")+'.xml" />\n')
+
+}
+
+
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+	
+	</type>
+		<type extends="IDE_CI" name="IDE_CI_ASP" />
+</types>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="common" last-entity-id="8" parent="system:development">
+    <view id="1" display-name="text_display" ts="1229018940238" component="wcf.label">
+        <uuid>9e919f93-8b63-4e9c-b65c-74448b3c1b22</uuid>
+        <originating-data ts="1221651943575">
+            <uuid>ffdbc511-9057-4e9e-a5f6-c130deedf497</uuid>
+        </originating-data>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="txt" data-type="wcf:String"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="label">
+                <string-rv>
+                    <value xml:space="preserve">{0}</value>
+                    <context-rv input-key="txt" renderer-id="system:development_topology.17"/>
+                </string-rv>
+            </property>
+            <property name="nowrap">
+                <boolean value="false"/>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Value:</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="400"/>
+                    <height preferred="200"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="4" display-name="TopologySelector" ts="1276767688792" public="false" component="wcf.grid2">
+        <uuid>cd12fbef-344d-4f00-98c1-154321e67d09</uuid>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="selectedObject" data-type="wcf:Object" usage="internal">
+                <null-rv/>
+            </entry>
+            <entry key="sourceView" data-type="wcf:String"/>
+            <entry key="result" data-type="development_common:ObjSelectorContent" usage="internal">
+                <create-data-object-rv>
+                    <create-data-object type="development_common:ObjSelectorContent" storage="none"/>
+                </create-data-object-rv>
+            </entry>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </composite-view>
+    <renderer id="3" display-name="BooleanIcon" ts="1277892906738" public="false" handler="wcf.icon" value-type="wcf:Boolean">
+        <uuid>e17c0f01-cdee-40ee-a3fa-9897dca9c29d</uuid>
+        <config>
+            <property name="defaultIcon">
+                <function-rv id="system:development_common.2">
+                    <context-rv input-key="value"/>
+                </function-rv>
+            </property>
+            <property name="nullRenderer">
+                <null-renderer value="system:core_commons.203"/>
+            </property>
+        </config>
+    </renderer>
+    <script-map-function type="groovy" id="2" display-name="getBooleanIcon" ts="1277892951548" public="false" output-type="wcf:IconReference" cache-results="true" map-input-type="wcf:Boolean">
+        <uuid>63e371b4-692a-42eb-b136-159d97282cbf</uuid>
+        <script-inputs>
+            <input name="val" type-name="wcf:Boolean"/>
+        </script-inputs>
+        <map-entry>
+            <key>
+                <boolean value="true"/>
+            </key>
+            <value>
+                <icon-ref value="system:system.25"/>
+            </value>
+        </map-entry>
+        <map-entry>
+            <key>
+                <boolean value="false"/>
+            </key>
+            <value>
+                <icon-ref value="system:system.26"/>
+            </value>
+        </map-entry>
+    </script-map-function>
+    <script-function type="groovy" id="5" display-name="addToResult" ts="1276767704476" public="false" output-type="wcf:Object" cache-results="true">
+        <uuid>f1f3c810-dc03-42ea-93f0-29fe6542feab</uuid>
+        <inputs>
+            <input name="obj" type-name="foglight-5:TopologyObject"/>
+            <input name="result" type-name="development_common:ObjSelectorContent"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="6" display-name="getLabel" ts="1279284362470" public="false" output-type="wcf:String" converter="true" cache-results="true">
+        <uuid>d93cf3ec-e001-4d83-b83f-f7977f913ea9</uuid>
+        <inputs>
+            <input name="obj" type-name="foglight-5:DataObject"/>
+        </inputs>
+    </script-function>
+</module>

@@ -1,0 +1,24 @@
+<topologyExport version='1.0.0'>
+  <objectInstance type='IDE_CAR_ExportContainer' id='0'>
+    <stringProperty name='name'><![CDATA[ss]]></stringProperty>
+    <stringProperty name='description'><![CDATA[ff]]></stringProperty>
+    <objectProperty name='definitionGroups'>
+      <objectInstance type='IDE_ExpGroup_CI' id='1'>
+        <stringProperty name='name'><![CDATA[rules]]></stringProperty>
+        <objectProperty name='container'>
+          <objectReference refId='0' />
+        </objectProperty>
+        <objectProperty name='includes'>
+          <objectInstance type='IDE_CI_Rule' id='2'>
+            <stringProperty name='ci_id'><![CDATA[/rule/3ffaf1e9-263c-4ea6-ae8e-3b47796e0c61]]></stringProperty>
+            <objectProperty name='parent'>
+              <objectReference refId='1' />
+            </objectProperty>
+            <stringProperty name='name'><![CDATA[Catalyst Database Space Checking]]></stringProperty>
+          </objectInstance>
+        </objectProperty>
+      </objectInstance>
+    </objectProperty>
+    <stringProperty name='author'><![CDATA[dd]]></stringProperty>
+  </objectInstance>
+</topologyExport>

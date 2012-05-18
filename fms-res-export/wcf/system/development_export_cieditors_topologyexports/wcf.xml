@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="TopologyExports" last-entity-id="5" parent="system:development_export_cieditors">
+    <view id="1" display-name="ServicesDropdown" ts="1276983150678" public="false" component="wcf.table.tree-table">
+        <uuid>9796a121-b704-4514-8132-2bf8fd354ea5</uuid>
+        <inputs>
+            <entry key="selectedService" data-type="foglight-5:FSMService" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="nodeSelection">
+                <generated-context output-key="selectedNode" custom-key="selectedService"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="root">
+                <query-selection-rv query="system:foglight_services.10"/>
+            </property>
+            <property name="displayType">
+                <data-object-type datasource-type="foglight-5" data-type="FSMService"/>
+            </property>
+            <property name="dataTypeChildren">
+                <list-value>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="foglight-5" data-type="FSMService"/>
+                        </property>
+                        <property name="explicitChildren">
+                            <context-rv input-key="explicitChildrenCurrentNode" path="definition"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="childrenNodeAutoDiscoveryLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentNode" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="dropDownModeConfiguration">
+                <object>
+                    <property name="dropDownModeEnabled">
+                        <enum value="labelMode"/>
+                    </property>
+                    <property name="selectedItemLabel">
+                        <function-rv id="system:development_export_cieditors_topologyexports.3">
+                            <context-rv input-key="currentSelectedRow"/>
+                        </function-rv>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="2" display-name="Service Structure_inner" ts="1276983658718" public="false" priority="p3" component="wcf.grid2">
+        <uuid>8a9dc223-2100-41ae-a025-7e4de2781db9</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="selectedService" data-type="foglight-5:FSMService"/>
+            <entry key="includeContainments" data-type="wcf:Boolean"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="640"/>
+                    <height preferred="480"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size width="100"/>
+            <config>
+                <property name="align">
+                    <enum value="right"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nvServiceLabel" ts="1276981034992" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string xml:space="preserve">Service :</string>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="system:development_export_cieditors_topologyexports.1">
+            <size height="50"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+        <window id="2" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nvLabelContainments" ts="1276982867002" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string xml:space="preserve">Include Containments :</string>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="3" view="nested">
+            <size/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nvComboContainments" ts="1276982964020" public="false" component="wcf.input.checkbox">
+                <inputs>
+                    <entry key="includeContainments" data-type="wcf:Boolean" usage="optional" implicit="true"/>
+                </inputs>
+                <generated-context output-key="value" custom-key="includeContainments"/>
+                <flow>
+                    <on action="update">
+                        <update/>
+                    </on>
+                </flow>
+                <config/>
+            </view>
+        </window>
+    </composite-view>
+    <view id="4" display-name="Service Structure" ts="1277389522143" priority="p3" component="wcf.form">
+        <uuid>4aa37fd6-8364-42dd-9c0f-8aae97391704</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selectedService" data-type="foglight-5:FSMService" usage="internal">
+                <null-rv/>
+            </entry>
+            <entry key="includeContainments" data-type="wcf:Boolean" usage="internal">
+                <boolean value="true"/>
+            </entry>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="view">
+                <view-ref value="system:development_export_cieditors_topologyexports.2"/>
+            </property>
+            <property name="scrollbars">
+                <enum value="hidden"/>
+            </property>
+            <property name="actions">
+                <list-value>
+                    <object>
+                        <property name="text">
+                            <string xml:space="preserve">Add to Cartridge</string>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_cieditors_topologyexports.5">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selectedService"/>
+                                            <context-rv input-key="includeContainments"/>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="640"/>
+                    <height preferred="480"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <script-function type="groovy" id="3" display-name="fullServicePath" ts="1276982738694" public="false" output-type="wcf:Object" cache-results="true">
+        <uuid>e1a94542-433c-4497-abdc-975cdaea3779</uuid>
+        <inputs>
+            <input name="svc" type-name="foglight-5:FSMService"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="5" display-name="addToCartridge" ts="1277383697015" public="false" output-type="foglight-5:IDE_CAR_ExportContainer">
+        <uuid>17e55b01-c0a7-4deb-8e68-0fe19fed961f</uuid>
+        <inputs>
+            <input name="car" type-name="foglight-5:IDE_CAR_ExportContainer"/>
+            <input name="service" type-name="foglight-5:FSMService"/>
+            <input name="includeContainments" type-name="wcf:Boolean"/>
+        </inputs>
+    </script-function>
+</module>

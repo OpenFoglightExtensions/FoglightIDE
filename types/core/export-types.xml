@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<!--            Definition and Exports Types   -->
+	<!-- ################################### -->
+
+
+	<type extends="DataObject" name="IDE_File">
+		<property name="filename" type="String" />
+		<property name="fullPath" type="String" />
+		<property name="size" type="Integer" unit="kilobytes" />
+		<property name="date" type="Date" />
+	</type>
+	<type extends="IDE_File" name="IDE_CAR_ExportFile">
+		<property name="version" type="String" />
+		<property name="status" type="Boolean" />
+		
+	</type>
+	<type extends="TopologyObject" name="IDE_CAR_ExportContainer">
+		<property is-identity="true" name="name" type="String" />
+		<property name="description" type="String" />
+		<property is-many="true" name="definitionGroups" type="IDE_CAR_CIDefinitionGroup" />
+
+		<property is-many="true" name="dependencies" type="IDE_CAR_Dependency" />
+		<property is-many="true" name="files" type="IDE_CAR_ExportFile">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+					def f = new File("state"+File.separator+"fglide"+File.separator+"cartridgeExports");
+	
+					// make sure the Path exists
+					f.mkdirs()
+
+					def name = scope.name
+
+
+					def cartridges = f.list().collect{it}.findAll{
+					it.endsWith(".car") && it.startsWith(name)
+					}
+
+					def fileList = cartridges.collect{
+					def version = it -name - "-" - ".car"
+					def fileType = server.TopologyService.getType("IDE_CAR_ExportFile")
+					def obj =
+					server.TopologyService.createAnonymousDataObject(fileType)
+					obj.set("version",version)
+					obj.set("filename",it);
+					def file = new File(f,it)
+					obj.set("date", new Date(file.lastModified()))
+					obj.set("size",file.length())
+					obj.set("fullPath",file.absolutePath)
+					obj.set("status",false)			
+try { obj.set("status",server.CartridgeService.getCartridge(scope.name+"-"+version).cartridgeStatus.toString() == "ACTIVATED")
+} catch (Throwable t){// catch all, cartridge may not be installed
+}
+					return obj
+					}	
+					
+					
+					
+					return fileList
+					]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='10' />
+		</property>
+		<property name="author" type="String" />
+
+	</type>
+
+
+	<type extends="TopologyObject" name="IDE_CAR_Dependency">
+
+		<property is-identity="true" name="carName" type="String" />
+		<property is-identity="true" name="container" type="IDE_CAR_ExportContainer" />
+		<property name="type" type="IDE_CAR_DependencyType" />
+		<property name="MatchType" type="IDE_CAR_DependencyMatchType" />
+		<property name="version" type="String" />
+	</type>
+
+	<type extends="Enumeration" name="IDE_CAR_DependencyType">
+		<instances>
+			<instance>
+				<property-value name="value" value="0" />
+				<property-value name="name" value="dependency" />
+				<property-value name="index" value="0" />
+			</instance>
+			<instance>
+				<property-value name="value" value="1" />
+				<property-value name="name" value="incompatible" />
+				<property-value name="index" value="1" />
+			</instance>
+			<instance>
+				<property-value name="value" value="2" />
+				<property-value name="name" value="supersede" />
+				<property-value name="index" value="2" />
+			</instance>
+		</instances>
+	</type>
+
+	<type extends="Enumeration" name="IDE_CAR_DependencyMatchType">
+		<property type="String" name="description"></property>
+		<instances>
+			<instance>
+				<property-value name="value" value="0" />
+				<property-value name="name" value="EXACT" />
+				<property-value name="description"
+					value="Version name must match exactly" />
+				<property-value name="index" value="0" />
+			</instance>
+			<instance>
+				<property-value name="value" value="1" />
+				<property-value name="name" value="SIMILAR" />
+				<property-value name="description"
+					value="Version must match the declared portion of the version name. Like starts with for Strings." />
+				<property-value name="index" value="1" />
+			</instance>
+			<instance>
+				<property-value name="value" value="2" />
+				<property-value name="name" value="MINORLATEST" />
+				<property-value name="description"
+					value="Version must match or be newer then the declared version, but it must not be newer then the second lowest level in the declared version. Basically a way of matching minor releases without matching newer major releases." />
+				<property-value name="index" value="2" />
+			</instance>
+			<instance>
+				<property-value name="value" value="3" />
+				<property-value name="name" value="LATEST" />
+				<property-value name="description"
+					value="matches anything equal to or newer than the declared version." />
+				<property-value name="index" value="3" />
+			</instance>
+			<instance>
+				<property-value name="value" value="4" />
+				<property-value name="name" value="OLDER" />
+				<property-value name="description"
+					value="matches anything equal to or older than the declared version." />
+				<property-value name="index" value="4" />
+			</instance>
+		</instances>
+	</type>
+
+	<type extends="TopologyObject" name="IDE_CAR_CIDefinitionGroup">
+		<property is-identity="true" name="name" type="String" />
+		<property is-identity="true" name="container" type="IDE_CAR_ExportContainer" />
+		<property is-many="true" name="includes" type="IDE_CI" />
+		<annotation name="LabelProperty" value="name" />
+
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+def cl = {dir,car,version,msg->
+msg.append ("ERROR Export for Type "+scope.getString("topologyTypeName")+" Is NOT supported yet ...\n")
+}
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+def cl = {dir,car,version,msg->
+msg.append ("ERROR Export for Type "+scope.getString("topologyTypeName")+" Is NOT supported yet ...\n")
+}
+
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+
+	</type>
+
+
+	<type extends="IDE_CAR_CIDefinitionGroup" name="IDE_ExpGroup_CI">
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting Group :"+scope.name+"\n");
+
+def mBeans = ["rules":"com.quest.nitro:service=Rule",
+"metrics":"com.quest.nitro:service=Derivation",
+"registryEntries":"com.quest.nitro:service=Registry",
+"schedules":"com.quest.nitro:service=Schedule",
+"thresholds":"com.quest.nitro:service=Threshold"
+]
+
+def mbeanServer = MBeanServerLocator.locateJBoss()
+def rsbean = new GroovyMBean(mbeanServer, new ObjectName(mBeans.get(scope.name)))
+
+def ruleids = scope.includes.ci_id.collect{ id->id.substring(id.lastIndexOf('/') + 1)}
+	def rules = ruleids.collect{return (scope.name == "thresholds")?rsbean.getByID(it):rsbean.get(it)}
+rules.name.each{ msg.append(" -->"+it+"\n")
+}
+IBindingFactory bfact = BindingDirectory.getFactory(FoglightConfiguration.class)
+
+IMarshallingContext mctx = bfact.createMarshallingContext();
+
+mctx.setIndent(4);
+
+FoglightConfiguration config = new FoglightConfiguration();
+// latest version always
+config.setVersion("1.0.3.0");
+
+config.setConfigItems(rules);
+def oFile = new File(dir,"src"+File.separator+"xml")
+oFile.mkdirs();
+oFile = new File(oFile,File.separator+scope.getString("name")+".xml")
+mctx.marshalDocument(config, "UTF-8", null, new FileOutputStream(oFile));
+
+// Store to Car
+
+msg.append("Adding to Cartridge !!!\n")
+def component = new Component(new Identity(scope.getString("name"), version, scope.controller.getString("author")),
+				"Monitoring Policy");
+CartFile cartFile = new CartFile(scope.getString("name")+".xml",oFile.absolutePath);	
+component.getItems().add(cartFile);
+		component.setDeploymentItem(cartFile);
+		car.getComponentList().add(component);
+}
+
+
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting Group :"+scope.name+"\n");
+
+def mBeans = ["rules":"com.quest.nitro:service=Rule",
+"metrics":"com.quest.nitro:service=Derivation",
+"registryEntries":"com.quest.nitro:service=Registry",
+"schedules":"com.quest.nitro:service=Schedule",
+"thresholds":"com.quest.nitro:service=Threshold"]
+
+def mbeanServer = MBeanServerLocator.locateJBoss()
+def rsbean = new GroovyMBean(mbeanServer, new ObjectName(mBeans.get(scope.name)))
+
+def ruleids = scope.includes.ci_id.collect{ id->id.substring(id.lastIndexOf('/') + 1)}
+//def rules = ruleids.collect{return rsbean.get(it,new Date())}
+def rules = ruleids.collect{return (scope.name == "thresholds")?rsbean.getByID(it):rsbean.get(it)}
+rules.name.each{ msg.append(" -->"+it+"\n")
+}
+IBindingFactory bfact = BindingDirectory.getFactory(FoglightConfiguration.class)
+
+IMarshallingContext mctx = bfact.createMarshallingContext();
+
+mctx.setIndent(4);
+
+FoglightConfiguration config = new FoglightConfiguration();
+// latest version always
+config.setVersion("1.0.3.0");
+
+config.setConfigItems(rules);
+def oFile = new File(dir,"src"+File.separator+"xml")
+oFile.mkdirs();
+oFile = new File(oFile,File.separator+scope.getString("name")+".xml")
+mctx.marshalDocument(config, "UTF-8", null, new FileOutputStream(oFile));
+
+// add Cartridge Build
+car["task"].append('<monitoringpolicy name="'+scope.getString("name")+'" version="${cartridge.version}" file="${basedir}/src/xml/'+scope.getString("name")+'.xml" />\n')
+
+}
+
+
+	return cl
+	
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+	</type>
+	<type extends="IDE_CAR_CIDefinitionGroup" name="IDE_ExpGroup_WCF">
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting WCF (5.6.0 compliant) :"+scope.name+"\n");
+def mbeanServer = MBeanServerLocator.locateJBoss()
+def wcfBean = new GroovyMBean(mbeanServer, new ObjectName("com.quest.nitro:service=WCFPersistenceManager"))
+
+
+def modules = scope.includes.ci_id
+def targetDir = new File(dir,"src"+File.separator+"wcf")
+targetDir.mkdirs()
+msg.append("Exporting wcf to :"+targetDir.absolutePath+"\n")
+def resFile = new File(dir, "wcfRes.zip")
+
+wcfBean.exportModules(modules as String[], resFile.getAbsolutePath());
+createZipTool().unzip (resFile,targetDir)
+
+resFile.delete()
+
+// Add To Cartridge !!!
+msg.append("Adding to Cartridge !!!\n")
+def component = new Component(new Identity("WCF", version, scope.controller.getString("author")),
+"WCF Dashboard");
+CartFile cartFile = CartFile.create("wcf",targetDir);	
+component.getItems().add(cartFile);
+
+component.setDeploymentItem(cartFile);
+
+def recurseAdd = null;
+def m = new StringBuffer()
+recurseAdd = { file->
+ def relPath = "wcf"+(file.absolutePath - targetDir.absolutePath)
+ CartFile cartFileItem = CartFile.create(relPath, file);
+
+
+  // Fix added to ensure 5.6.x 
+  //############################ 
+  if (!(file.isDirectory() && relPath != "wcf" )) component.getItems().add(cartFileItem)
+  
+  if (file.isDirectory()) file.listFiles().each(recurseAdd)
+}
+
+targetDir.listFiles().each (recurseAdd)
+
+car.getComponentList().add(component);
+
+
+msg.append("WCF Sealed\n")
+
+
+}
+
+return cl
+
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+
+def cl = {dir,car,version,msg->
+msg.append("Exporting WCF :"+scope.name+"\n");
+def mbeanServer = MBeanServerLocator.locateJBoss()
+def wcfBean = new GroovyMBean(mbeanServer, new ObjectName("com.quest.nitro:service=WCFPersistenceManager"))
+
+
+def modules = scope.includes.ci_id
+def targetDir = new File(dir,"src"+File.separator+"wcf")
+targetDir.mkdirs()
+msg.append("Exporting wcf to :"+targetDir.absolutePath+"\n")
+def resFile = new File(dir, "wcfRes.zip")
+
+wcfBean.exportModules(modules as String[], resFile.getAbsolutePath());
+createZipTool().unzip (resFile,targetDir)
+
+resFile.delete()
+
+car["task"].append('''
+				<wcf name="${cartridge.name}_wcf" version="${cartridge.version}">
+					<fileset dir="${basedir}/src" includes="wcf/**/*" />
+				</wcf>
+				''')
+
+
+}
+
+return cl
+
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+	</type>
+
+
+	<type extends="TopologyObject" name="IDE_CI">
+		<property is-identity="true" name="ci_id" type="String" />
+		<property is-identity="true" name="parent" type="TopologyObject" />
+
+	</type>
+
+	<type extends="IDE_CI" name="IDE_CI_RegistryValue" />
+	<type extends="IDE_CI" name="IDE_CI_Rule" />
+
+	<type extends="IDE_CI" name="IDE_CI_Threshold" />
+	<type extends="IDE_CI" name="IDE_CI_WCFDefinition" />
+	<type extends="IDE_CI" name="IDE_CI_Schedule" />
+	<type extends="IDE_CI" name="IDE_CI_DerivedMetric" />
+
+	<!--  Used for local defined CIs like TypeExports or ObjectExports -->
+	<type extends="IDE_CI" name="IDE_Delegated_CI" />
+
+	<type extends="IDE_CAR_CIDefinitionGroup" name="IDE_Delegated_Group">
+		<property is-many="true" name="includes" type="IDE_Delegated_CI" />
+
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+def cl = {dir,car,version,msg->
+scope.getList("includes").collect{return it.get("expToCar")}.each{it.call(dir,car,version,msg)}
+}
+return cl
+
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+def cl = {dir,car,version,msg->
+scope.getList("includes").collect{return it.get("expToProject")}.each{it.call(dir,car,version,msg)}
+}
+return cl
+
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+
+	</type>
+
+	<type extends="IDE_Delegated_CI" name="IDE_CI_ExpTypes">
+
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+				import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+				return {dir,car,version,msg->
+					msg.append ("Exporting Data Structure : "+scope.name+"\n")
+					
+					def oFile = new File(dir,"src"+File.separator+"data")
+					oFile.mkdirs();
+					def ciName = scope.ci_id.replaceAll("\\W+","_")
+					
+					oFile = new File(oFile,File.separator+"serviceStructure_"+ciName+".groovy")
+					
+					
+					oFile.withOutputStream{ os->
+					fglide_exportDataCmdlet([scope.get("service")],
+									scope.includeContainments?"true":"false",
+									["FSMService","FSMDynamicManagedComponent","ServiceLevelPolicy"],os,"groovy")
+					}
+
+					// Store to Car
+					
+					msg.append("Adding to Cartridge !!!\n")
+					def component = new Component(new Identity("DataExport_"+ciName, version, scope.parent.controller.getString("author")),
+									"Persistent Cartridge Lifecycle Handler");
+									
+					CartFile cartFile = new CartFile("serviceStructure_"+ciName+".groovy",oFile.absolutePath);	
+					component.getItems().add(cartFile);
+					component.setDeploymentItem(cartFile);
+					
+					car.getComponentList().add(component);
+			
+				}
+					
+				
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+				return {dir,car,version,msg->
+					msg.append ("Exporting Data Structure : "+scope.name+"\n")
+						def ciName = scope.ci_id.replaceAll("\\W+","_")
+						
+					def oFile = new File(dir,"src"+File.separator+"data")
+					oFile.mkdirs();
+					
+					oFile = new File(oFile,File.separator+"serviceStructure_"+ciName+".groovy")
+					
+					
+					oFile.withOutputStream{ os->
+					fglide_exportDataCmdlet([scope.get("service")],
+									"true",
+									["FSMService","FSMDynamicManagedComponent","ServiceLevelPolicy"],os,"groovy")
+					}
+					
+					// add Cartridge Build
+					//<persistentlifecycle name="Post-Install" file="${basedir}/src/data/Service2.groovy"/>
+					car["task"].append('<persistentlifecycle name="DataExport_'+ciName+'" version="${cartridge.version}" file="${basedir}/src/data/'+"serviceStructure_"+ciName+'.groovy" />\n')
+					
+				}
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		
+		<property name="service" type="FSMService"/>
+		<property name="includeContainments" type="Boolean"/>
+<property is-many="false" name="name" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+return "Service : "+scope?.service?.name+((scope.includeContainments)?" including Containments":" without Containments")
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='1' />
+		</property>
+	</type>
+
+	<type extends="IDE_Delegated_CI" name="IDE_CI_ExpGenericTypes">
+
+		<property is-many="false" name="expToCar" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+				import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import org.jibx.runtime.*
+import com.quest.nitro.service.cartridge.api.*
+import org.apache.commons.io.FileUtils;
+import org.jboss.mx.util.MBeanServerLocator;
+import com.quest.nitro.service.sl.jibx.FoglightConfiguration;
+
+				return {dir,car,version,msg->
+					msg.append ("Exporting Data Structure : "+scope.name+"\n")
+					
+					def oFile = new File(dir,"src"+File.separator+"data")
+					oFile.mkdirs();
+					def ciName = scope.ci_id.replaceAll("\\W+","_")
+					
+					oFile = new File(oFile,File.separator+"DataExport_"+ciName+".groovy")
+					
+					
+					oFile.withOutputStream{ os->
+					fglide_exportDataCmdlet(scope.get("query"),
+									scope.includeContainments?"true":"false",
+									scope.getList("typeList"),os,"groovy")
+					}
+
+					// Store to Car
+					
+					msg.append("Adding to Cartridge !!!\n")
+					def component = new Component(new Identity("DataExport_"+ciName, version, scope.parent.controller.getString("author")),
+									"Persistent Cartridge Lifecycle Handler");
+									
+					CartFile cartFile = new CartFile("DataExport_"+ciName+".groovy",oFile.absolutePath);	
+					component.getItems().add(cartFile);
+					component.setDeploymentItem(cartFile);
+					
+					car.getComponentList().add(component);
+			
+				}
+					
+				
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		<property is-many="false" name="expToProject" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+				return {dir,car,version,msg->
+					msg.append ("Exporting Data Structure : "+scope.name+"\n")
+						def ciName = scope.ci_id.replaceAll("\\W+","_")
+						
+					def oFile = new File(dir,"src"+File.separator+"data")
+					oFile.mkdirs();
+					
+					oFile = new File(oFile,File.separator+"DataExport_"+ciName+".groovy")
+					
+					
+					oFile.withOutputStream{ os->
+					fglide_exportDataCmdlet(scope.get("query"),
+									scope.includeContainments?"true":"false",
+									scope.getList("typeList"),os,"groovy")
+					}
+					
+					// add Cartridge Build
+					//<persistentlifecycle name="Post-Install" file="${basedir}/src/data/Service2.groovy"/>
+					car["task"].append('<persistentlifecycle name="DataExport_'+ciName+'" version="${cartridge.version}" file="${basedir}/src/data/'+"DataExport_"+ciName+'.groovy" />\n')
+					
+				}
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='0' />
+		</property>
+		
+		<property name="query" type="String" is-many="false"/>
+		<property name="typeList" type="String" is-many="true"/>
+		<property name="includeContainments" type="Boolean"/>
+
+
+<property is-many="false" name="name" type="Object">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+return "DataExport : "+scope?.ci_id + ((scope.includeContainments)?" including Containments":" without Containments")
+				]]>
+				</value>
+			</annotation>
+			<annotation name='DerivationTimeout' value='1' />
+		</property>
+	</type>
+
+	<type extends="DataObject" name="IDE_Cartridge">
+		<property name="name" type="String" />
+	</type>
+	
+		<type extends="Enumeration" name="IDE_DataExportTypes">
+		<property name="fileExtension" type="String"/>
+		<instances>
+			<instance>
+				<property-value name="value" value="0" />
+				<property-value name="name" value="xml" />
+				<property-value name="fileExtension" value=".xml" />
+				<property-value name="index" value="0" />
+			</instance>
+			<instance>
+				<property-value name="value" value="1" />
+				<property-value name="name" value="groovy" />
+				<property-value name="fileExtension" value=".groovy" />
+				<property-value name="index" value="1" />
+			</instance>
+		</instances>
+	</type>
+	
+	
+	<!--  Modell for easier Debuging and Development -->
+			<type name="FGLIDE_Export_Model" extends="CollectionModelRoot">
+		<property name="name" type="String" is-identity="true"></property>
+		<property is-many="true" name="container" type="IDE_CAR_ExportContainer">
+			<annotation name='DerivationExprType' value='Script' />
+			<annotation name='DerivationExpression'>
+				<value><![CDATA[
+				return #!IDE_CAR_ExportContainer#.topologyObjects
+					]]>
+				</value>
+			</annotation>
+
+		</property>
+		<instances>
+		<instance>
+		<property-value name="name" value="IDE_CartridgeModell"></property-value></instance></instances>
+	</type>
+	
+</types>

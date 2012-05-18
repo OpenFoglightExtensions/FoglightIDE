@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="CIEditors" last-entity-id="9" parent="system:development_export">
+    <query select="foglight-5-admin:AgentProperty" id="6" display-name="AllAgentProperties" ts="1277888986013" public="false">
+        <uuid>608ed1ec-9cd9-48b5-8400-7bb4acd63f56</uuid>
+        <root>
+            <datasource-root-reference datasource-type="foglight-5-admin" path="all_agent_properties"/>
+        </root>
+    </query>
+    <view id="1" display-name="Thresholds" ts="1314707556570" priority="p1" component="wcf.table.row-table">
+        <uuid>71773d0d-5e97-446e-b1f9-0aefc9bce4cf</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selRows" data-type="foglight-5-admin:Threshold" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowsSelection">
+                <generated-context output-key="selectedRows" custom-key="selRows"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_export.73"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="topology_type" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0_0</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="metric" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="last_modified"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="realId"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string-rv>
+                                <value xml:space="preserve">add to Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.21">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selRows"/>
+                                            <string xml:space="preserve">IDE_Threshold</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Thresholds</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="2" display-name="Registry Values" ts="1277888342927" priority="p1" component="wcf.table.row-table">
+        <uuid>30534cfe-6b19-43d2-8be5-5c1c4e4a5520</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selRows" data-type="foglight-5-admin:RegistryVariable" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowsSelection">
+                <generated-context output-key="selectedRows" custom-key="selRows"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_export.30"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="last_modified"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string-rv>
+                                <value xml:space="preserve">add to Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.21">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selRows"/>
+                                            <string xml:space="preserve">IDE_Regval</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Registry Values</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="3" display-name="Derived Metrics" ts="1277888376395" priority="p1" component="wcf.table.row-table">
+        <uuid>98f1bbb1-32b3-46db-b012-b31ba4ca1598</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selRows" data-type="foglight-5-admin:Derivation" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowsSelection">
+                <generated-context output-key="selectedRows" custom-key="selRows"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_export.23"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="last_modified"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_export_scripts.34" renderer-id="system:system.max50Chars">
+                                <context-rv input-key="currentRow" path="derived_metric_calculation/derived_metric_scope"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_4</string>
+                        </property>
+                        <property name="header">
+                            <string xml:space="preserve">scoping on types</string>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="value">
+                                    <integer value="60"/>
+                                </property>
+                                <property name="unit">
+                                    <enum value="%"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="comments" renderer-id="system:core_commons.214"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_3</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string-rv>
+                                <value xml:space="preserve">add to Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.21">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selRows"/>
+                                            <string xml:space="preserve">IDE_Metrics</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Derived Metrics</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="4" display-name="Schedules" ts="1277888400208" priority="p1" component="wcf.table.row-table">
+        <uuid>27509fc4-4c13-432e-b1e7-afb07595790d</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selRows" data-type="foglight-5-admin:Schedule" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowsSelection">
+                <generated-context output-key="selectedRows" custom-key="selRows"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_export.42"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="last_modified"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string-rv>
+                                <value xml:space="preserve">add to Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.21">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selRows"/>
+                                            <string xml:space="preserve">IDE_Schedule</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Registry Values</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="5" display-name="WCFModule" ts="1278417095441" public="false" priority="high" component="wcf.table.tree-table">
+        <uuid>7e204bdb-79b9-4b67-9826-22ad45d250c4</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selNodes" data-type="metadata:Module" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="nodesSelection">
+                <generated-context output-key="selectedNodes" custom-key="selNodes"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="root">
+                <query-selection-rv query="system:development_export.26"/>
+            </property>
+            <property name="displayType">
+                <data-object-type datasource-type="metadata" data-type="Module"/>
+            </property>
+            <property name="dataTypeChildren">
+                <list-value>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="metadata" data-type="Module"/>
+                        </property>
+                        <property name="explicitChildren">
+                            <context-rv input-key="explicitChildrenCurrentNode" path="subModules"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="childrenNodeAutoDiscoveryLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentNode" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentNode" path="fqId"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="multiSelectControlPolicy">
+                        <enum value="toolbarAndColumnHeader"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">addToCartridge</string>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.43">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selNodes" path="fqId"/>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="7" display-name="SecondaryASP" ts="1277894321334" priority="medium" component="wcf.table.tree-table">
+        <uuid>c2e5805b-cbff-4da6-b252-713a2dc4bf05</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selNodes" data-type="foglight-5-admin:AdminSuperType" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <context>
+            <entry key="aspRoot">
+                <query-selection-rv query="system:development_export_cieditors.6"/>
+            </entry>
+        </context>
+        <flow>
+            <on action="nodesSelection">
+                <generated-context output-key="selectedNodes" custom-key="selNodes"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="root">
+                <context-rv input-key="aspRoot"/>
+            </property>
+            <property name="displayType">
+                <data-object-type datasource-type="foglight-5-admin" data-type="AdminSuperType"/>
+            </property>
+            <property name="dataTypeChildren">
+                <list-value>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="foglight-5-admin" data-type="AgentProperty"/>
+                        </property>
+                        <property name="explicitChildren">
+                            <context-rv input-key="explicitChildrenCurrentNode" path="type"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="foglight-5-admin" data-type="AgentPropertyType"/>
+                        </property>
+                        <property name="explicitChildren">
+                            <context-rv input-key="explicitChildrenCurrentNode" path="secondary_agent_property"/>
+                        </property>
+                        <property name="nodeStyle">
+                            <enum value="alwaysParent"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="foglight-5-admin" data-type="ConfigTable"/>
+                        </property>
+                        <property name="nodeStyle">
+                            <enum value="alwaysLeaf"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="childrenNodeAutoDiscoveryLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="excludeTypes">
+                <list-value>
+                    <data-object-type datasource-type="foglight-5-admin" data-type="ConfigRow"/>
+                </list-value>
+            </property>
+            <property name="onlyLeafSelection">
+                <boolean value="true"/>
+            </property>
+            <property name="searchDepthPolicy">
+                <enum value="allTree"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_export_cieditors.8">
+                                <context-rv input-key="currentNode"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                        <property name="header">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentNode" cast-ds-type="foglight-5-admin" cast-data-type="ConfigTable" path="isDefault" renderer-id="system:development_common.3">
+                                <on-null>
+                                    <string-rv>
+                                        <value xml:space="preserve"> </value>
+                                    </string-rv>
+                                </on-null>
+                            </context-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="header">
+                            <string xml:space="preserve">Default</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="cellNullRenderer">
+                <null-renderer value="system:core_commons.203"/>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="label">
+                            <string xml:space="preserve">add</string>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.59">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selNodes" cast-ds-type="foglight-5-admin" cast-data-type="ConfigTable" path="name"/>
+                                            <string xml:space="preserve">IDE_CI_ASP</string>
+                                            <string xml:space="preserve">IDE_ExpGroup_ASP</string>
+                                            <string xml:space="preserve">ASPs</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="9" display-name="Rules" ts="1314706485241" priority="p1" component="wcf.table.row-table">
+        <uuid>43c57624-6462-4ce4-b839-687dc44736e2</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="CISelector"/>
+        <inputs>
+            <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
+            <entry key="selRows" data-type="foglight-5-admin:Rule" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowsSelection">
+                <generated-context output-key="selectedRows" custom-key="selRows"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_export.19"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="last_modified"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionActions">
+                <list-value>
+                    <object>
+                        <property name="icon">
+                            <icon-ref value="system:system.40"/>
+                        </property>
+                        <property name="label">
+                            <string-rv>
+                                <value xml:space="preserve">add to Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="reaction">
+                            <previous update="context">
+                                <context>
+                                    <entry key="car">
+                                        <function-rv id="system:development_export_scripts.21">
+                                            <context-rv input-key="car"/>
+                                            <context-rv input-key="selRows"/>
+                                            <string xml:space="preserve">IDE_Rule</string>
+                                        </function-rv>
+                                    </entry>
+                                </context>
+                            </previous>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Rules</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <script-function type="groovy" id="8" display-name="ASPValueMapName" ts="1277892446828" public="false" output-type="wcf:String" cache-results="true">
+        <uuid>8acc87d4-bd79-48dd-a4cb-f0c57e5e2148</uuid>
+        <inputs>
+            <input name="obj" type-name="wcf:Object"/>
+        </inputs>
+    </script-function>
+</module>

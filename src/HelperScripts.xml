@@ -1,0 +1,85 @@
+<foglight-config version="1.0.0" exported-on="2006-06-21T14:12:01.323Z">
+	<persistable-script>
+		<script_name>createFileItem</script_name>
+		<![CDATA[
+import com.quest.foglight.exportTools.InMemoryFileItem
+return new InMemoryFileItem(args[1],args[2])
+]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Creates a FileItem Representation]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[FileItem]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[FileItem]]>
+			</script-property>
+			<script-property name="arg1_name">
+				<![CDATA[name]]>
+			</script-property>
+			<script-property name="arg1_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg1_description">
+				<![CDATA[FileName]]>
+			</script-property>
+			<script-property name="arg2_name">
+				<![CDATA[path]]>
+			</script-property>
+			<script-property name="arg2_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg2_description">
+				<![CDATA[Absulte Path to that File.]]>
+			</script-property>
+		</script-meta-information>
+	</persistable-script>
+	<persistable-script>
+		<script_name>createCarExporter</script_name>
+		<![CDATA[
+			import com.quest.foglight.exportTools.ExporterFactory
+			if (args[1] == null) return null
+			else return ExporterFactory.createCartridgeExporter(args[1])
+]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Creates a CartridgeExporter using a Factory]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[Car Exporter]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[Object]]>
+			</script-property>
+			<script-property name="arg1_name">
+				<![CDATA[carDefinition]]>
+			</script-property>
+			<script-property name="arg1_type">
+				<![CDATA[TopologyObject<>]]>
+			</script-property>
+
+		</script-meta-information>
+	</persistable-script><persistable-script>
+		<script_name>createZipTool</script_name>
+		<![CDATA[
+			import com.quest.foglight.exportTools.ZipTool
+			return new ZipTool();
+]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Creates a ZipTool bound to the Extension using a Factory]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[Zip tool Exporter]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[Object]]>
+			</script-property>
+
+
+		</script-meta-information>
+	</persistable-script>
+</foglight-config>

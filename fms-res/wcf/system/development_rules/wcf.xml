@@ -1,0 +1,2567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="rules" last-entity-id="40" parent="system:development">
+    <relevant-role name="Administrator"/>
+    <allowed-role name="Administrator"/>
+    <query select="foglight-5-admin:Rule" id="4" display-name="allRules" ts="1254924486209" root-query="true" hide-root="true">
+        <uuid>1ec856ac-c91f-4947-b6d9-b499fe5b26f4</uuid>
+        <root>
+            <datasource-root-reference datasource-type="foglight-5-admin" path="all_rules"/>
+        </root>
+    </query>
+    <derived-query id="38" display-name="findlRules" ts="1256203153763" public="false" query="system:development_export.19">
+        <uuid>da8ddc54-52fa-4a05-ac7a-3536b9550622</uuid>
+        <parameters>
+            <parameter name="ci_id" type-name="wcf:String"/>
+        </parameters>
+        <where>
+            <comparison operator="equals">
+                <data-path path="uniqueId"/>
+                <parameter-reference parameter="ci_id"/>
+            </comparison>
+        </where>
+    </derived-query>
+    <view id="6" display-name="RulesList" ts="1273660153472" public="false" component="wcf.table.row-table">
+        <uuid>849d3c40-bfa5-4b1e-a7fd-a64df9533ada</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="rulesFiltered" data-type="foglight-5-admin:Rule" list="true"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminDiagnostic" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminSummary" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="rulesFiltered"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carName</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_version"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carVersion</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="scoping_query" renderer-id="system:system.83"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">info</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">ScopingQuery</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ScopingQuery</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_rules.23">
+                                <context-rv input-key="currentRow" path="realId"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruletteCount</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">rulettes</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="realId"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruleID</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ruleID</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">name</string>
+                                <string xml:space="preserve">ruleID</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Rule</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">info</string>
+                                <string xml:space="preserve">ruletteCount</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Scope</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">carName</string>
+                                <string xml:space="preserve">carVersion</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">name</string>
+            </property>
+            <property name="performance">
+                <object>
+                    <property name="dontRefreshModel">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="7" display-name="RulesFilter" ts="1229038162953" public="false" component="wcf.filter">
+        <uuid>fa82c1fc-a879-4250-b5bb-e934266df6e6</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="rules" data-type="foglight-5-admin:Rule" list="true"/>
+            <entry key="filterState" data-type="wcf:EnumFilterState" usage="optional"/>
+            <entry key="filterContent" data-type="wcf:String" usage="optional"/>
+            <entry key="rulesFiltered" data-type="foglight-5-admin:Rule" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="update">
+                <generated-context output-key="filterContent" custom-key="filterContent"/>
+                <generated-context output-key="filteredItems" custom-key="rulesFiltered"/>
+                <generated-context output-key="filterState" custom-key="filterState"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="filterValues">
+                <context-rv input-key="rules"/>
+            </property>
+            <property name="filters">
+                <list-value>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="name">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Rule Name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="cartridge_name">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Cartridge Name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="comments">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="alarm_description_or_help">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="allowRegex">
+                <boolean value="true"/>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Filter ({0})</value>
+                    <context-rv input-key="filterContent"/>
+                </string-rv>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="9" display-name="Rule Definition Panel" ts="1256568622325" public="false" priority="low" component="wcf.grid2">
+        <uuid>0f07c0ee-c7f4-4a80-9bb4-68cae8d3fa62</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <purpose name="dataView"/>
+        <inputs>
+            <entry key="rule" data-type="foglight-5-admin:Rule"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="title">
+                <i18n-rv key="system:development_rules.plain.23"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                    <property name="pagePanelViews">
+                        <list-value>
+                            <view-ref value="system:development_rules.39"/>
+                        </list-value>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="21" view="system:development_rules.28">
+            <size height="30"/>
+            <config>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+            </config>
+        </window>
+        <window id="0" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1216841370508" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:administration_schedules.plain.10"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="3" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Name and Type" ts="1220903654326" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">{0} ({1})</value>
+                            <context-rv input-key="rule" path="name"/>
+                            <function-rv id="system:development_rules.12">
+                                <context-rv input-key="rule"/>
+                            </function-rv>
+                        </string-rv>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="2" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967033085" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.14"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="5" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Cartridge" ts="1217967079549" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">{0}_{1}</value>
+                            <context-rv input-key="rule" path="cartridge_name"/>
+                            <context-rv input-key="rule" path="cartridge_version"/>
+                        </string-rv>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="3"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967132666" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.15"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="4" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="3"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Description" ts="1217967163215" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <context-rv input-key="rule" path="comments"/>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="6" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="4"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967208071" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.21"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="7" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="4"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Alarm Description" ts="1217967259532" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <context-rv input-key="rule" path="alarm_description_or_help"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="8" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="5"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217968263245" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.22"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="9" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="5"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Triggering" ts="1220904761552" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <function-rv id="system:development_rules.11">
+                            <context-rv input-key="rule" path="rule_trigger"/>
+                        </function-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="10" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="6"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217970397037" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.18"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="11" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="6"/>
+                </property>
+                <property name="minHeight">
+                    <integer value="200"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Scope" ts="1217970442064" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <context-rv input-key="rule" path="scoping_query"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="12" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="7"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217982451634" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.16"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="13" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="7"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Consecutive Evaluations " ts="1217983879775" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <query-selection-rv query="customQuery:getFiringStrategyFromRule">
+                            <context-rv input-key="rule"/>
+                            <string xml:space="preserve">n</string>
+                        </query-selection-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="14" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="8"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217983911090" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.19"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="15" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="8"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Action Ratio" ts="1217983984854" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <query-selection-rv query="customQuery:getFiringStrategyFromRule">
+                            <context-rv input-key="rule"/>
+                            <string xml:space="preserve">nm</string>
+                        </query-selection-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="16" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="9"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217984012389" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.17"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="17" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="9"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Delay Behavior" ts="1217984064709" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <query-selection-rv query="customQuery:getFiringStrategyFromRule">
+                            <context-rv input-key="rule"/>
+                            <string xml:space="preserve">delay</string>
+                        </query-selection-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="18" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="10"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1218078155100" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.12"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="19" view="system:development_rules.10">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="10"/>
+                </property>
+            </config>
+        </window>
+        <window id="20" view="system:development_rules.25">
+            <size/>
+            <context>
+                <entry key="ruleID">
+                    <context-rv input-key="rule" path="realId"/>
+                </entry>
+            </context>
+            <config>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="row">
+                    <integer value="11"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="10" display-name="Rule Status - Label" ts="1229021854667" public="false" component="wcf.label">
+        <uuid>e24188e5-c6ff-4546-8e6a-e6ac0812b0ed</uuid>
+        <originating-data ts="1223419149211">
+            <uuid>8d7f1c9b-ab5b-4470-859a-f230257359da</uuid>
+        </originating-data>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="rule" data-type="foglight-5-admin:Rule"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="label">
+                <i18n-rv key="system:development_rules.plain.13">
+                    <context-rv input-key="rule" path="rule_status/is_black_out" renderer-id="system:development_rules.15"/>
+                    <context-rv input-key="rule" path="rule_status/is_active" renderer-id="system:development_rules.13"/>
+                    <context-rv input-key="rule" path="rule_status/is_alarm_suspended" renderer-id="system:development_rules.14"/>
+                    <context-rv input-key="rule" path="rule_status/is_action_suspended" renderer-id="system:development_rules.16"/>
+                </i18n-rv>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="21" display-name="Rule Definition Dwell" ts="1256568660733" public="false" priority="low" component="wcf.grid2">
+        <uuid>9afc2ee2-dc02-427e-816b-29ccf6bce01b</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <purpose name="dataView"/>
+        <inputs>
+            <entry key="rule" data-type="foglight-5-admin:Rule"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="title">
+                <i18n-rv key="system:development_rules.plain.23"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="12" view="nested">
+            <size/>
+            <config>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(nv)Toolbar" ts="1249343062454" public="false" component="wcf.toolbar">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <generated-context output-key="selectedActionId" custom-key="selId"/>
+                        <choose-value key="selId">
+                            <case value="show">
+                                <select-type-flow tag="edit" key="rule"/>
+                            </case>
+                            <default>
+                                <update/>
+                            </default>
+                        </choose-value>
+                    </on>
+                </flow>
+                <config>
+                    <property name="groups">
+                        <list-value>
+                            <object>
+                                <property name="actions">
+                                    <list-value>
+                                        <object>
+                                            <property name="id">
+                                                <string xml:space="preserve">show</string>
+                                            </property>
+                                            <property name="icon">
+                                                <icon-ref value="system:utiliconset.57"/>
+                                            </property>
+                                            <property name="label">
+                                                <string xml:space="preserve">show Details</string>
+                                            </property>
+                                        </object>
+                                    </list-value>
+                                </property>
+                            </object>
+                        </list-value>
+                    </property>
+                    <property name="showText">
+                        <boolean value="true"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="0" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1216841370508" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:administration_schedules.plain.10"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="3" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Name and Type" ts="1220903654326" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">{0} ({1})</value>
+                            <context-rv input-key="rule" path="name"/>
+                            <function-rv id="system:development_rules.12">
+                                <context-rv input-key="rule"/>
+                            </function-rv>
+                        </string-rv>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="2" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967033085" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.14"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="5" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Cartridge" ts="1217967079549" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">{0}_{1}</value>
+                            <context-rv input-key="rule" path="cartridge_name"/>
+                            <context-rv input-key="rule" path="cartridge_version"/>
+                        </string-rv>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="3"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967132666" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.15"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="4" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="3"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Description" ts="1217967163215" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <context-rv input-key="rule" path="comments"/>
+                    </property>
+                    <property name="sizing">
+                        <component-sizing>
+                            <width preferred="0"/>
+                            <height preferred="0"/>
+                        </component-sizing>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="6" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="4"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217967208071" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.21"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="7" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="4"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Alarm Description" ts="1217967259532" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <context-rv input-key="rule" path="alarm_description_or_help"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="8" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="5"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1217968263245" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.22"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="9" view="nested">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="5"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Rule Triggering" ts="1220904761552" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="rule" data-type="foglight-5-admin:Rule"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <function-rv id="system:development_rules.11">
+                            <context-rv input-key="rule" path="rule_trigger"/>
+                        </function-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="18" view="nested">
+            <size width="150"/>
+            <config>
+                <property name="row">
+                    <integer value="6"/>
+                </property>
+            </config>
+            <view id="nested" display-name="Label" ts="1218078155100" public="false" component="wcf.label">
+                <flow/>
+                <config>
+                    <property name="label">
+                        <i18n-rv key="system:development_rules.plain.12"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="19" view="system:development_rules.10">
+            <size width="500"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="6"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="25" display-name="ruletteList" ts="1257844885311" public="false" component="wcf.table.row-table">
+        <uuid>b117fe8f-27e8-4944-8a9d-b905928bc606</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="ruleID" data-type="wcf:String"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selObj"/>
+                <generated-context output-key="selectedColumnId" custom-key="selcol"/>
+                <choose-value key="selcol">
+                    <case value="diagnostics">
+                        <popup id="system:development_common.1" type="temporary">
+                            <context>
+                                <entry key="txt">
+                                    <context-rv input-key="selObj" path="diagnostic"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="scope">
+                        <next-page id="system:development_topology.48">
+                            <context>
+                                <entry key="type">
+                                    <context-rv input-key="selObj" path="scope"/>
+                                </entry>
+                            </context>
+                        </next-page>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selObj"/>
+                <generated-context output-key="selectedColumnId" custom-key="selcol"/>
+                <choose-value key="selcol">
+                    <case value="scope">
+                        <popup id="system:development_topology.29">
+                            <context>
+                                <entry key="obj">
+                                    <context-rv input-key="selObj" path="scope"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <function-rv id="system:development_rules.24">
+                    <context-rv input-key="ruleID"/>
+                </function-rv>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="scope/longName"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">scope</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="resetTime"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="lastFired"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <icon-rv id="system:utiliconset.19"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">diagnostics</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Diag</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Diag</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Rulettes</value>
+                </string-rv>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="400"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="26" display-name="Rules for this Type" ts="1286181841453" priority="low" component="wcf.table.row-table">
+        <uuid>fa78b6b5-7c4e-478e-bc54-046b627ce8b6</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="IDE_Wizard"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminDiagnostic" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminSummary" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <function-rv id="system:development_rules.22">
+                    <query-selection-rv query="system:development_rules.4"/>
+                    <context-rv input-key="type" path="name"/>
+                    <boolean value="false"/>
+                </function-rv>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carName</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_version"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carVersion</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="scoping_query" renderer-id="system:system.83"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">info</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">ScopingQuery</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ScopingQuery</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_rules.23">
+                                <context-rv input-key="currentRow" path="realId"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruletteCount</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">rulettes</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="realId"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruleID</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ruleID</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">name</string>
+                                <string xml:space="preserve">ruleID</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Rule</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">info</string>
+                                <string xml:space="preserve">ruletteCount</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Scope</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">carName</string>
+                                <string xml:space="preserve">carVersion</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">name</string>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="performance">
+                <object>
+                    <property name="dontRefreshModel">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Rules for {0}</value>
+                    <context-rv input-key="type" path="name"/>
+                </string-rv>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="27" display-name="show all Rules" ts="1255542005504" component="wcf.grid2">
+        <uuid>7a7c4cd2-d7a3-4610-aade-ea2eba999cc0</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="pagelet"/>
+        <flow/>
+        <config>
+            <property name="title">
+                <string xml:space="preserve">Rules</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development_rules.26">
+            <size/>
+            <context>
+                <entry key="rules">
+                    <query-selection-rv query="system:development_rules.4"/>
+                </entry>
+            </context>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view-fwd-ref id="8" display-name="RuleDisplay" ts="1254175133174" ref-id="system:development_rules.27">
+        <uuid>ed105aaf-b168-436e-8982-27e8128128c8</uuid>
+    </view-fwd-ref>
+    <view id="28" display-name="Rule Detail Actions Toolbar" ts="1256568588139" public="false" component="wcf.toolbar">
+        <uuid>14c55d21-9d61-4f1f-a4f1-10e54ef62c24</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="rule" data-type="foglight-5-admin:Rule"/>
+        </inputs>
+        <flow>
+            <on action="selection">
+                <generated-context output-key="selectedActionId" custom-key="selID"/>
+                <choose-value key="selID">
+                    <case value="edit">
+                        <next-page id="system:development_rules.29">
+                            <context>
+                                <entry key="path">
+                                    <string-rv renderer-id="system:development_rules.31">
+                                        <value xml:space="preserve">rule</value>
+                                    </string-rv>
+                                </entry>
+                                <entry key="param">
+                                    <list-rv remove-nulls="false" remove-dups="false">
+                                        <string-rv>
+                                            <value xml:space="preserve">id={0}</value>
+                                            <context-rv input-key="rule" path="realId"/>
+                                        </string-rv>
+                                    </list-rv>
+                                </entry>
+                            </context>
+                        </next-page>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="actions">
+                            <list-value>
+                                <object>
+                                    <property name="id">
+                                        <string xml:space="preserve">edit</string>
+                                    </property>
+                                    <property name="icon">
+                                        <icon-ref value="system:development_rules.34"/>
+                                    </property>
+                                    <property name="label">
+                                        <string-rv renderer-id="system:development_rules.32">
+                                            <value xml:space="preserve">edit</value>
+                                        </string-rv>
+                                    </property>
+                                </object>
+                            </list-value>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="showText">
+                <boolean value="true"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="29" display-name="Edit iFrame" ts="1255540676025" public="false" component="wcf.iframe">
+        <uuid>f58c912a-ebe8-4a1f-b349-ec6a028d66bc</uuid>
+        <originating-data ts="1238788174842">
+            <uuid>dadcf391-0309-421a-a328-bdf9a1d75898</uuid>
+        </originating-data>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="path" data-type="wcf:String"/>
+            <entry key="param" data-type="wcf:String" list="true" usage="optional">
+                <null-rv/>
+            </entry>
+        </inputs>
+        <config>
+            <property name="url">
+                <string-rv>
+                    <value xml:space="preserve">{0}?{1}</value>
+                    <context-rv input-key="path" renderer-id="system:development_rules.31"/>
+                    <function-rv id="system:development_rules.30">
+                        <context-rv input-key="param"/>
+                    </function-rv>
+                </string-rv>
+            </property>
+            <property name="contentSupportsIE9Mode">
+                <boolean value="false"/>
+            </property>
+            <property name="title">
+                <i18n-rv key="system:development_rules.plain.30"/>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="39" display-name="RulesWizards" ts="1256568380241" component="wcf.type">
+        <uuid>d6fe7598-1fea-4db4-9365-bc30c6eb2e38</uuid>
+        <purpose name="dialog"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="rule" data-type="foglight-5-admin:Rule"/>
+        </inputs>
+        <config>
+            <property name="input">
+                <context-rv input-key="rule"/>
+            </property>
+            <property name="selectorMode">
+                <enum value="listonly"/>
+            </property>
+            <property name="viewsFilter">
+                <object>
+                    <property name="showAllViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showPageViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showDialogViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showMenuViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showSummaryViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showCustomViews">
+                        <string xml:space="preserve">IDE_Wizard</string>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="40" display-name="Rules for this Type and Subtypes" ts="1286181826977" priority="low" component="wcf.table.row-table">
+        <uuid>84bd684b-dab2-4c82-8924-71706d3db95d</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="IDE_Wizard"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminDiagnostic" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <generated-context output-key="cellValue" custom-key="value"/>
+                <choose-value key="selCol">
+                    <case value="name">
+                        <select-type-flow tag="adminSummary" key="selRow"/>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <function-rv id="system:development_rules.22">
+                    <query-selection-rv query="system:development_rules.4"/>
+                    <context-rv input-key="type" path="name"/>
+                    <boolean value="true"/>
+                </function-rv>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carName</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="cartridge_version"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">carVersion</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="scoping_query" renderer-id="system:system.83"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">info</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">ScopingQuery</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ScopingQuery</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_rules.23">
+                                <context-rv input-key="currentRow" path="realId"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruletteCount</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">rulettes</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="realId"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">ruleID</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">ruleID</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">name</string>
+                                <string xml:space="preserve">ruleID</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Rule</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">info</string>
+                                <string xml:space="preserve">ruletteCount</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Scope</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">carName</string>
+                                <string xml:space="preserve">carVersion</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Cartridge</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">name</string>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="performance">
+                <object>
+                    <property name="dontRefreshModel">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Rules for {0}</value>
+                    <context-rv input-key="type" path="name"/>
+                </string-rv>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <renderer id="13" display-name="Rule Active" ts="1229021854667" public="false" handler="wcf.state-range.state">
+        <uuid>6989205d-8a86-4ce9-a19d-662ecbb0a0d8</uuid>
+        <originating-data ts="1218079152347">
+            <uuid>e60a3e7e-09d5-4dd4-b7b9-c9733753a0ec</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">false</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.17"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">true</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.18"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="default-state">
+                <object>
+                    <property name="show-text">
+                        <enum value="always"/>
+                    </property>
+                    <property name="text">
+                        <i18n-rv key="system:development_rules.plain.20"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="14" display-name="Rule Suspended Alarm" ts="1229021854667" public="false" handler="wcf.state-range.state">
+        <uuid>4fe07855-4c1a-4992-9f92-21891e2471f3</uuid>
+        <originating-data ts="1218079479156">
+            <uuid>218c0b0a-89f8-4375-bdfb-685d21b22218</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">true</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.17"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">false</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.19"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="default-state">
+                <object>
+                    <property name="show-text">
+                        <enum value="always"/>
+                    </property>
+                    <property name="text">
+                        <i18n-rv key="system:development_rules.plain.20"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="15" display-name="Rule Blackout" ts="1229021854667" public="false" handler="wcf.state-range.state">
+        <uuid>88abd61a-7f03-4a93-8b35-b77708e9c6e5</uuid>
+        <originating-data ts="1218078933834">
+            <uuid>cc98284e-59a6-4c9c-91c4-b51d1060f65d</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">true</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.17"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">false</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.18"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="default-state">
+                <object>
+                    <property name="show-text">
+                        <enum value="always"/>
+                    </property>
+                    <property name="text">
+                        <i18n-rv key="system:development_rules.plain.20"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="16" display-name="Rule Suspended Action" ts="1229021854667" public="false" handler="wcf.state-range.state">
+        <uuid>c50d5b6b-069b-4a52-8388-40d3b2022d01</uuid>
+        <originating-data ts="1218079669806">
+            <uuid>f7f743f4-bfc5-4198-b820-42886c87aadb</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">true</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.17"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">false</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.20"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="default-state">
+                <object>
+                    <property name="show-text">
+                        <enum value="always"/>
+                    </property>
+                    <property name="text">
+                        <i18n-rv key="system:development_rules.plain.20"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="31" display-name="Admin Edit URL Mapping" ts="1255540676043" public="false" handler="wcf.state-range.state">
+        <uuid>bcc932e9-26dc-4876-9a67-15e9a6d2f54b</uuid>
+        <originating-data ts="1218230626235">
+            <uuid>3d1bcba3-d8e7-4048-bd18-c531d9402391</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">derivation</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/derivation/editDerivation.action</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">threshold</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/threshold/editThreshold.action</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">rule</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/rule/editRule.action</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">registryVariable</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/registry/editRegistryVariable.action</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">schedule</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/schedule/editSchedule.action</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">objectPermission</string>
+                        </property>
+                        <property name="text">
+                            <string xml:space="preserve">/console/admin/configuration/editConfiguration.action</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="show-text">
+                <enum value="always"/>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="32" display-name="Common Toolbar and Form Action Text" ts="1255540676046" public="false" handler="wcf.state-range.state">
+        <uuid>0152331c-d15e-4c6e-a885-4ae412cd7dfc</uuid>
+        <originating-data ts="1226354506895">
+            <uuid>644cd430-0fe6-4d30-ba32-b83a4990da5d</uuid>
+        </originating-data>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">filter</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.37"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.33"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">refresh</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.36"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.34"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">topology</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.35"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.35"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">cartridge</string>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.36"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">add</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:administration.128"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.37"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">delete</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:administration.129"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.38"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">edit</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.34"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.39"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">save</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:development_rules.33"/>
+                        </property>
+                        <property name="text">
+                            <i18n-rv key="system:development_rules.plain.40"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="show-text">
+                <enum value="always"/>
+            </property>
+            <property name="margin">
+                <boolean value="true"/>
+            </property>
+        </config>
+    </renderer>
+    <script-function type="groovy" id="11" display-name="generateRuleTriggeringText" ts="1229074111239" public="false" output-type="wcf:String">
+        <uuid>9faedd5a-a00d-42aa-9610-ba5ec4f8c662</uuid>
+        <inputs>
+            <input name="ruleTriggering" type-name="foglight-5-admin:RuleTrigger"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="12" display-name="getTypeFromAdminDataSourceObject" ts="1229021854667" public="false" output-type="wcf:String">
+        <uuid>cca41134-f5a6-4a86-9338-0d2aa83d0ecd</uuid>
+        <originating-data ts="1220903803874">
+            <uuid>ede13a71-a2bb-4bee-a758-82007bb4191a</uuid>
+        </originating-data>
+        <inputs>
+            <input name="adminDataSourceObject" type-name="foglight-5-admin:AdminSuperType"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="22" display-name="filterRulesBasedOnTypes" ts="1296825923882" public="false" output-type="foglight-5-admin:Rule" output-list="true">
+        <uuid>e6a53d47-9fb4-495c-b5e8-d968cb526d7c</uuid>
+        <inputs>
+            <input name="rules" type-name="foglight-5-admin:Rule" list="true"/>
+            <input name="typeName" type-name="wcf:String"/>
+            <input name="enable" type-name="wcf:Boolean"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="23" display-name="countRulettes" ts="1229707158060" public="false" output-type="wcf:Integer">
+        <uuid>9d05620c-71e1-44ab-9430-5abd91ca69d1</uuid>
+        <inputs>
+            <input name="ruleID" type-name="wcf:String"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="24" display-name="getRulettes" ts="1254754360582" public="false" output-type="foglight-5:IDE_Rulette" output-list="true">
+        <uuid>a07e4c1e-2deb-4eba-8f94-73e0dc27a280</uuid>
+        <inputs>
+            <input name="ruleID" type-name="wcf:String"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="30" display-name="Construct URL Param - Internal" ts="1255540676042" public="false" output-type="wcf:String">
+        <uuid>42f378c7-c64e-4fea-a3c0-eb832aaba638</uuid>
+        <originating-data ts="1225988470439">
+            <uuid>a1a0edc8-9c80-409d-bede-539df069ed35</uuid>
+        </originating-data>
+        <inputs>
+            <input name="params" type-name="wcf:String" list="true"/>
+        </inputs>
+    </script-function>
+    <icon id="17" display-name="Inactive" ts="1229021854667">
+        <uuid>6ec6e31a-acb0-4193-9a11-24884c7e9d3d</uuid>
+        <comments>Special icon representing fatal condition for service level.</comments>
+        <context-help>Special icon representing fatal condition for service level.</context-help>
+        <originating-data ts="1223420862345">
+            <uuid>7daaf853-f36b-4c16-ba12-2ba2533dec4d</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/failure16.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/failure16.gif"/>
+                    </property>
+                    <property name="width">
+                        <integer value="16"/>
+                    </property>
+                    <property name="height">
+                        <integer value="16"/>
+                    </property>
+                </object>
+            </property>
+            <property name="large">
+                <object>
+                    <property name="image">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/failure32.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/failure32.gif"/>
+                    </property>
+                    <property name="width">
+                        <integer value="32"/>
+                    </property>
+                    <property name="height">
+                        <integer value="32"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="18" display-name="Active" ts="1229021854667">
+        <uuid>da0df404-5bc0-463e-adc2-44230d83f212</uuid>
+        <comments>Special icon representing normal condition for service level.</comments>
+        <context-help>Special icon representing normal condition for service level.</context-help>
+        <originating-data ts="1223420787206">
+            <uuid>4d9da7f7-ab7e-47e2-9d9f-36d7a594d269</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/normal16.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/normal16.gif"/>
+                    </property>
+                    <property name="width">
+                        <integer value="16"/>
+                    </property>
+                    <property name="height">
+                        <integer value="16"/>
+                    </property>
+                </object>
+            </property>
+            <property name="large">
+                <object>
+                    <property name="image">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/normal32.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFTHEME:images/icons/service-level-severity/special/normal32.gif"/>
+                    </property>
+                    <property name="width">
+                        <integer value="32"/>
+                    </property>
+                    <property name="height">
+                        <integer value="32"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="19" display-name="Active Alarm" ts="1229021854683" public="false">
+        <uuid>541b3699-3762-41bd-9767-d6800276861c</uuid>
+        <originating-data ts="1223420831030">
+            <uuid>72ef8f8b-6322-4d2d-bea3-d277625b4a68</uuid>
+        </originating-data>
+        <config>
+            <property name="small">
+                <object>
+                    <property name="image">
+                        <image value="WCFMODULETHEME:system:administration/images/alarmActive.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFMODULETHEME:system:administration/images/alarmActive.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="20" display-name="Active Action" ts="1229021854683" public="false">
+        <uuid>3da4717b-d63f-4655-944e-da0ee8ccac44</uuid>
+        <originating-data ts="1223420823128">
+            <uuid>59dbe35f-cb7a-4c69-a7c1-2ed646a39ffd</uuid>
+        </originating-data>
+        <config>
+            <property name="small">
+                <object>
+                    <property name="image">
+                        <image value="WCFMODULETHEME:system:administration/images/actionActive.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFMODULETHEME:system:administration/images/actionActive.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="33" display-name="Save" ts="1255540676051" public="false">
+        <uuid>90bdce22-f785-4f4e-9336-eb3529775fee</uuid>
+        <originating-data ts="1226353760038">
+            <uuid>b2a52d1a-488b-4187-b81c-d6bb65a8effc</uuid>
+        </originating-data>
+        <config>
+            <property name="small">
+                <object>
+                    <property name="image">
+                        <image value="WCFMODULE:system:loganalyzer/images/save.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFMODULE:system:loganalyzer/images/save.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="34" display-name="Toolbar - Edit" ts="1255540676052" public="false">
+        <uuid>089257a5-588d-4ff5-a8b3-606b11d9e084</uuid>
+        <originating-data ts="1223420644628">
+            <uuid>ec3acdc4-6a85-4eb4-b509-b72ac1088212</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="WCFMODULETHEME:system:fsmreporteditor/images/edit16.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFMODULETHEME:system:fsmreporteditor/images/edit16.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="35" display-name="Topology Object" ts="1255540676053" public="false">
+        <uuid>c0a8103c-8d00-4228-a5e1-7c217aa43a10</uuid>
+        <originating-data ts="1223420655795">
+            <uuid>5ecec4c0-fce0-4a5c-ac79-4ccf9f027507</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="/modules/system:core_core/images/service16-dark.gif "/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="/modules/system:core_core/images/service16-dark.gif "/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="36" display-name="Refresh" ts="1255540676054" public="false">
+        <uuid>da1d5cb8-ad2a-4119-8e69-b7ffd6750341</uuid>
+        <originating-data ts="1223420580141">
+            <uuid>9199e61f-355b-4a67-8aa3-50f3874bbb55</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="WCFMODULETHEME:system:administration/images/arrow_refresh.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFMODULETHEME:system:administration/images/arrow_refresh.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <icon id="37" display-name="Filter" ts="1255540676054" public="false">
+        <uuid>74741062-3609-402f-a38d-3d33ee6b33b1</uuid>
+        <originating-data ts="1223420522932">
+            <uuid>4e70ce17-40e9-4ee0-bf7c-829e51b9bcc9</uuid>
+        </originating-data>
+        <config>
+            <property name="medium">
+                <object>
+                    <property name="image">
+                        <image value="WCFTHEME:images/toolbar/filter16.png"/>
+                    </property>
+                    <property name="indexedImage">
+                        <image value="WCFTHEME:images/toolbar/filter16.gif"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </icon>
+    <type-mapping datasource-type="foglight-5-admin" data-type="Rule" ts="1249343032165">
+        <flow tag="drilldown">
+            <next-page id="system:development_rules.9"/>
+        </flow>
+        <flow tag="summary">
+            <popup id="system:development_rules.21" type="temporary"/>
+        </flow>
+        <flow tag="edit">
+            <next-page id="system:administration_rulesnotifications.106"/>
+        </flow>
+    </type-mapping>
+    <type-mapping datasource-type="foglight-5" data-type="IDE_CI_Rule" ts="1256203179884">
+        <flow tag="drilldown">
+            <next-page id="system:development_rules.9">
+                <context>
+                    <entry key="rule">
+                        <query-selection-rv query="system:development_rules.38" results-index="0">
+                            <context-rv input-key="IDE_CI_Rule" path="ci_id"/>
+                        </query-selection-rv>
+                    </entry>
+                </context>
+            </next-page>
+        </flow>
+    </type-mapping>
+</module>

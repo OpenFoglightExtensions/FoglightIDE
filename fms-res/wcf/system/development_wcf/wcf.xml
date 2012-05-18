@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="wcf" last-entity-id="18" parent="system:development">
+    <relevant-role name="Cartridge Developer"/>
+    <relevant-role name="Dashboard Designer"/>
+    <relevant-role name="Foglight Administrator"/>
+    <query select="metadata:Icon" id="1" display-name="Get All Icons" ts="1248965980044" public="false">
+        <uuid>2ae2a366-1203-41bd-8d4b-789331417a28</uuid>
+        <order-by>
+            <key path="name" order="asc"/>
+        </order-by>
+        <root>
+            <datasource-root-reference datasource-type="metadata" path="modules/icons"/>
+        </root>
+    </query>
+    <query select="metadata:Module" id="5" display-name="AllWCF" ts="1249507877656" root-query="true">
+        <uuid>a4f37852-26e8-4ad9-be9f-16dd1224ac16</uuid>
+        <where>
+            <not>
+                <not>
+                    <is-null>
+                        <data-path path="parentModule"/>
+                    </is-null>
+                </not>
+            </not>
+        </where>
+        <root>
+            <datasource-root-reference datasource-type="metadata" path="modules"/>
+        </root>
+    </query>
+    <query select="metadata:TypeMapping" id="7" display-name="allTypeMappings" ts="1255080216386" public="false">
+        <uuid>b9818dc4-04f3-4aae-8ad3-95f5cd95195c</uuid>
+        <root>
+            <datasource-root-reference datasource-type="metadata" path="modules/typeMappings"/>
+        </root>
+    </query>
+    <derived-query id="8" display-name="FindTypeMappings" ts="1255080301099" public="false" query="system:development_wcf.7">
+        <uuid>8dda0610-8c10-4b23-b978-a941d5bc1c4c</uuid>
+        <parameters>
+            <parameter name="type" type-name="wcf:String"/>
+        </parameters>
+        <where>
+            <comparison operator="equals">
+                <data-path path="dataType"/>
+                <parameter-reference parameter="type"/>
+            </comparison>
+        </where>
+    </derived-query>
+    <query select="metadata:EntityType" id="17" display-name="allViews" ts="1255086178174" public="false">
+        <uuid>be8b242b-ba10-42b3-8fb4-80611a030798</uuid>
+        <root>
+            <datasource-root-reference datasource-type="metadata" path="modules/views"/>
+        </root>
+    </query>
+    <view id="3" display-name="AllIconsReport" ts="1278067769196" public="false" component="wcf.table.row-table">
+        <uuid>893278c0-4b06-40c4-bb6a-164f7859a68c</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="report"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_wcf.1"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_wcf.2">
+                                <context-rv input-key="currentRow"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name" renderer-id="system:development_wcf.4"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="module/fqId" renderer-id="system:development_wcf.4"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="deprecated"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="public"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_3</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="comments" renderer-id="system:development_wcf.4"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_4</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">c_1</string>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="persisted">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="6" display-name="Show Type Mappings" ts="1278586753401" priority="p1" component="wcf.grid2">
+        <uuid>8b85e8a0-ad2f-40bc-925b-88614338dd6a</uuid>
+        <purpose name="dataView"/>
+        <custom-purpose name="IDE_Wizard"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="vertical"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size height="30"/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Label" ts="1278413791459" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="type" data-type="foglight-5:IDE_Type"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">All Type mappings for {0}</value>
+                            <context-rv input-key="type" path="name"/>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="system:development_wcf.11" scrollbars="auto">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <composite-view id="9" display-name="TypeMapping" ts="1278414500167" public="false" component="wcf.grid2">
+        <uuid>fdd2a4e3-7ef4-48b1-b9d3-0324628a58fc</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="mapping" data-type="metadata:TypeMapping"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Mapping for {0} defined in {2}  ({1})</value>
+                    <context-rv input-key="mapping" path="dataType"/>
+                    <context-rv input-key="mapping" path="module/fqId"/>
+                    <function-rv id="system:development_wcf.12">
+                        <context-rv input-key="mapping" path="module"/>
+                    </function-rv>
+                </string-rv>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="2" view="nested">
+            <size height="30"/>
+            <config>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv) Label" ts="1278414500145" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="mapping" data-type="metadata:TypeMapping"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">Mapping: {0} defined in {1} [List: {2}]</value>
+                            <context-rv input-key="mapping" path="fqId"/>
+                            <context-rv input-key="mapping" path="module/fqId"/>
+                            <context-rv input-key="mapping" path="isList"/>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="0" view="system:development_wcf.13">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="1" view="system:development_wcf.16">
+            <size/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <composite-view id="10" display-name="MappingIterator" ts="1278414585252" public="false" component="wcf.iterator">
+        <uuid>0acb6904-acb4-4681-9b26-e067e03aa5ec</uuid>
+        <inputs>
+            <entry key="type" data-type="wcf:String"/>
+        </inputs>
+        <config>
+            <property name="key">
+                <string xml:space="preserve">mapping</string>
+            </property>
+            <property name="objects">
+                <query-selection-rv query="system:development_wcf.8">
+                    <context-rv input-key="type"/>
+                </query-selection-rv>
+            </property>
+            <property name="iteratedView">
+                <object>
+                    <property name="view">
+                        <view-ref value="system:development_wcf.9"/>
+                    </property>
+                    <property name="showTitle">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="autoColumns">
+                <boolean value="false"/>
+            </property>
+            <property name="fitColumns">
+                <enum value="stretch"/>
+            </property>
+            <property name="collapseBehaviour">
+                <enum value="allow"/>
+            </property>
+            <property name="title">
+                <string-rv renderer-id="system:core_commons.57">
+                    <value xml:space="preserve">Type mappings defined for {0}</value>
+                    <context-rv input-key="type" renderer-id="system:core_commons.135"/>
+                </string-rv>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </composite-view>
+    <composite-view id="11" display-name="MappingIteratorIncludingSupertypes" ts="1255080915370" public="false" component="wcf.iterator">
+        <uuid>58f1ecef-2273-4cb6-8704-21ad90c86fd8</uuid>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <config>
+            <property name="key">
+                <string xml:space="preserve">type</string>
+            </property>
+            <property name="objects">
+                <list-rv merge="true" remove-nulls="false" remove-dups="true">
+                    <context-rv input-key="type" path="name"/>
+                    <context-rv input-key="type" path="supertypes/name"/>
+                </list-rv>
+            </property>
+            <property name="iteratedView">
+                <object>
+                    <property name="view">
+                        <view-ref value="system:development_wcf.10"/>
+                    </property>
+                    <property name="showTitle">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="autoColumns">
+                <boolean value="false"/>
+            </property>
+            <property name="fitColumns">
+                <enum value="stretch"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </composite-view>
+    <view id="13" display-name="FlowsTable" ts="1255084631338" public="false" component="wcf.table.row-table">
+        <uuid>3703df64-cc7e-4b90-b38d-d57492d6d21c</uuid>
+        <inputs>
+            <entry key="mapping" data-type="metadata:TypeMapping"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="rows">
+                <context-rv input-key="mapping" path="flows"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_wcf.plain.9"/>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="sizing">
+                                    <enum value="specified"/>
+                                </property>
+                                <property name="value">
+                                    <integer value="20"/>
+                                </property>
+                                <property name="unit">
+                                    <enum value="em"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_wcf.14">
+                                <context-rv input-key="currentRow" path="reaction"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="100"/>
+                    <height preferred="150"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="15" display-name="MappingTree" ts="1255083722491" public="false" component="wcf.table.tree-table">
+        <uuid>aea25913-4198-4065-a224-d14574c9939e</uuid>
+        <purpose name="pagelet"/>
+        <flow/>
+        <config>
+            <property name="root">
+                <list-rv merge="true" remove-nulls="true" remove-dups="true">
+                    <context-rv input-key="type"/>
+                    <context-rv input-key="type" path="supertypes"/>
+                </list-rv>
+            </property>
+            <property name="displayType">
+                <data-object-type datasource-type="wcf" data-type="DataObject"/>
+            </property>
+            <property name="dataTypeChildren">
+                <list-value>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="foglight-5" data-type="IDE_Type_Base"/>
+                        </property>
+                        <property name="explicitChildren">
+                            <query-selection-rv query="system:development_wcf.8">
+                                <context-rv input-key="explicitChildrenCurrentNode" path="name"/>
+                            </query-selection-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="type">
+                            <data-object-type datasource-type="metadata" data-type="Flow"/>
+                        </property>
+                        <property name="labelOnlyConfiguration">
+                            <object>
+                                <property name="label">
+                                    <context-rv input-key="labelOnlyTypeCurrentNode" path="name"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="childrenNodeAutoDiscoveryLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_wcf.14">
+                                <context-rv input-key="currentNode"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="handleLargeData">
+                <boolean value="false"/>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="16" display-name="PropertiesTable" ts="1255085408232" public="false" component="wcf.table.row-table">
+        <uuid>9620cc74-a9f7-4de2-ab96-ac9780506efc</uuid>
+        <inputs>
+            <entry key="mapping" data-type="metadata:TypeMapping"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="rows">
+                <context-rv input-key="mapping" path="properties"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="rendererId" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Properties
+</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="100"/>
+                    <height preferred="150"/>
+                </component-sizing>
+            </property>
+            <property name="nullRenderer">
+                <null-renderer value="system:core_commons.192"/>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <renderer id="4" display-name="Normal" ts="1249332571386" public="false" handler="wcf.text" value-type="wcf:String">
+        <uuid>bf70a627-0552-4832-a8bb-298d4143e963</uuid>
+        <originating-data ts="1238012670109">
+            <uuid>6e13b3d3-c9bc-4b9d-a5ce-16db11aee893</uuid>
+        </originating-data>
+        <config>
+            <property name="max-chars-no-whitespace">
+                <integer value="0"/>
+            </property>
+        </config>
+    </renderer>
+    <script-function type="groovy" id="2" display-name="Get Icon Reference" ts="1278064546571" public="false" output-type="wcf:IconReference">
+        <uuid>478005ba-602d-46b2-af9c-6658037f9f85</uuid>
+        <inputs>
+            <input name="icon" type-name="metadata:Icon"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="12" display-name="getModulePath" ts="1255081332082" public="false" output-type="wcf:String">
+        <uuid>c3f50d93-e89f-401a-9a42-72dd5a8f5259</uuid>
+        <inputs>
+            <input name="m" type-name="metadata:Module"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="14" display-name="getNameLabel" ts="1278412954021" public="false" output-type="wcf:String">
+        <uuid>63570dfe-ec5f-4f26-9679-2a167465762e</uuid>
+        <inputs>
+            <input name="obj" type-name="wcf:DataObject"/>
+        </inputs>
+    </script-function>
+</module>

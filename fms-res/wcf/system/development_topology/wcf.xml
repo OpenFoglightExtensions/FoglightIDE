@@ -1,0 +1,3426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="topology" last-entity-id="50" parent="system:development">
+    <relevant-role name="Cartridge Developer"/>
+    <relevant-role name="Dashboard Designer"/>
+    <allowed-role name="Administrator"/>
+    <allowed-role name="Cartridge Developer"/>
+    <allowed-role name="Dashboard Designer"/>
+    <query select="foglight-5:TopologyObject" max-depth="1" id="30" display-name="allData" ts="1229520999634" public="false">
+        <uuid>76a58148-6076-48c9-bf87-c698eff2fa52</uuid>
+        <root>
+            <datasource-root-reference datasource-type="foglight-5"/>
+        </root>
+    </query>
+    <query select="foglight-5:IDE_Type_Instance_Statistics" id="38" display-name="StatsObject" ts="1229557030250" public="false">
+        <uuid>9ca0c34d-2d1b-4b70-ac78-75af4d51e319</uuid>
+        <parameters>
+            <parameter name="name" type-name="foglight-5:String"/>
+        </parameters>
+        <where>
+            <comparison operator="equals">
+                <data-path path="typename"/>
+                <parameter-reference parameter="name"/>
+            </comparison>
+        </where>
+        <root>
+            <datasource-root-reference datasource-type="foglight-5" path="IDE_Type_Instance_StatisticsModel/stats"/>
+        </root>
+    </query>
+    <query select="foglight-5:IDE_Type_Instance_Statistics" id="40" display-name="allStats" ts="1230021296852" public="false">
+        <uuid>ee176303-f7a0-4411-9f98-5423497bed79</uuid>
+        <root>
+            <datasource-root-reference datasource-type="foglight-5" path="IDE_Type_Instance_StatisticsModel/stats"/>
+        </root>
+    </query>
+    <composite-view id="2" display-name="TypeDetails" ts="1257841147927" component="wcf.tab-container">
+        <uuid>c6ecc869-9ff2-412e-8449-0a14b69f0937</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <config>
+            <property name="tabsLabel">
+                <string-rv>
+                    <value xml:space="preserve">Properties of Type {0} :</value>
+                    <context-rv input-key="type" path="name"/>
+                </string-rv>
+            </property>
+            <property name="displayStyle">
+                <enum value="standard"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="400"/>
+                    <height preferred="300"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development_topology.9">
+            <size/>
+            <context>
+                <entry key="properties">
+                    <context-rv input-key="type" path="properties"/>
+                </entry>
+            </context>
+            <config>
+                <property name="tabID">
+                    <string xml:space="preserve">Property</string>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="3" display-name="Instances" ts="1257844527526" component="wcf.table.row-table">
+        <uuid>cb0a65ff-baaa-4575-ba3f-fa41a7ad1ec5</uuid>
+        <purpose name="dialog"/>
+        <purpose name="menu"/>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="typename" data-type="wcf:String"/>
+        </inputs>
+        <context>
+            <entry key="topologyObjects">
+                <function-rv id="system:development_topology.25">
+                    <context-rv input-key="typename"/>
+                </function-rv>
+            </entry>
+        </context>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selectedTopologyObject"/>
+                <generated-context output-key="selectedColumnId" custom-key="selectedColumnId"/>
+                <choose-value key="selectedColumnId">
+                    <case value="Name">
+                        <select-type-flow tag="menu" key="selectedTopologyObject"/>
+                    </case>
+                    <case value="Health">
+                        <popup id="system:core_commons.78" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="FatalCount">
+                        <popup id="system:core_alarms.52">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="forLabel">
+                                    <context-rv input-key="selectedTopologyObject" path="name"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="CriticalCount">
+                        <popup id="system:core_alarms.52">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="forLabel">
+                                    <context-rv input-key="selectedTopologyObject" path="name"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="WarningCount">
+                        <popup id="system:core_alarms.52">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="forLabel">
+                                    <context-rv input-key="selectedTopologyObject" path="name"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="Changes">
+                        <popup id="system:core_changes.0">
+                            <context>
+                                <entry key="allChanges">
+                                    <context-rv input-key="selectedTopologyObject" path="changeSummary"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selectedTopologyObject"/>
+                <generated-context output-key="selectedColumnId" custom-key="selectedColumnId"/>
+                <choose-value key="selectedColumnId">
+                    <case value="Name">
+                        <select-type-flow tag="summary" key="selectedTopologyObject"/>
+                    </case>
+                    <case value="Health">
+                        <popup id="system:core_commons.78" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="FatalCount">
+                        <popup id="system:core_alarms.45" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="Severity">
+                                    <integer value="4"/>
+                                </entry>
+                                <entry key="objectLabel">
+                                    <context-rv input-key="topologyObject" path="longName"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="CriticalCount">
+                        <popup id="system:core_alarms.45" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="Severity">
+                                    <integer value="3"/>
+                                </entry>
+                                <entry key="objectLabel">
+                                    <context-rv input-key="topologyObject" path="longName"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="WarningCount">
+                        <popup id="system:core_alarms.45" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                                <entry key="Severity">
+                                    <integer value="2"/>
+                                </entry>
+                                <entry key="objectLabel">
+                                    <context-rv input-key="topologyObject" path="longName"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="Changes">
+                        <popup id="system:core_changes.12" type="temporary">
+                            <context>
+                                <entry key="topologyObject">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="props">
+                        <popup id="system:development_topology.29">
+                            <context>
+                                <entry key="obj">
+                                    <context-rv input-key="selectedTopologyObject"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="topologyObjects"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <i18n-rv key="system:core_commons.plain.274">
+                                <query-selection-rv query="system:core_commons.90" path="agentInstance" results-index="0">
+                                    <context-rv input-key="currentRow"/>
+                                    <on-null>
+                                        <context-rv input-key="currentRow" path="longName"/>
+                                    </on-null>
+                                </query-selection-rv>
+                            </i18n-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">Name</string>
+                        </property>
+                        <property name="cellNowrap">
+                            <boolean value="true"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="aggregateState"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">Health</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="sortColumnIds">
+                            <list-value>
+                                <string xml:space="preserve">Health</string>
+                                <string xml:space="preserve">FatalCount</string>
+                                <string xml:space="preserve">CriticalCount</string>
+                                <string xml:space="preserve">WarningCount</string>
+                            </list-value>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="alarmAggregateFatalCount"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">FatalCount</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="sortColumnIds">
+                            <list-value>
+                                <string xml:space="preserve">Health</string>
+                                <string xml:space="preserve">FatalCount</string>
+                                <string xml:space="preserve">CriticalCount</string>
+                                <string xml:space="preserve">WarningCount</string>
+                            </list-value>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="alarmAggregateCriticalCount"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">CriticalCount</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="sortColumnIds">
+                            <list-value>
+                                <string xml:space="preserve">Health</string>
+                                <string xml:space="preserve">FatalCount</string>
+                                <string xml:space="preserve">CriticalCount</string>
+                                <string xml:space="preserve">WarningCount</string>
+                            </list-value>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="alarmAggregateWarningCount"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">WarningCount</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="sortColumnIds">
+                            <list-value>
+                                <string xml:space="preserve">Health</string>
+                                <string xml:space="preserve">FatalCount</string>
+                                <string xml:space="preserve">CriticalCount</string>
+                                <string xml:space="preserve">WarningCount</string>
+                            </list-value>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="aggregateAlarmState" renderer-id="system:core_commons.74"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_5</string>
+                        </property>
+                        <property name="headerNowrap">
+                            <boolean value="true"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <icon-rv id="system:utiliconset.77"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">props</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve"> </value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">Name</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:core_commons.plain.314"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">Health</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:core_commons.plain.316"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">FatalCount</string>
+                                <string xml:space="preserve">CriticalCount</string>
+                                <string xml:space="preserve">WarningCount</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:core_commons.plain.296"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_2</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">wcf_column_5</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:core_commons.plain.317"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_3</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">props</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve"> </value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">g_4</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Actions</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="useImplicitHeaders">
+                <boolean value="false"/>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="largeDataVisibleRowLimit">
+                <integer value="30"/>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">Name</string>
+            </property>
+            <property name="columnCustomizationPolicy">
+                <enum value="none"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="400"/>
+                </component-sizing>
+            </property>
+            <property name="nullRenderer">
+                <null-renderer value="system:core_commons.106"/>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="4" display-name="Annotations" ts="1229011722038" public="false" component="wcf.table.row-table">
+        <uuid>8a50ecc2-e260-4425-9b93-43a5190fce25</uuid>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+            <entry key="annotations" data-type="foglight-5:IDE_Type_Annotation" list="true" usage="internal">
+                <context-rv input-key="type" path="annotations"/>
+            </entry>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selID"/>
+                <choose-value key="selID">
+                    <case value="val">
+                        <popup id="system:development_topology.14">
+                            <context>
+                                <entry key="txt">
+                                    <string-rv>
+                                        <value xml:space="preserve">{0}</value>
+                                        <context-rv input-key="selRow" path="value"/>
+                                    </string-rv>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selID"/>
+                <choose-value key="selID">
+                    <case value="val">
+                        <popup id="system:development_topology.14" type="temporary">
+                            <context>
+                                <entry key="txt">
+                                    <string-rv>
+                                        <value xml:space="preserve">{0}</value>
+                                        <context-rv input-key="selRow" path="value"/>
+                                    </string-rv>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="annotations"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="type"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="definedIn"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="typeName"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_2</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <icon-rv id="system:utiliconset.56"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">val</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">value</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="actionGroups">
+                <list-value>
+                    <object>
+                        <property name="actions">
+                            <list-value>
+                                <object>
+                                    <property name="label">
+                                        <string xml:space="preserve">filter</string>
+                                    </property>
+                                    <property name="reaction">
+                                        <popup id="system:development_topology.19"/>
+                                    </property>
+                                </object>
+                            </list-value>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="5" display-name="SubtypesSelector" ts="1229949867256" component="wcf.table.row-table">
+        <uuid>407d421e-c59d-49d9-8f58-5db88918dafa</uuid>
+        <purpose name="dialog"/>
+        <purpose name="menu"/>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selected"/>
+                <update>
+                    <context>
+                        <entry key="typeName">
+                            <context-rv input-key="selected" path="name"/>
+                        </entry>
+                    </context>
+                </update>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="type" path="subtypes"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_0</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Subtypes of {0}</value>
+                                <context-rv input-key="type" path="name"/>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="largeDataVisibleRowLimit">
+                <integer value="10"/>
+            </property>
+            <property name="columnCustomizationPolicy">
+                <enum value="none"/>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Subtypes</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="120"/>
+                    <height preferred="120"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="6" display-name="TypeBrowser" ts="1257776970175" priority="high" component="wcf.grid2">
+        <uuid>d9462b3e-f62e-4cc5-affa-b9b59461f230</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="page"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="FGLIDE_Menu"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="typename" data-type="wcf:String" usage="optional">
+                <string xml:space="preserve">TopologyObject</string>
+            </entry>
+            <entry key="typeHistory" data-type="wcf:String" list="true" usage="internal">
+                <null-rv/>
+            </entry>
+        </inputs>
+        <context>
+            <entry key="type">
+                <function-rv id="system:development_topology.22">
+                    <context-rv input-key="typename"/>
+                </function-rv>
+            </entry>
+        </context>
+        <flow/>
+        <config>
+            <property name="cooperativeLayout">
+                <enum value="on"/>
+            </property>
+            <property name="requiredData">
+                <context-rv input-key="typename"/>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Types</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="500"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                    <property name="pagePanelViews">
+                        <list-value>
+                            <view-ref value="system:development_topology.15"/>
+                            <view-ref value="system:development_topology.7"/>
+                            <view-ref value="system:development_topology.44"/>
+                        </list-value>
+                    </property>
+                    <property name="actions">
+                        <list-value>
+                            <object>
+                                <property name="text">
+                                    <string xml:space="preserve">Open Types</string>
+                                </property>
+                                <property name="reaction">
+                                    <popup id="system:development_topology.12">
+                                        <context>
+                                            <entry key="typename">
+                                                <context-rv input-key="typename"/>
+                                            </entry>
+                                        </context>
+                                    </popup>
+                                </property>
+                            </object>
+                            <object>
+                                <property name="text">
+                                    <string xml:space="preserve">Open Types by Example</string>
+                                </property>
+                                <property name="reaction">
+                                    <popup id="system:development_topology.31"/>
+                                </property>
+                            </object>
+                            <object>
+                                <property name="text">
+                                    <string xml:space="preserve">create Stats container</string>
+                                </property>
+                                <property name="reaction">
+                                    <invoke-task id="system:development_topology.39">
+                                        <context>
+                                            <entry key="name">
+                                                <context-rv input-key="typename"/>
+                                            </entry>
+                                        </context>
+                                    </invoke-task>
+                                </property>
+                            </object>
+                        </list-value>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="4" view="nested">
+            <size height="30"/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(nv) Class Label" ts="1229075861008" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="typename" data-type="wcf:String"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">{0} {1}</value>
+                            <icon-rv id="system:utiliconset.77" renderer-id="system:core_commons.62"/>
+                            <context-rv input-key="typename" renderer-id="system:development_topology.23"/>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="3" view="system:development_topology.18">
+            <size width="230"/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="center"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="2" view="system:development_topology.2">
+            <size/>
+            <config>
+                <property name="rowspan">
+                    <integer value="2"/>
+                </property>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="5" view="system:development_topology.35">
+            <size height="200"/>
+            <config>
+                <property name="collapsed">
+                    <boolean value="true"/>
+                </property>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="7" display-name="typesHistory" ts="1229007172470" public="false" component="wcf.table.row-table">
+        <uuid>3765a0a7-746d-48e9-ba2d-317f86ed7680</uuid>
+        <originating-data ts="1221651943588">
+            <uuid>d3afa0ba-41b6-445a-9ec6-672ca6d4e685</uuid>
+        </originating-data>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="typeHistory" data-type="wcf:String" list="true"/>
+            <entry key="typename" data-type="wcf:String"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="c_type">
+                        <update>
+                            <context>
+                                <entry key="typename">
+                                    <context-rv input-key="selRow"/>
+                                </entry>
+                            </context>
+                        </update>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="typeHistory"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" renderer-id="system:system.max20CharsLeftEllipsis"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_type</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">type</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">type</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="autoSelectPolicy">
+                        <enum value="none"/>
+                    </property>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="actionGroups">
+                <list-value>
+                    <object>
+                        <property name="actions">
+                            <list-value>
+                                <object>
+                                    <property name="label">
+                                        <string xml:space="preserve">add </string>
+                                    </property>
+                                    <property name="reaction">
+                                        <update>
+                                            <context>
+                                                <entry key="typeHistory">
+                                                    <list-rv merge="true" remove-nulls="true" remove-dups="true">
+                                                        <list-rv remove-nulls="false" remove-dups="false">
+                                                            <context-rv input-key="typename"/>
+                                                        </list-rv>
+                                                        <context-rv input-key="typeHistory"/>
+                                                    </list-rv>
+                                                </entry>
+                                            </context>
+                                        </update>
+                                    </property>
+                                </object>
+                                <object>
+                                    <property name="label">
+                                        <string xml:space="preserve">clear</string>
+                                    </property>
+                                    <property name="reaction">
+                                        <update>
+                                            <context>
+                                                <entry key="typeHistory">
+                                                    <list-rv remove-nulls="false" remove-dups="false">
+                                                        <string-rv>
+                                                            <value xml:space="preserve">TopologyObject</value>
+                                                        </string-rv>
+                                                    </list-rv>
+                                                </entry>
+                                            </context>
+                                        </update>
+                                    </property>
+                                </object>
+                            </list-value>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="9" display-name="Properties" ts="1273678036939" component="wcf.table.row-table">
+        <uuid>29ab06ca-60e0-4f51-8a1d-de911b378086</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional">
+                <lastn-time-range unit="hour" num-units="4" granularity="-2"/>
+            </entry>
+            <entry key="properties" data-type="foglight-5:IDE_Type_Property" list="true"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <generated-context output-key="selectedRow" custom-key="selrow"/>
+                <choose-value key="selCol">
+                    <case value="type">
+                        <update>
+                            <context>
+                                <entry key="typeName">
+                                    <context-rv input-key="selrow" path="type/name"/>
+                                </entry>
+                            </context>
+                        </update>
+                    </case>
+                    <case value="defType">
+                        <update>
+                            <context>
+                                <entry key="typeName">
+                                    <context-rv input-key="selrow" path="definedIn/name"/>
+                                </entry>
+                            </context>
+                        </update>
+                    </case>
+                    <case value="expr">
+                        <popup id="system:development_topology.14">
+                            <context>
+                                <entry key="txt">
+                                    <context-rv input-key="selrow" path="exprValue"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <case value="derivedMetric">
+                        <popup id="system:administration_data_diagnostics_fglide_metriclink.1">
+                            <context>
+                                <entry key="metrics">
+                                    <query-selection-rv query="system:development_metrics.5">
+                                        <function-rv id="system:development_metrics.4">
+                                            <context-rv input-key="selrow" path="name"/>
+                                            <context-rv input-key="selrow" path="definedIn/name"/>
+                                        </function-rv>
+                                    </query-selection-rv>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selrow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="expr">
+                        <popup id="system:development_topology.14" type="temporary">
+                            <context>
+                                <entry key="txt">
+                                    <context-rv input-key="selrow" path="exprValue"/>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="properties"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                        <property name="selectable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.17"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="type/name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">type</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.18"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_metrics.1" renderer-id="system:development_common.3">
+                                <context-rv input-key="currentRow" path="name"/>
+                                <context-rv input-key="currentRow" path="type/name"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">derivedMetric</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">DM</value>
+                            </string-rv>
+                        </property>
+                        <property name="headerTooltip">
+                            <string xml:space="preserve">derrived Metric ?</string>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="sizing">
+                                    <enum value="specified"/>
+                                </property>
+                                <property name="value">
+                                    <integer value="15"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="identityDef" renderer-id="system:development_common.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_2</string>
+                        </property>
+                        <property name="selectable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="dwellable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.13"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="vertical">
+                                    <enum value="top"/>
+                                </property>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="manyDef" renderer-id="system:development_common.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_3</string>
+                        </property>
+                        <property name="selectable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="dwellable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.19"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="vertical">
+                                    <enum value="top"/>
+                                </property>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="containmentDef" renderer-id="system:development_common.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_4</string>
+                        </property>
+                        <property name="selectable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="dwellable">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.14"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="vertical">
+                                    <enum value="top"/>
+                                </property>
+                                <property name="horizontal">
+                                    <enum value="center"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="labelProp" renderer-id="system:development_common.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_5</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">lab</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">lab</value>
+                            </string-rv>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="sizing">
+                                    <enum value="specified"/>
+                                </property>
+                                <property name="value">
+                                    <integer value="20"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="exprProp" renderer-id="system:development_common.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">expr</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">dyn.</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">dyn.</value>
+                            </string-rv>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="sizing">
+                                    <enum value="specified"/>
+                                </property>
+                                <property name="value">
+                                    <integer value="20"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="definedIn/name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">defType</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.20"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="unit"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">unit</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">unitname</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="groups">
+                <list-value>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">defType</string>
+                                <string xml:space="preserve">name</string>
+                                <string xml:space="preserve">derivedMetric</string>
+                                <string xml:space="preserve">type</string>
+                                <string xml:space="preserve">unit</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Property</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_0</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">wcf_column_2</string>
+                                <string xml:space="preserve">wcf_column_3</string>
+                                <string xml:space="preserve">wcf_column_4</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.15"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_1</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="columnOrder">
+                            <list-value>
+                                <string xml:space="preserve">wcf_column_5</string>
+                                <string xml:space="preserve">expr</string>
+                            </list-value>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Annotations</value>
+                            </string-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_group_2</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="columnOrder">
+                <list-value>
+                    <string xml:space="preserve">wcf_group_0</string>
+                    <string xml:space="preserve">wcf_group_1</string>
+                    <string xml:space="preserve">wcf_group_2</string>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">name</string>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="300"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="12" display-name="TypeSelectorMenu" ts="1229466140945" component="wcf.grid">
+        <uuid>cc2118c4-155b-46eb-8fdd-45e010ae340e</uuid>
+        <purpose name="dialog"/>
+        <purpose name="menu"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="typeName" data-type="wcf:String" usage="optional">
+                <string-rv>
+                    <value xml:space="preserve">TopologyObject</value>
+                </string-rv>
+            </entry>
+            <entry key="typeFilter" data-type="wcf:String" usage="internal"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="600"/>
+                    <height preferred="400"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size/>
+            <config>
+                <property name="column">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(Nested View)" ts="1193688095671" component="wcf.input.text">
+                <inputs>
+                    <entry key="typeFilter" data-type="wcf:String" usage="optional" implicit="true"/>
+                </inputs>
+                <generated-context output-key="value" custom-key="typeFilter"/>
+                <flow>
+                    <on action="update">
+                        <update/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="applyButton">
+                        <string xml:space="preserve">search</string>
+                    </property>
+                    <property name="fieldWidth">
+                        <integer value="20"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="nested" scrollbars="vertical">
+            <size width="200" height="200"/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="colspan">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="center"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(Nested View)" ts="1229466099119" public="false" component="wcf.table.row-table">
+                <inputs>
+                    <entry key="typeFilter" data-type="wcf:String"/>
+                    <entry key="typeName" data-type="wcf:String"/>
+                </inputs>
+                <flow>
+                    <on action="cellSelection">
+                        <generated-context output-key="selectedRow" custom-key="row"/>
+                        <sequence>
+                            <context>
+                                <entry key="typeName">
+                                    <context-rv input-key="row" path="name"/>
+                                </entry>
+                            </context>
+                            <update/>
+                            <previous update="ui"/>
+                        </sequence>
+                    </on>
+                </flow>
+                <config>
+                    <property name="rows">
+                        <query-selection-rv query="customQuery:idecore_returnTypes">
+                            <context-rv input-key="typeFilter"/>
+                        </query-selection-rv>
+                    </property>
+                    <property name="columns">
+                        <list-value>
+                            <object>
+                                <property name="value">
+                                    <context-rv input-key="currentRow" path="name"/>
+                                </property>
+                                <property name="id">
+                                    <string xml:space="preserve">wcf_column_0</string>
+                                </property>
+                            </object>
+                        </list-value>
+                    </property>
+                    <property name="multipleSelection">
+                        <object>
+                            <property name="showCheckboxes">
+                                <boolean value="false"/>
+                            </property>
+                            <property name="batchedSubmit">
+                                <boolean value="false"/>
+                            </property>
+                        </object>
+                    </property>
+                    <property name="selectionConfiguration">
+                        <object>
+                            <property name="autoSelectPolicy">
+                                <enum value="none"/>
+                            </property>
+                            <property name="allowEmptySelectionAction">
+                                <boolean value="true"/>
+                            </property>
+                        </object>
+                    </property>
+                    <property name="handleLargeData">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="naturalWidthLegacy">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="chooseReactionLegacy">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="columnCustomizationPolicy">
+                        <enum value="none"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+    </composite-view>
+    <view id="13" display-name="SupertypesSelector" ts="1229949855472" component="wcf.table.row-table">
+        <uuid>a1e7eb43-eaaf-41c3-b4eb-71ab3083eda5</uuid>
+        <purpose name="dialog"/>
+        <purpose name="menu"/>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selected"/>
+                <update>
+                    <context>
+                        <entry key="typeName">
+                            <context-rv input-key="selected" path="name"/>
+                        </entry>
+                    </context>
+                </update>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="type" path="supertypes"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="label"/>
+                        </property>
+                        <property name="renderValue">
+                            <context-rv input-key="currentRow" path="name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">basic</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">Supertypes for {0}</value>
+                                <context-rv input-key="type" path="name"/>
+                            </string-rv>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="largeDataVisibleRowLimit">
+                <integer value="10"/>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">basic</string>
+            </property>
+            <property name="columnCustomizationPolicy">
+                <enum value="none"/>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Supertypes</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="150"/>
+                    <height preferred="80"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="14" display-name="text_display" ts="1295445592152" public="false" component="wcf.label">
+        <uuid>a11873cd-fc0e-41dd-adec-b2261283c25c</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="txt" data-type="wcf:String"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="label">
+                <string-rv>
+                    <value xml:space="preserve">{0}</value>
+                    <context-rv input-key="txt" renderer-id="system:development_topology.50"/>
+                </string-rv>
+            </property>
+            <property name="nowrap">
+                <boolean value="false"/>
+            </property>
+            <property name="title">
+                <string xml:space="preserve">Value:</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="400"/>
+                    <height preferred="200"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="15" display-name="open Type" ts="1229007172501" public="false" component="wcf.input.text">
+        <uuid>c588562d-e910-41c0-b6d9-c3e130f91bdf</uuid>
+        <originating-data ts="1221651943572">
+            <uuid>ff240ff4-c44e-4483-9be5-b41de659a613</uuid>
+        </originating-data>
+        <purpose name="menu"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="typename" data-type="wcf:String" usage="optional" implicit="true"/>
+        </inputs>
+        <generated-context output-key="value" custom-key="typename"/>
+        <flow>
+            <on action="update">
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="showApply">
+                <boolean value="false"/>
+            </property>
+            <property name="fieldWidth">
+                <integer value="25"/>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="120"/>
+                    <height preferred="20"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="allowMaximize">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="18" display-name="HirachySelection" ts="1229016031370" public="false" component="wcf.row-layout">
+        <uuid>de474f8a-e096-45d8-a8bd-bf4ac0f275b2</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <config>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Select Super- /Subtypes</value>
+                </string-rv>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development_topology.13">
+            <size height="200"/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+        <window id="2" view="system:development_topology.5">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="19" display-name="annotationFilter" ts="1229014604362" public="false" component="wcf.filter">
+        <uuid>e181b23e-a15c-4020-be91-898c72da9c6d</uuid>
+        <purpose name="dialog"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+            <entry key="filterContent" data-type="wcf:String" usage="optional"/>
+            <entry key="annotations" data-type="foglight-5:IDE_Type_Annotation" list="true" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="update">
+                <generated-context output-key="filterContent" custom-key="filterContent"/>
+                <generated-context output-key="filteredItems" custom-key="annotations"/>
+                <generated-context output-key="filterState" custom-key="filterState"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="filterValues">
+                <context-rv input-key="type" path="annotations"/>
+            </property>
+            <property name="filters">
+                <list-value>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="typeEnum">
+                                <enum-value>
+                                    <enum-state value="1"/>
+                                    <enum-state value="0"/>
+                                </enum-value>
+                            </filter-path>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Annotation Type</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="typeName">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Annotation</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="filter-path">
+                            <filter-path path="definedIn">
+                                <string-value/>
+                            </filter-path>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">src</string>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Filter ({0})</value>
+                    <context-rv input-key="filterContent"/>
+                </string-rv>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="20" display-name="AnnotationList" ts="1229013703653" public="false" component="wcf.table.row-table">
+        <uuid>8f3431de-e92f-4882-b586-31f2d3d60c12</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange" usage="optional"/>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+            <entry key="annotations" data-type="foglight-5:IDE_Type_Annotation" list="true"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selID"/>
+                <choose-value key="selID">
+                    <case value="val">
+                        <popup id="system:development_topology.14">
+                            <context>
+                                <entry key="txt">
+                                    <string-rv>
+                                        <value xml:space="preserve">{0}</value>
+                                        <context-rv input-key="selRow" path="value"/>
+                                    </string-rv>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+            <on action="dwell">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selID"/>
+                <choose-value key="selID">
+                    <case value="val">
+                        <popup id="system:development_topology.14" type="temporary">
+                            <context>
+                                <entry key="txt">
+                                    <string-rv>
+                                        <value xml:space="preserve">{0}</value>
+                                        <context-rv input-key="selRow" path="value"/>
+                                    </string-rv>
+                                </entry>
+                            </context>
+                        </popup>
+                    </case>
+                    <default>
+                        <update/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <context-rv input-key="annotations"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="typeEnum/name"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">wcf_column_0</string>
+                        </property>
+                        <property name="visible">
+                            <boolean value="false"/>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Annotation Type</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="typeName"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">name</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">Annotation</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="definedIn"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">src</string>
+                        </property>
+                        <property name="label">
+                            <string xml:space="preserve">src</string>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <icon-rv id="system:utiliconset.56"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">val</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">value</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="allowEmptySelectionAction">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="naturalWidthLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="chooseReactionLegacy">
+                <boolean value="true"/>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="21" display-name="AnnotationDetail" ts="1257841510557" public="false" priority="low" component="wcf.grid2">
+        <uuid>df4207f7-c1e7-457b-b4cf-7229bfc52be4</uuid>
+        <purpose name="dialog"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="IDE_Wizard"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+            <entry key="annotations" data-type="foglight-5:IDE_Type_Annotation" list="true" usage="internal"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="2" view="system:development_topology.19">
+            <size/>
+            <config>
+                <property name="collapsed">
+                    <boolean value="true"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="0" view="system:development_topology.20">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="29" display-name="PropertiesPopup" ts="1230025693398" component="wcf.table.row-table">
+        <uuid>583e1ffe-2d24-44ac-ae5f-d14f80baf27f</uuid>
+        <purpose name="dialog"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="obj" data-type="foglight-5:TopologyObject"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="rows">
+                <function-rv id="system:development_topology.27">
+                    <context-rv input-key="obj"/>
+                </function-rv>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">name</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_topology.28">
+                                <context-rv input-key="obj"/>
+                                <context-rv input-key="currentRow"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve">value</value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="600"/>
+                    <height preferred="400"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="31" display-name="DataTypeSelector" ts="1254174417702" public="false" component="wcf.grid2">
+        <uuid>7bc67e09-5dca-4006-a66a-be8bd295e120</uuid>
+        <purpose name="dialog"/>
+        <purpose name="pagelet"/>
+        <context>
+            <entry key="filteredObjects">
+                <query-selection-rv query="system:foglight.1"/>
+            </entry>
+        </context>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="800"/>
+                    <height preferred="600"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredWidth">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="usePreferredHeight">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested" scrollbars="auto">
+            <size/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(Nested View)" ts="1254174414704" public="false" component="wcf.table.tree-table">
+                <flow>
+                    <on action="cellSelection">
+                        <generated-context output-key="selectedNode" custom-key="selNode"/>
+                        <generated-context output-key="selectedColumnId" custom-key="selId"/>
+                        <choose-value key="selId">
+                            <case value="c_1">
+                                <update>
+                                    <context>
+                                        <entry key="typename">
+                                            <function-rv id="system:development_topology.32">
+                                                <context-rv input-key="selNode"/>
+                                            </function-rv>
+                                        </entry>
+                                    </context>
+                                </update>
+                            </case>
+                            <default>
+                                <update/>
+                            </default>
+                        </choose-value>
+                    </on>
+                </flow>
+                <config>
+                    <property name="root">
+                        <query-selection-rv query="system:foglight.1"/>
+                    </property>
+                    <property name="displayType">
+                        <data-object-type datasource-type="foglight-5" data-type="DataObject"/>
+                    </property>
+                    <property name="childrenNodeAutoDiscoveryLegacy">
+                        <boolean value="true"/>
+                    </property>
+                    <property name="excludeTypes">
+                        <list-value>
+                            <data-object-type datasource-type="foglight-5" data-type="Metric"/>
+                            <data-object-type datasource-type="foglight-5" data-type="Alarm"/>
+                            <data-object-type datasource-type="foglight-5" data-type="AlarmStateObservation"/>
+                            <data-object-type datasource-type="foglight-5" data-type="AgentStateObservation"/>
+                            <data-object-type datasource-type="foglight-5" data-type="Observation"/>
+                        </list-value>
+                    </property>
+                    <property name="initContextMaxSearchDepth">
+                        <integer value="20"/>
+                    </property>
+                    <property name="columns">
+                        <list-value>
+                            <object>
+                                <property name="value">
+                                    <context-rv input-key="currentNode" cast-ds-type="foglight-5" cast-data-type="TopologyObject" path="name" renderer-id="system:system.max50Chars">
+                                        <on-null>
+                                            <string-rv>
+                                                <value xml:space="preserve">root</value>
+                                            </string-rv>
+                                        </on-null>
+                                    </context-rv>
+                                </property>
+                                <property name="id">
+                                    <string xml:space="preserve">c_0</string>
+                                </property>
+                            </object>
+                            <object>
+                                <property name="value">
+                                    <function-rv id="system:development_topology.32">
+                                        <context-rv input-key="currentNode"/>
+                                    </function-rv>
+                                </property>
+                                <property name="id">
+                                    <string xml:space="preserve">c_1</string>
+                                </property>
+                            </object>
+                        </list-value>
+                    </property>
+                    <property name="multipleSelection">
+                        <object>
+                            <property name="showCheckboxes">
+                                <boolean value="false"/>
+                            </property>
+                            <property name="batchedSubmit">
+                                <boolean value="false"/>
+                            </property>
+                        </object>
+                    </property>
+                    <property name="handleLargeData">
+                        <boolean value="false"/>
+                    </property>
+                </config>
+            </view>
+        </window>
+    </composite-view>
+    <view id="33" display-name="Open Type Definition" ts="1277992572589" public="false" priority="low" component="wcf.label">
+        <uuid>2cf12c47-0852-43d8-9560-54caf551f5d5</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="obj" data-type="foglight-5:DataObject"/>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <flow>
+            <on action="selection">
+                <generated-context output-key="item" custom-key="item"/>
+                <next-page id="system:development_topology.6">
+                    <context>
+                        <entry key="typeName">
+                            <function-rv id="system:development_topology.32">
+                                <context-rv input-key="obj"/>
+                            </function-rv>
+                        </entry>
+                    </context>
+                </next-page>
+            </on>
+        </flow>
+        <config>
+            <property name="label">
+                <string-rv>
+                    <value xml:space="preserve">Open Type Definition for type {0} in Type Browser</value>
+                    <function-rv id="system:development_topology.32">
+                        <context-rv input-key="obj"/>
+                    </function-rv>
+                </string-rv>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="34" display-name="TypePropertyDefinitions" ts="1296827581127" priority="p9" component="wcf.row-layout">
+        <uuid>bed57765-b217-43fa-a347-e24f5b193535</uuid>
+        <purpose name="dataView"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="obj" data-type="foglight-5:DataObject"/>
+        </inputs>
+        <context>
+            <entry key="type">
+                <function-rv id="system:development_topology.22">
+                    <function-rv id="system:development_topology.32">
+                        <context-rv input-key="obj"/>
+                    </function-rv>
+                </function-rv>
+            </entry>
+            <entry key="properties">
+                <context-rv input-key="type" path="properties"/>
+            </entry>
+        </context>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development_topology.9">
+            <size/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="2" view="system:development_topology.33">
+            <size height="20"/>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+        <window id="3" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nvRules" ts="1296826264603" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="type" data-type="foglight-5:IDE_Type"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <popup id="system:development_rules.26" type="modal"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">Show rules scoped on {0} or sub types</value>
+                            <context-rv input-key="type" path="name"/>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+    </composite-view>
+    <composite-view id="35" display-name="TypeMetrics" ts="1238020644280" public="false" component="wcf.column-layout">
+        <uuid>a4cf147a-9e88-44cf-b596-5f7cbb0e4736</uuid>
+        <purpose name="dialog"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="typename" data-type="wcf:String"/>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <config>
+            <property name="title">
+                <string xml:space="preserve">Metrics</string>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size height="30"/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="(NV) Label" ts="1238020636872" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="typename" data-type="wcf:String"/>
+                </inputs>
+                <flow>
+                    <on action="selection">
+                        <popup id="system:development_topology.3"/>
+                    </on>
+                </flow>
+                <config>
+                    <property name="label">
+                        <string-rv>
+                            <value xml:space="preserve">Object count {0} ( {1} )</value>
+                            <function-rv id="system:development_topology.36">
+                                <context-rv input-key="typename"/>
+                                <boolean value="true"/>
+                            </function-rv>
+                            <function-rv id="system:development_topology.36">
+                                <context-rv input-key="typename"/>
+                                <boolean value="false"/>
+                            </function-rv>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="system:development_topology.37">
+            <size/>
+            <context>
+                <entry key="stats">
+                    <query-selection-rv query="system:development_topology.38" results-index="0">
+                        <context-rv input-key="typename"/>
+                    </query-selection-rv>
+                </entry>
+            </context>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="37" display-name="StatsChart" ts="1230022620977" public="false" component="wcf.chart.time-plot">
+        <uuid>0deda6d1-4336-4d25-97cb-151b4088970d</uuid>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="stats" data-type="foglight-5:IDE_Type_Instance_Statistics"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="lineThickness">
+                <enum value="small"/>
+            </property>
+            <property name="simpleMetricData">
+                <object>
+                    <property name="metricBindings">
+                        <list-value>
+                            <object>
+                                <property name="metric">
+                                    <context-rv input-key="stats" path="concreteObjectcount"/>
+                                </property>
+                                <property name="showThresholds">
+                                    <boolean value="true"/>
+                                </property>
+                            </object>
+                            <object>
+                                <property name="metric">
+                                    <context-rv input-key="stats" path="objectcount"/>
+                                </property>
+                            </object>
+                        </list-value>
+                    </property>
+                </object>
+            </property>
+            <property name="legend">
+                <object>
+                    <property name="anchor">
+                        <enum value="south"/>
+                    </property>
+                </object>
+            </property>
+            <property name="automaticSelection">
+                <boolean value="false"/>
+            </property>
+            <property name="requiredData">
+                <context-rv input-key="stats"/>
+            </property>
+            <property name="title">
+                <string-rv>
+                    <value xml:space="preserve">Topology Stats for {0}</value>
+                    <context-rv input-key="stats" path="name"/>
+                </string-rv>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="100"/>
+                    <height preferred="100"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="41" display-name="StatsSummary" ts="1230021863078" public="false" component="wcf.row-layout">
+        <uuid>ae4a410e-5b2b-4a33-949f-c28c4c6abcbd</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="page"/>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="stat" data-type="foglight-5:IDE_Type_Instance_Statistics" usage="internal">
+                <query-selection-rv query="system:development_topology.40" results-index="0"/>
+            </entry>
+        </inputs>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="pageOptions">
+                <object>
+                    <property name="scrollbars">
+                        <enum value="auto"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="system:development_topology.42">
+            <size/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+        <window id="1" view="system:development_topology.37">
+            <size height="250"/>
+            <context>
+                <entry key="stats">
+                    <context-rv input-key="stat"/>
+                </entry>
+            </context>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+        </window>
+    </composite-view>
+    <view id="42" display-name="StatsTable" ts="1254925649450" public="false" component="wcf.table.row-table">
+        <uuid>24c87474-8a34-4b4f-a603-1a2ddd088b33</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="stat" data-type="foglight-5:IDE_Type_Instance_Statistics" usage="optional" implicit="true"/>
+        </inputs>
+        <flow>
+            <on action="rowSelection">
+                <generated-context output-key="selectedRow" custom-key="stat"/>
+                <update/>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <query-selection-rv query="system:development_topology.40"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="typename" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.17"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="concreteObjectcount/current/max"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.40"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="objectcount/current/max"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.37"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="batchedSubmit">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="selectionConfiguration">
+                <object>
+                    <property name="showRadiobuttons">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <view id="44" display-name="TypeWizards" ts="1254924791800" component="wcf.type">
+        <uuid>b1a832f2-525f-424e-ac60-e576de3b01ed</uuid>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <config>
+            <property name="input">
+                <context-rv input-key="type"/>
+            </property>
+            <property name="selectorMode">
+                <enum value="listonly"/>
+            </property>
+            <property name="viewsFilter">
+                <object>
+                    <property name="showAllViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showPageViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showDialogViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showMenuViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showSummaryViews">
+                        <boolean value="false"/>
+                    </property>
+                    <property name="showCustomViews">
+                        <string xml:space="preserve">IDE_Wizard</string>
+                    </property>
+                </object>
+            </property>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <composite-view id="46" display-name="Find Relations" ts="1256565862146" priority="p1" component="wcf.grid2">
+        <uuid>0a277293-f185-4026-b5e8-1e865f55d7ff</uuid>
+        <purpose name="page"/>
+        <purpose name="dataView"/>
+        <custom-purpose name="IDE_Wizard"/>
+        <inputs>
+            <entry key="type" data-type="foglight-5:IDE_Type"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="sizing">
+                <component-sizing>
+                    <width preferred="0"/>
+                    <height preferred="0"/>
+                </component-sizing>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+        <window id="0" view="nested">
+            <size/>
+            <config>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+            </config>
+            <view id="nested" display-name="nv)Label" ts="1255468315965" public="false" component="wcf.label">
+                <inputs>
+                    <entry key="type" data-type="foglight-5:IDE_Type"/>
+                </inputs>
+                <flow/>
+                <config>
+                    <property name="label">
+                        <string-rv renderer-id="system:core_commons.57">
+                            <value xml:space="preserve">Type References for {0}</value>
+                            <context-rv input-key="type" path="name" renderer-id="system:core_commons.135"/>
+                        </string-rv>
+                    </property>
+                </config>
+            </view>
+        </window>
+        <window id="1" view="system:development_topology.47">
+            <size/>
+            <context>
+                <entry key="props">
+                    <function-rv id="system:development_topology.45">
+                        <context-rv input-key="type" path="name"/>
+                        <boolean value="false"/>
+                        <boolean value="false"/>
+                        <boolean value="true"/>
+                    </function-rv>
+                </entry>
+            </context>
+            <config>
+                <property name="row">
+                    <integer value="1"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+            <config-override type="component.wcf.table.row-table:Root">
+                <property name="title">
+                    <string xml:space="preserve">direct Links</string>
+                </property>
+            </config-override>
+        </window>
+        <window id="2" view="nested">
+            <size/>
+            <config>
+                <property name="row">
+                    <integer value="2"/>
+                </property>
+                <property name="align">
+                    <enum value="stretch"/>
+                </property>
+                <property name="valign">
+                    <enum value="stretch"/>
+                </property>
+                <property name="hweight">
+                    <integer value="1"/>
+                </property>
+                <property name="vweight">
+                    <integer value="1"/>
+                </property>
+                <property name="showTitle">
+                    <boolean value="true"/>
+                </property>
+                <property name="showBorder">
+                    <boolean value="true"/>
+                </property>
+            </config>
+            <composite-view id="nested" display-name="indirect links" ts="1255470027394" public="false" component="wcf.tab-container">
+                <inputs>
+                    <entry key="type" data-type="foglight-5:IDE_Type"/>
+                </inputs>
+                <config>
+                    <property name="displayStyle">
+                        <enum value="standard"/>
+                    </property>
+                </config>
+                <window id="0" view="system:development_topology.47">
+                    <size/>
+                    <context>
+                        <entry key="props">
+                            <function-rv id="system:development_topology.45">
+                                <context-rv input-key="type" path="name"/>
+                                <boolean value="false"/>
+                                <boolean value="true"/>
+                                <boolean value="false"/>
+                            </function-rv>
+                        </entry>
+                    </context>
+                    <config/>
+                    <config-override type="component.wcf.table.row-table:Root">
+                        <property name="title">
+                            <string-rv>
+                                <value xml:space="preserve">Include Subtypes of Type</value>
+                            </string-rv>
+                        </property>
+                    </config-override>
+                </window>
+                <window id="1" view="system:development_topology.47">
+                    <size/>
+                    <context>
+                        <entry key="props">
+                            <function-rv id="system:development_topology.45">
+                                <context-rv input-key="type" path="name"/>
+                                <boolean value="true"/>
+                                <boolean value="false"/>
+                                <boolean value="false"/>
+                            </function-rv>
+                        </entry>
+                    </context>
+                    <config/>
+                    <config-override type="component.wcf.table.row-table:Root">
+                        <property name="title">
+                            <string xml:space="preserve">Include Supertypes (indirect links)</string>
+                        </property>
+                    </config-override>
+                </window>
+            </composite-view>
+        </window>
+    </composite-view>
+    <view id="47" display-name="PropertyListSimple" ts="1300889530542" public="false" component="wcf.table.row-table">
+        <uuid>4c0a4d1b-d7e2-468d-bd88-3d44aada73af</uuid>
+        <purpose name="pagelet"/>
+        <inputs>
+            <entry key="props" data-type="foglight-5:IDE_Type_Property" list="true"/>
+        </inputs>
+        <flow/>
+        <config>
+            <property name="rows">
+                <context-rv input-key="props"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="definedIn/name" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.42"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="name" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.43"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="type/name" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.44"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="identityDef"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_3</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.13"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="manyDef"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_4</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.19"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="containmentDef"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_5</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_topology.plain.45"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <task id="39" display-name="CreateTopologyStats" ts="1229557714062" public="false" component="nitrogen.execute-groovy-script">
+        <uuid>d8fa86b2-47cc-4ffb-b76e-09e99ced4bfb</uuid>
+        <inputs>
+            <entry key="name" data-type="wcf:String"/>
+        </inputs>
+        <flow>
+            <on action="OK">
+                <update>
+                    <context>
+                        <entry key="typename">
+                            <context-rv input-key="name"/>
+                        </entry>
+                    </context>
+                </update>
+            </on>
+        </flow>
+        <config>
+            <property name="script">
+                <string xml:space="preserve">def name = @contextIn["name"]
+def s = server.TopologyService
+def d = s.getObjectShell(s.getType("IDE_Type_Instance_Statistics"))
+def m = s.getObjectShell(s.getType("IDE_Type_Instance_StatisticsModel"))
+m.set("name","TopologyStats")
+m.setList("stats",[d])
+d.set("name",name)
+d.set("typename",name)
+s.mergeData([d,m])
+</string>
+            </property>
+        </config>
+    </task>
+    <renderer id="16" display-name="BooleanIcon" ts="1273676817013" handler="wcf.state-range.state">
+        <uuid>9bf672c7-b2ea-45c8-841f-7e412ff46281</uuid>
+        <config>
+            <property name="state-list">
+                <list-value>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">true</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:utiliconset.59"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="state">
+                            <string xml:space="preserve">false</string>
+                        </property>
+                        <property name="icon">
+                            <icon-ref value="system:system.26"/>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="icon-size">
+                <enum value="small"/>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="17" display-name="html" ts="1229007172501" public="false" handler="wcf.string">
+        <uuid>3c2a5b3b-4466-428c-9161-4b8593c8ef91</uuid>
+        <originating-data ts="1221651943600">
+            <uuid>c8c20281-3770-4f6b-abe7-ef14714d4edb</uuid>
+        </originating-data>
+        <config>
+            <property name="support-newline">
+                <boolean value="true"/>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="23" display-name="ClassHeader" ts="1229075787438" public="false" handler="wcf.text" value-type="wcf:String">
+        <uuid>9b4b8938-179e-433f-960d-9781a2e374e0</uuid>
+        <config>
+            <property name="font-size">
+                <enum value="muchLarger"/>
+            </property>
+            <property name="font-style">
+                <enum value="strong"/>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="24" display-name="LabelTextRenderer" ts="1229076111916" public="false" handler="wcf.text" value-type="wcf:String">
+        <uuid>7de75871-165e-410d-b7d3-5b9743ef2885</uuid>
+        <config>
+            <property name="support-newline">
+                <boolean value="true"/>
+            </property>
+        </config>
+    </renderer>
+    <renderer id="50" display-name="html_text" ts="1295445536978" public="false" handler="wcf.text" value-type="wcf:String">
+        <uuid>94abd549-376b-4426-b5db-cc41f18e9e21</uuid>
+        <config>
+            <property name="support-newline">
+                <boolean value="true"/>
+            </property>
+        </config>
+    </renderer>
+    <script-function type="groovy" id="22" display-name="getType" ts="1276167867434" output-type="foglight-5:IDE_Type">
+        <uuid>cd1c74e4-f241-4494-9cf0-d8313d9cc1f7</uuid>
+        <inputs>
+            <input name="name" type-name="wcf:String"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="25" display-name="getInstances" ts="1229081389647" output-type="foglight-5:TopologyObject" output-list="true">
+        <uuid>abc83229-4fce-486f-83a1-84b7b1fd0d1a</uuid>
+        <inputs>
+            <input name="typename" type-name="wcf:String"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="27" display-name="getPropertyNames" ts="1229465784342" public="false" output-type="wcf:String" output-list="true">
+        <uuid>b7918762-018d-41cd-84e9-a6541528719a</uuid>
+        <inputs>
+            <input name="obj" type-name="foglight-5:TopologyObject"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="28" display-name="getPropValue" ts="1229524899932" public="false" output-type="wcf:String">
+        <uuid>24d0f42d-f2e6-4819-8446-667583767b32</uuid>
+        <inputs>
+            <input name="obj" type-name="foglight-5:TopologyObject"/>
+            <input name="key" type-name="wcf:String"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="32" display-name="getTypeName" ts="1229522319839" public="false" output-type="wcf:String">
+        <uuid>85978414-a44e-4154-bc46-da26831fefec</uuid>
+        <inputs>
+            <input name="data" type-name="foglight-5:DataObject"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="36" display-name="countObjects" ts="1229552476515" public="false" output-type="wcf:Integer">
+        <uuid>6c78d73d-3207-42cd-a89c-fb30c5425716</uuid>
+        <inputs>
+            <input name="typename" type-name="wcf:String"/>
+            <input name="concrete" type-name="wcf:Boolean"/>
+        </inputs>
+    </script-function>
+    <script-function type="groovy" id="45" display-name="getPropertiesThatLinkToType" ts="1276170541922" output-type="foglight-5:IDE_Type_Property" output-list="true">
+        <uuid>adda9dfc-d3ae-4b21-9b3f-fe64ef2dff1e</uuid>
+        <inputs>
+            <input name="typename" type-name="wcf:String"/>
+            <input name="includeSuper" type-name="wcf:Boolean"/>
+            <input name="includeSub" type-name="wcf:Boolean"/>
+            <input name="includeDirect" type-name="wcf:Boolean"/>
+        </inputs>
+    </script-function>
+    <type-mapping datasource-type="foglight-5" data-type="Metric" ts="1229465310337">
+        <renderer id="system:system.barRendererWithUnits"/>
+    </type-mapping>
+    <type-mapping datasource-type="foglight-5" data-type="IDE_Type_Property" ts="1255468714172">
+        <property name="containmentDef">
+            <renderer id="system:development_topology.16"/>
+        </property>
+        <property name="identityDef">
+            <renderer id="system:development_topology.16"/>
+        </property>
+        <property name="labelProp">
+            <renderer id="system:development_topology.16"/>
+        </property>
+        <property name="manyDef">
+            <renderer id="system:development_topology.16"/>
+        </property>
+    </type-mapping>
+</module>

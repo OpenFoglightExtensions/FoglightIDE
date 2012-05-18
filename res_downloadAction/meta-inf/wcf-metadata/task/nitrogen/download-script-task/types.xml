@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<types xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../../../../common/config/schemas/config-types.xsd">
+    <type name="Root">
+        <property name="file" type="wcf:String" required="true" 
+				list-mode="false" edit-mode="either"/>       
+	</type>
+</types>

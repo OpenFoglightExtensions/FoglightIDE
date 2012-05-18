@@ -1,0 +1,292 @@
+<project default="cartridge" basedir="." name="IDE-TRUNK">
+
+	<property environment="env" />
+
+	<property name="cartridgeName" value="fglIDE" />
+
+	<property name="cartridgeVersion" value="5.6.2.1" />
+	<property name="cartridgeFileName" value="fglIDE-5_6_2_1.car" />
+	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_2_1.car" />
+	<import file="${basedir}/env.xml" />
+
+ 
+	<target name="buildProjectTemplate" depends="init">
+		<zip destfile="${basedir}/build/ProjectTemplate.zip" basedir="${basedir}/res/ProjectTemplate"></zip>
+	</target>
+	<!-- MAIN Targets -->
+	<target name="cartridge" depends="init,compileHelperSar,compileTaskJar,compileWarWar,buildProjectTemplate" description="Full Cartridge Build">
+
+		<car destdir="build" final="false" append="false">
+			<cartridge name="${cartridgeName}-export" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
+				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/ExportScripts.xml" />
+				<monitoringpolicy name="Commands" version="${cartridgeVersion}" file="${basedir}/src/ExportCartridgeScriptlets.xml" />
+				
+				<!-- controll This Version or remind to change it synchronously in the export Scriptlets !!!!-->
+				<installers name="Templates" version="5.5.5.2" >
+					<installer name="ProjectTemplate" version="5.5.5.2" type="fglIDE-template"  file="${basedir}/build/ProjectTemplate.zip"/>
+				</installers>
+
+<!--
+				<component name="IDETasks" version="1.0" author="stefan.marx" type="WCF Task Jar" deploymentitem="IDETasks.jar">
+					<fileset dir="build/" casesensitive="yes">
+						<include name="**/IDETasks.jar" />
+					</fileset>
+				</component>-->
+
+				<monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" />
+
+				
+				<jarcomponent name="helper" ispublic="true">
+					<fileset dir="build/" includes="IDEHelper.jar" />
+
+				</jarcomponent>
+
+				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war">
+					<fileset file="build/fglide.war" />
+				</component>
+
+				<wcf name="IDE_Core_UI" version="${cartridgeVersion}">
+					<fileset dir="./fms-res-export/" includes="wcf/**/*" />
+				</wcf>
+
+				<topologytypes name="Core_Types" version="${cartridgeVersion}" file="${basedir}/types/core/export-types.xml" />
+				<topologytypes name="Core_ASPTypes" version="${cartridgeVersion}" file="${basedir}/types/core/ASPExports.xml" />
+				
+				<dependency name="fglIconset" version="2.0.0" match="SIMILAR" />
+			</cartridge>		
+			</car>
+
+		<car destdir="build" final="false" append="false">
+			<cartridge name="${cartridgeName}-debugLite" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
+				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts_lite.xml" />
+			</cartridge>		
+			</car>
+
+		<car destdir="build" final="false" append="false">
+			<cartridge name="${cartridgeName}" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
+				<topologytypes name="Core_Types" version="${cartridgeVersion}" file="${basedir}/types/core/topology-types.xml" />
+				<monitoringpolicy name="IDEUIQueries" version="${cartridgeVersion}" file="${basedir}/src/uiquery-monitoring-policies.xml" />
+				<monitoringpolicy name="DebugScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts.xml" />
+
+				<monitoringpolicy name="StatsThreshold" version="${cartridgeVersion}" file="${basedir}/src/Stats.xml" />
+
+				<jarcomponent name="helper" ispublic="true">
+					<fileset dir="build/" includes="IDEHelper.jar" />
+				</jarcomponent>
+				<wcf name="IDE_Core_UI" version="${cartridgeVersion}">
+					<fileset dir="./fms-res/" includes="wcf/**/*" />
+				</wcf>
+				<dependency name="fglIconset" version="2.0.0" match="SIMILAR" />
+			</cartridge>
+		</car>
+
+		<car destdir="build" final="false" append="false">
+					<cartridge name="${cartridgeName}_complete" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
+					</cartridge>
+					<fileset file="${basedir}/build/${cartridgeFileName}" />
+					<fileset file="${basedir}/build/${cartridgeExportFileName}" />
+
+					<fileset dir="${basedir}/car_deps">
+						<include name="**/*.car" />
+					</fileset>
+				</car>
+
+		<car destdir="build" final="false" append="false">
+
+					<cartridge name="${cartridgeName}_Export_complete" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
+					</cartridge>
+					<fileset file="${basedir}/build/${cartridgeExportFileName}" />
+					
+					<fileset dir="${basedir}/car_deps">
+						<include name="**/*.car" />
+					</fileset>
+				</car>
+
+
+
+	</target>
+
+
+
+	<target name="compileHelper">
+		<javac srcdir="src_helper" destdir="build/helper" includes="**/* " target="1.5" debug="on">
+
+			<classpath>
+				<fileset dir="lib/">
+					<include name="**/*.jar" />
+				</fileset>
+				
+
+			</classpath>
+		</javac>
+	</target>
+	<target name="compileHelperSar" depends="compileHelper">
+		<zip destfile="build/IDEHelper.jar">
+			<fileset dir="build/helper" includes="com/**/*">
+			</fileset>
+			
+		</zip>
+	</target>
+
+
+	<target name="compileWar" depends="init">
+		<javac srcdir="src_war" destdir="build/war" includes="**/* " target="1.5" debug="on">
+
+			<classpath>
+				<fileset dir="lib/">
+					<include name="**/*.jar" />
+				</fileset>
+
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="compileWarWar" depends="compileWar">
+		<war duplicate="fail" destfile="build/fglide.war" webxml="${basedir}/res/web.xml">
+			<manifest>
+				<attribute name="Built-By" value="Stefan Marx" />
+			</manifest>
+
+			<classes dir="build/war" includes="**/*" />
+		</war>
+
+	</target>
+
+	<target name="compileTask">
+		<javac srcdir="src_tasks" destdir="build/tasks" includes="**/* " target="1.5" debug="on">
+
+			<classpath>
+				<fileset dir="lib/">
+					<include name="**/*.jar" />
+				</fileset>
+
+			</classpath>
+		</javac>
+	</target>
+	<target name="compileTaskJar" depends="compileTask">
+		<zip destfile="build/IDETasks.jar">
+			<fileset dir="build/tasks" includes="com/**/*">
+			</fileset>
+			<zipfileset dir="res_downloadAction/meta-inf" prefix="META-INF" />
+		</zip>
+	</target>
+
+
+	<target name="clean" depends="init" description="Clean the build">
+		<delete dir="build" excludes="classes/*" failonerror="false">
+		</delete>
+
+
+		<!--<antcall target="FGLDEV:showProperties">
+		</antcall>-->
+	</target>
+
+
+
+	<target name="fullRebuild" depends="init" description="Full Rebuild (clean first)">
+		<antcall target="clean" />
+		<antcall target="cartridge" />
+	</target>
+
+
+
+
+
+	<target name="installCar" depends="cartridge" description="Install Car">
+		<echo message="Installing ${basedir}/build/${cartridgeFileName}" />
+		<java jar="${fgldev.server.dir}/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+			<arg line='-usr ${fgldev.usr} -srv ${fgldev.Server} -pwd ${fgldev.pwd} -cmd ${fgldev.cmd.installCar} -f "${basedir}/build/${cartridgeFileName}" ' />
+			<classpath path="${fgldev.server.dir}/client">
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="installExpCar" depends="cartridge" description="Install Car">
+		<echo message="Installing ${basedir}/build/${cartridgeExportFileName}" />
+		<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+			<arg line='-usr ${fgldev.usr} -srv ${fgldev.Server} -pwd ${fgldev.pwd} -cmd ${fgldev.cmd.installCar} -f "${basedir}/build/${cartridgeExportFileName}" ' />
+			<classpath path="${fgldev.server.dir}/client">
+			</classpath>
+		</java>
+	</target>
+
+
+
+	<!-- Internal Targets -->
+	<target name="init" depends="FGLDEV.init">
+
+		<mkdir dir="build" />
+		<mkdir dir="build/tasks" />
+		<mkdir dir="build/war" />
+
+		<mkdir dir="build/helper" />
+		<mkdir dir="build/scriptlet" />
+		<mkdir dir="res" />
+
+		<echoproperties prefix="spi">
+		</echoproperties>
+		<echoproperties prefix="fgldev">
+		</echoproperties>
+		<!-- set the timestamp -->
+
+		<tstamp />
+		<property name="build.id" value="${DSTAMP}-${TSTAMP}" />
+		<echo message="BUILD ID:${build.id}">
+		</echo>
+	</target>
+
+	<macrodef name="fglcmd">
+		<attribute name="command" />
+		<attribute name="server" />
+		<sequential>
+			<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+				<arg line='-usr ${fgldev.usr} -pwd ${fgldev.usr} -srv @{server}  -cmd @{command}' />
+				<classpath path="${fglclient.dir}">
+				</classpath>
+			</java>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="exportWCF">
+		<attribute name="tmpFilename" />
+		<attribute name="module" />
+		<attribute name="server" />
+		<attribute name="wcfResDir" />
+		<sequential>
+			<delete file="@{tmpFilename}" failonerror="true">
+			</delete>
+			<echo message="Exporting Mod @{module} for server @{server}" />
+			<fglcmd command="util:uiexport -f @{tmpFilename} -m @{module} " server="@{server}" />
+			<unzip dest="@{wcfResDir}" src="@{tmpFilename}"  />
+		</sequential>
+	</macrodef>
+
+	<target name="exportRessources" description="Export Ressources from the local FMS to FS" depends="init">
+		<!-- FGLIDE Export  WCF Modules
+			     **************************   -->
+			
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_scripts" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_cieditors_topologyexports" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_export_data" server="${fgldev.Server}" wcfresdir="fms-res-export/wcf" />
+			
+		
+			<!-- FGLIDE WCF Modules 
+			     ******************  -->
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_debug" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_wcf" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_metrics" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:administration_data_diagnostics_fglide_metriclink" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_common" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_rules" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_topology" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+			<exportWCF tmpfilename="tmpWcf.zip" module="system:development_alpha_tools" server="${fgldev.Server}" wcfresdir="fms-res/wcf" />
+
+	</target>
+
+</project>

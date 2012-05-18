@@ -1,0 +1,121 @@
+<foglight-config version="1.0.0" exported-on="2006-06-21T14:12:01.323Z">
+	<persistable-script>
+		<script_name>logDebug</script_name>
+		<![CDATA[return null]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Logs a Msg to the internal loging]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="arg1_name">
+				<![CDATA[region]]>
+			</script-property>
+			<script-property name="arg1_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg1_description">
+				<![CDATA[a Rein (Package, Rule ...)]]>
+			</script-property>
+			<script-property name="arg2_name">
+				<![CDATA[msg]]>
+			</script-property>
+			<script-property name="arg2_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg2_description">
+				<![CDATA[The Message]]>
+			</script-property>
+		</script-meta-information>
+	</persistable-script>
+
+
+	<persistable-script>
+		<script_name>logWarn</script_name>
+		<![CDATA[
+return true
+]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Logs a Msg to the internal loging]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="arg1_name">
+				<![CDATA[region]]>
+			</script-property>
+			<script-property name="arg1_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg1_description">
+				<![CDATA[a Rein (Package, Rule ...)]]>
+			</script-property>
+			<script-property name="arg2_name">
+				<![CDATA[msg]]>
+			</script-property>
+			<script-property name="arg2_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg2_description">
+				<![CDATA[The Message]]>
+			</script-property>
+		</script-meta-information>
+	</persistable-script>
+	<persistable-script>
+		<script_name>logError</script_name>
+		<![CDATA[
+return true]]>
+		<script-meta-information>
+			<script-property name="script_description">
+				<![CDATA[ Logs a Msg to the internal loging]]>
+			</script-property>
+			<script-property name="return_description">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="return_type">
+				<![CDATA[Boolean]]>
+			</script-property>
+			<script-property name="arg1_name">
+				<![CDATA[region]]>
+			</script-property>
+			<script-property name="arg1_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg1_description">
+				<![CDATA[a Rein (Package, Rule ...)]]>
+			</script-property>
+			<script-property name="arg2_name">
+				<![CDATA[msg]]>
+			</script-property>
+			<script-property name="arg2_type">
+				<![CDATA[String]]>
+			</script-property>
+
+			<script-property name="arg2_description">
+				<![CDATA[The Message]]>
+			</script-property>
+		</script-meta-information>
+	</persistable-script>
+	<registry-variable name="IDE_DEBUGLEVEL" value-class="java.lang.Integer" comment="Defines the Debug Level (0 off, 1 Error, 2 Warn, 3 Debug)">
+		<values>
+			<topology-type-registry-value default-value="java.lang.Integer;3" id="2c91d8af184d429101184e5ef8ea0024" is-user-created="true" variable-name="IDE_DEBUGLEVEL" topology-type="TopologyObject">
+				<performance-calendars />
+			</topology-type-registry-value>
+		</values>
+	</registry-variable>
+
+
+</foglight-config>

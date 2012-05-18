@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="debug" last-entity-id="3" parent="system:development">
+    <relevant-role name="Administrator"/>
+    <relevant-role name="Cartridge Developer"/>
+    <relevant-role name="Dashboard Designer"/>
+    <view id="2" display-name="DebugMessages" ts="1279285636075" public="false" refresh-interval="60" component="wcf.table.row-table">
+        <uuid>5c368b11-7ae0-41f1-bdc4-cc2ec7750c3f</uuid>
+        <purpose name="dashboard"/>
+        <purpose name="monitor"/>
+        <inputs>
+            <entry key="timeRange" data-type="wcf:TimeRange"/>
+        </inputs>
+        <flow>
+            <on action="cellSelection">
+                <generated-context output-key="selectedRow" custom-key="selRow"/>
+                <generated-context output-key="selectedColumnId" custom-key="selCol"/>
+                <choose-value key="selCol">
+                    <case value="obj">
+                        <select-type-flow tag="menu" key="obj">
+                            <context>
+                                <entry key="obj">
+                                    <context-rv input-key="selRow" path="scope"/>
+                                </entry>
+                            </context>
+                        </select-type-flow>
+                    </case>
+                    <case value="props">
+                        <next-page id="system:development_topology.48">
+                            <context>
+                                <entry key="type">
+                                    <context-rv input-key="selRow" path="scope"/>
+                                </entry>
+                            </context>
+                        </next-page>
+                    </case>
+                    <default>
+                        <nop/>
+                    </default>
+                </choose-value>
+            </on>
+        </flow>
+        <config>
+            <property name="rows">
+                <function-rv id="system:development_debug.1"/>
+            </property>
+            <property name="columns">
+                <list-value>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="date" renderer-id="system:wcf_common_ui_table.3"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_0</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_debug.plain.3"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="initialSortOrder">
+                            <enum value="D"/>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="level" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_1</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_debug.plain.5"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="region" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_2</string>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <context-rv input-key="currentRow" path="msg" renderer-id="system:wcf_common_ui_table.2"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">c_3</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_debug.plain.6"/>
+                        </property>
+                        <property name="width">
+                            <object>
+                                <property name="sizing">
+                                    <enum value="specified"/>
+                                </property>
+                                <property name="unit">
+                                    <enum value="%"/>
+                                </property>
+                            </object>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <function-rv id="system:development_common.6">
+                                <context-rv input-key="currentRow" path="scope"/>
+                            </function-rv>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">obj</string>
+                        </property>
+                        <property name="header">
+                            <i18n-rv key="system:development_debug.plain.7"/>
+                        </property>
+                        <property name="cellAlignment">
+                            <object>
+                                <property name="horizontal">
+                                    <enum value="left"/>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                    <object>
+                        <property name="value">
+                            <icon-rv id="system:utiliconset.27"/>
+                        </property>
+                        <property name="id">
+                            <string xml:space="preserve">props</string>
+                        </property>
+                        <property name="header">
+                            <string-rv>
+                                <value xml:space="preserve"> </value>
+                            </string-rv>
+                        </property>
+                    </object>
+                </list-value>
+            </property>
+            <property name="multipleSelection">
+                <object>
+                    <property name="showCheckboxes">
+                        <boolean value="false"/>
+                    </property>
+                </object>
+            </property>
+            <property name="initialSortColumnId">
+                <string xml:space="preserve">c_0</string>
+            </property>
+            <property name="searchingConfiguration">
+                <object>
+                    <property name="enabled">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+            <property name="popupOptions">
+                <object>
+                    <property name="useLegacySizing">
+                        <boolean value="true"/>
+                    </property>
+                </object>
+            </property>
+        </config>
+    </view>
+    <script-function type="groovy" id="1" display-name="allDebugMessages" ts="1276768248285" public="false" output-type="foglight-5:IDE_LogMessage" output-list="true">
+        <uuid>2557484d-9c33-434a-897a-9d6268c9c751</uuid>
+    </script-function>
+</module>

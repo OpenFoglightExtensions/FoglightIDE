@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types xmlns="urn:quest-com:wcf-types-3-0">
+    <type name="DataExportQuery" extends="wcf:WritableDataObject">
+        <property name="query" type="wcf:String"/>
+        <property name="includeContainments" type="wcf:Boolean">
+            <default>false</default>
+        </property>
+        <property name="typeList" type="wcf:String" is-many="true"/>
+    </type>
+    <type name="DataExportWizardData" extends="DataExportQuery">
+        <property name="ciName" type="wcf:String"/>
+    </type>
+</types>
