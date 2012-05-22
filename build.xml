@@ -1,12 +1,12 @@
-<project default="cartridge" basedir="." name="IDE-TRUNK">
+<project default="cartridge" basedir="." name="IDE-GTHUB">
 
 	<property environment="env" />
 
 	<property name="cartridgeName" value="fglIDE" />
 
-	<property name="cartridgeVersion" value="5.6.2.1" />
-	<property name="cartridgeFileName" value="fglIDE-5_6_2_1.car" />
-	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_2_1.car" />
+	<property name="cartridgeVersion" value="5.6.2.2" />
+	<property name="cartridgeFileName" value="fglIDE-5_6_2_2.car" />
+	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_2_2.car" />
 	<import file="${basedir}/env.xml" />
 
  
@@ -18,11 +18,11 @@
 
 		<car destdir="build" final="false" append="false">
 			<cartridge name="${cartridgeName}-export" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
-				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/ExportScripts.xml" />
-				<monitoringpolicy name="Commands" version="${cartridgeVersion}" file="${basedir}/src/ExportCartridgeScriptlets.xml" />
+				<monitoringpolicy name="ExportScripts" version="${cartridgeVersion}" file="${basedir}/src/ExportScripts.xml" federateDeployType="ALWAYS_DEPLOY"/>
+				<monitoringpolicy name="Commands" version="${cartridgeVersion}" file="${basedir}/src/ExportCartridgeScriptlets.xml" federateDeployType="ALWAYS_DEPLOY"/>
 				
 				<!-- controll This Version or remind to change it synchronously in the export Scriptlets !!!!-->
-				<installers name="Templates" version="5.5.5.2" >
+				<installers name="Templates" version="5.5.5.2" federateDeployType="ALWAYS_DEPLOY">
 					<installer name="ProjectTemplate" version="5.5.5.2" type="fglIDE-template"  file="${basedir}/build/ProjectTemplate.zip"/>
 				</installers>
 
@@ -33,19 +33,17 @@
 					</fileset>
 				</component>-->
 
-				<monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" />
-
 				
-				<jarcomponent name="helper" ispublic="true">
+				<jarcomponent name="helper" ispublic="true" federateDeployType="ALWAYS_DEPLOY">
 					<fileset dir="build/" includes="IDEHelper.jar" />
 
 				</jarcomponent>
 
-				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war">
+				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war" federateDeployType="ALWAYS_DEPLOY">
 					<fileset file="build/fglide.war" />
 				</component>
 
-				<wcf name="IDE_Core_UI" version="${cartridgeVersion}">
+				<wcf name="IDE_Core_UI" version="${cartridgeVersion}" federateDeployType="ALWAYS_DEPLOY">
 					<fileset dir="./fms-res-export/" includes="wcf/**/*" />
 				</wcf>
 
@@ -65,10 +63,10 @@
 		<car destdir="build" final="false" append="false">
 			<cartridge name="${cartridgeName}" version="${cartridgeVersion}" author="stefan.marx@quest.com" foglightversion="5.0" type="user" buildId="${build.id}">
 				<topologytypes name="Core_Types" version="${cartridgeVersion}" file="${basedir}/types/core/topology-types.xml" />
-				<monitoringpolicy name="IDEUIQueries" version="${cartridgeVersion}" file="${basedir}/src/uiquery-monitoring-policies.xml" />
-				<monitoringpolicy name="DebugScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts.xml" />
+				<monitoringpolicy name="IDEUIQueries" version="${cartridgeVersion}" file="${basedir}/src/uiquery-monitoring-policies.xml" federateDeployType="ALWAYS_DEPLOY"/>
+				<monitoringpolicy name="DebugScripts" version="${cartridgeVersion}" file="${basedir}/src/DebugScripts.xml" federateDeployType="ALWAYS_DEPLOY" />
 
-				<monitoringpolicy name="StatsThreshold" version="${cartridgeVersion}" file="${basedir}/src/Stats.xml" />
+				<monitoringpolicy name="StatsThreshold" version="${cartridgeVersion}" file="${basedir}/src/Stats.xml" federateDeployType="ALWAYS_DEPLOY"/>
 
 				<jarcomponent name="helper" ispublic="true">
 					<fileset dir="build/" includes="IDEHelper.jar" />
