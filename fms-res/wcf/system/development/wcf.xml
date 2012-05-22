@@ -122,7 +122,7 @@
             <config/>
         </window>
     </composite-view>
-    <composite-view id="5" display-name="FGLIDE Menu" ts="1296136506156" public="false" component="wcf.grid2">
+    <composite-view id="5" display-name="FGLIDE Menu" ts="1337692128148" public="false" component="wcf.grid2">
         <uuid>7b0560cb-99d3-4b48-8817-342bde2aac60</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -165,61 +165,11 @@
                 </config>
             </view>
         </window>
-        <window id="1" view="nested">
-            <size/>
-            <config>
-                <property name="row">
-                    <integer value="1"/>
-                </property>
-            </config>
-            <view id="nested" display-name="nv)Rules" ts="1257777426579" public="false" component="wcf.label">
-                <inputs>
-                    <entry key="timeRange" data-type="wcf:TimeRange"/>
-                </inputs>
-                <flow>
-                    <on action="selection">
-                        <next-page id="system:development_rules.27"/>
-                    </on>
-                </flow>
-                <config>
-                    <property name="label">
-                        <string-rv renderer-id="system:development.6">
-                            <value xml:space="preserve">Rules Debugger</value>
-                        </string-rv>
-                    </property>
-                </config>
-            </view>
-        </window>
-        <window id="2" view="nested">
-            <size/>
-            <config>
-                <property name="row">
-                    <integer value="2"/>
-                </property>
-            </config>
-            <view id="nested" display-name="nv)Metrics" ts="1257777798043" public="false" component="wcf.label">
-                <inputs>
-                    <entry key="timeRange" data-type="wcf:TimeRange"/>
-                </inputs>
-                <flow>
-                    <on action="selection">
-                        <next-page id="system:development_metrics.116"/>
-                    </on>
-                </flow>
-                <config>
-                    <property name="label">
-                        <string-rv renderer-id="system:development.6">
-                            <value xml:space="preserve">Derrived Metrics Debug</value>
-                        </string-rv>
-                    </property>
-                </config>
-            </view>
-        </window>
         <window id="3" view="nested">
             <size/>
             <config>
                 <property name="row">
-                    <integer value="3"/>
+                    <integer value="1"/>
                 </property>
             </config>
             <view id="nested" display-name="nv)Debug" ts="1257780267073" public="false" component="wcf.label">
@@ -244,7 +194,7 @@
             <size height="20"/>
             <config>
                 <property name="row">
-                    <integer value="4"/>
+                    <integer value="2"/>
                 </property>
             </config>
             <view id="nested" display-name="(Nested View)" ts="1257780437372" public="false" component="wcf.separator">
@@ -259,7 +209,7 @@
             <size/>
             <config>
                 <property name="row">
-                    <integer value="5"/>
+                    <integer value="3"/>
                 </property>
             </config>
             <view id="nested" display-name="nv)ManagedExports" ts="1296136505808" public="false" component="wcf.label">
@@ -284,10 +234,10 @@
             <size/>
             <config>
                 <property name="row">
-                    <integer value="6"/>
+                    <integer value="4"/>
                 </property>
             </config>
-            <view id="nested" display-name="nv)DataExport" ts="1293091647730" public="false" component="wcf.label">
+            <view id="nested" display-name="nv)DataExport" ts="1337692128116" public="false" component="wcf.label">
                 <inputs>
                     <entry key="timeRange" data-type="wcf:TimeRange"/>
                 </inputs>
@@ -299,7 +249,7 @@
                 <config>
                     <property name="label">
                         <string-rv renderer-id="system:development.6">
-                            <value xml:space="preserve">Topology export wizard</value>
+                            <value xml:space="preserve">Topology structure export</value>
                         </string-rv>
                     </property>
                 </config>
@@ -309,7 +259,7 @@
             <size/>
             <config>
                 <property name="row">
-                    <integer value="7"/>
+                    <integer value="5"/>
                 </property>
                 <property name="vweight">
                     <integer value="1"/>
@@ -327,7 +277,7 @@
             <size/>
             <config>
                 <property name="row">
-                    <integer value="8"/>
+                    <integer value="6"/>
                 </property>
             </config>
             <view id="nested" display-name="nv)Feedback" ts="1257857409589" public="false" component="wcf.label">
