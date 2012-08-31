@@ -110,7 +110,7 @@ wr << '''<?xml version="1.0" encoding="UTF-8"?>
 		<!-- car may take append="true" and it will put multiple cartridges in to one car file -->
 		<car destdir="${dist.dir}" final="false">
 			<cartridge name="${cartridge.name}" version="${cartridge.version}"
- buildId="${build.id}" author="${cartridge.author}" foglightversion="5.0" type="user">
+ buildId="${build.id}" author="${cartridge.author}" foglightversion="5.0" classloadingstyle="local_first" type="user">
 				
 
 '''
