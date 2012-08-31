@@ -92,9 +92,11 @@
             <datasource-root-reference datasource-type="foglight-5-admin" path="all_thresholds"/>
         </root>
     </query>
-    <composite-view id="2" display-name="manage Cartridge Exports" ts="1256056856189" component="wcf.row-layout">
+    <composite-view id="2" display-name="Export Cartridges" ts="1337695309191" component="wcf.row-layout">
         <uuid>d9b33193-def8-41f3-b7ca-1a6325d8a14f</uuid>
         <purpose name="dashboard"/>
+        <purpose name="homepage"/>
+        <purpose name="pagelet"/>
         <inputs>
             <entry key="selectedDefinition" data-type="foglight-5:IDE_CAR_ExportContainer" usage="internal">
                 <null-rv/>
@@ -336,7 +338,7 @@
             </property>
         </config>
     </view>
-    <view id="4" display-name="CreatedExports" ts="1280928945136" component="wcf.table.row-table">
+    <view id="4" display-name="CreatedExports" ts="1346069847971" component="wcf.table.row-table">
         <uuid>639328c2-7b9f-4222-baae-0a320259cf9b</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -505,9 +507,6 @@
                         <enum value="none"/>
                     </property>
                 </object>
-            </property>
-            <property name="handleLargeData">
-                <boolean value="false"/>
             </property>
             <property name="initialSortColumnId">
                 <string xml:space="preserve">c_0</string>
@@ -875,7 +874,7 @@
             </property>
         </config>
     </view>
-    <view id="16" display-name="CartridgeDefinitionTree" ts="1321021464777" public="false" component="wcf.table.tree-table">
+    <view id="16" display-name="CartridgeDefinitionTree" ts="1346069871208" public="false" component="wcf.table.tree-table">
         <uuid>d9efdb58-1292-43dc-8377-a794fc78d46b</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -1062,9 +1061,6 @@
                     </property>
                 </object>
             </property>
-            <property name="handleLargeData">
-                <boolean value="false"/>
-            </property>
             <property name="actionGroups">
                 <list-value>
                     <object>
@@ -1100,7 +1096,7 @@
             </property>
         </config>
     </view>
-    <composite-view id="17" display-name="CartridgeDefinitionDetailsEditor" ts="1277888124486" public="false" component="wcf.grid2">
+    <composite-view id="17" display-name="CartridgeDefinitionDetailsEditor" ts="1346074184779" public="false" component="wcf.grid2">
         <uuid>e9152dba-f1e9-4993-a5c0-863c29858635</uuid>
         <purpose name="page"/>
         <purpose name="pagelet"/>
@@ -1131,9 +1127,6 @@
                 </property>
                 <property name="align">
                     <enum value="stretch"/>
-                </property>
-                <property name="showBorder">
-                    <boolean value="true"/>
                 </property>
             </config>
             <view id="nested" display-name="(nv)" ts="1253895715939" public="false" component="wcf.label">
@@ -1167,7 +1160,7 @@
             </config>
         </window>
         <window id="3" view="system:development_export.25">
-            <size width="500" height="200"/>
+            <size width="500" height="120"/>
             <config>
                 <property name="row">
                     <integer value="2"/>
@@ -1241,15 +1234,18 @@
             </config>
         </window>
     </composite-view>
-    <view id="18" display-name="CartridgeDefinitionCISelector" ts="1251712584308" public="false" component="wcf.type">
+    <view id="18" display-name="CartridgeDefinitionCISelector" ts="1337697826179" public="false" component="wcf.type">
         <uuid>d3f6e0a8-020a-4936-9cfe-c7f02daa8247</uuid>
         <purpose name="pagelet"/>
         <inputs>
             <entry key="car" data-type="foglight-5:IDE_CAR_ExportContainer"/>
         </inputs>
+        <flow/>
         <config>
             <property name="label">
-                <string xml:space="preserve">Please select the Elements you'd like to add</string>
+                <rich-text-rv>
+                    <value xml:space="preserve">&lt;b>Please select the Elements you'd like to add&lt;/b></value>
+                </rich-text-rv>
             </property>
             <property name="input">
                 <context-rv input-key="car"/>
@@ -1284,16 +1280,9 @@
             </property>
             <property name="sizing">
                 <component-sizing>
-                    <width preferred="0"/>
-                    <height preferred="0"/>
+                    <width behaviour="specified" alignment="middle" preferred="250"/>
+                    <height preferred="150" minimum="150"/>
                 </component-sizing>
-            </property>
-            <property name="popupOptions">
-                <object>
-                    <property name="useLegacySizing">
-                        <boolean value="true"/>
-                    </property>
-                </object>
             </property>
         </config>
     </view>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3-027" display-name="data" last-entity-id="25" parent="system:development_export">
     <relevant-role name="Administrator"/>
-    <composite-view id="1" display-name="Export Cartridges" ts="1337689623858" component="wcf.grid2">
+    <composite-view id="1" display-name="Export Data" ts="1337695282266" component="wcf.grid2">
         <uuid>6b6bedca-5458-4292-b333-3134bd052bce</uuid>
         <purpose name="dashboard"/>
-        <purpose name="homepage"/>
         <purpose name="pagelet"/>
         <inputs>
             <entry key="timeRange" data-type="wcf:TimeRange"/>
@@ -832,7 +831,7 @@
             </view>
         </window>
     </composite-view>
-    <view id="18" display-name="generic Data Export" ts="1295285975272" priority="p9" primary-input-key="car" component="wcf.wizard">
+    <view id="18" display-name="add Generic Structure Export" ts="1337697141063" priority="p9" primary-input-key="car" component="wcf.wizard">
         <uuid>00065ece-7b2a-4132-9514-147aca0e3c29</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>

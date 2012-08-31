@@ -159,7 +159,7 @@
             </view>
         </window>
     </composite-view>
-    <view id="4" display-name="Service Structure" ts="1277389522143" priority="p3" component="wcf.form">
+    <view id="4" display-name="add Service Structure Export" ts="1337697120209" priority="p3" component="wcf.form">
         <uuid>4aa37fd6-8364-42dd-9c0f-8aae97391704</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>

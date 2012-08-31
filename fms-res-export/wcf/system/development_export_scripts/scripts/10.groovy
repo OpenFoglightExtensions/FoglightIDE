@@ -1,8 +1,12 @@
-package system._devExpTTT.scripts;
+package system._development_export_scripts.scripts;
 def type = server.TopologyService.getType("IDE_CAR_ExportContainer")
 def groupType = server.TopologyService.getType("IDE_CAR_CIDefinitionGroup")
 
 def obj = server.TopologyService.getObjectShell(type)
+
+name = name.replace(" ","_")
+			.replace("/","_")
+			.replace("\\","_")
 
 obj.set("name",name)
 obj.set("author",author)

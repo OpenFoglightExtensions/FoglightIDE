@@ -6,7 +6,7 @@
             <datasource-root-reference datasource-type="foglight-5-admin" path="all_agent_properties"/>
         </root>
     </query>
-    <view id="1" display-name="Thresholds" ts="1314707556570" priority="p1" component="wcf.table.row-table">
+    <view id="1" display-name="add Threshold Definitions" ts="1337697065551" priority="p1" component="wcf.table.row-table">
         <uuid>71773d0d-5e97-446e-b1f9-0aefc9bce4cf</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -149,7 +149,7 @@
             </property>
         </config>
     </view>
-    <view id="2" display-name="Registry Values" ts="1277888342927" priority="p1" component="wcf.table.row-table">
+    <view id="2" display-name="add Registry Values" ts="1337696993230" priority="p1" component="wcf.table.row-table">
         <uuid>30534cfe-6b19-43d2-8be5-5c1c4e4a5520</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -270,7 +270,7 @@
             </property>
         </config>
     </view>
-    <view id="3" display-name="Derived Metrics" ts="1277888376395" priority="p1" component="wcf.table.row-table">
+    <view id="3" display-name="add Derived Metrics" ts="1337696982824" priority="p1" component="wcf.table.row-table">
         <uuid>98f1bbb1-32b3-46db-b012-b31ba4ca1598</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -425,7 +425,7 @@
             </property>
         </config>
     </view>
-    <view id="4" display-name="Schedules" ts="1277888400208" priority="p1" component="wcf.table.row-table">
+    <view id="4" display-name="add Schedule Definitions" ts="1337697028346" priority="p1" component="wcf.table.row-table">
         <uuid>27509fc4-4c13-432e-b1e7-afb07595790d</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -546,7 +546,7 @@
             </property>
         </config>
     </view>
-    <view id="5" display-name="WCFModule" ts="1278417095441" public="false" priority="high" component="wcf.table.tree-table">
+    <view id="5" display-name="add WCF Modules" ts="1337697079774" public="false" priority="high" component="wcf.table.tree-table">
         <uuid>7e204bdb-79b9-4b67-9826-22ad45d250c4</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -668,7 +668,7 @@
             </property>
         </config>
     </view>
-    <view id="7" display-name="SecondaryASP" ts="1277894321334" priority="medium" component="wcf.table.tree-table">
+    <view id="7" display-name="add Shared Agent Configurations" ts="1337697103315" priority="medium" component="wcf.table.tree-table">
         <uuid>c2e5805b-cbff-4da6-b252-713a2dc4bf05</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>
@@ -845,7 +845,7 @@
             </property>
         </config>
     </view>
-    <view id="9" display-name="Rules" ts="1314706485241" priority="p1" component="wcf.table.row-table">
+    <view id="9" display-name="add Rules" ts="1337697014044" priority="p1" component="wcf.table.row-table">
         <uuid>43c57624-6462-4ce4-b839-687dc44736e2</uuid>
         <purpose name="dialog"/>
         <purpose name="dataView"/>

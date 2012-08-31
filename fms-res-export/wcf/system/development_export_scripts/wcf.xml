@@ -12,7 +12,7 @@
             <input name="fullPath" type-name="wcf:String"/>
         </inputs>
     </script-function>
-    <script-function type="groovy" id="10" display-name="createCartridgeDefinition" ts="1275314166876" public="false" output-type="foglight-5:IDE_CAR_ExportContainer">
+    <script-function type="groovy" id="10" display-name="createCartridgeDefinition" ts="1337696335936" public="false" output-type="foglight-5:IDE_CAR_ExportContainer">
         <uuid>31f5da78-1ad4-42b8-9806-2747cd17d659</uuid>
         <inputs>
             <input name="name" type-name="wcf:String"/>
