@@ -108,7 +108,7 @@
 
 
 	<target name="compileHelper">
-		<javac srcdir="src_helper" destdir="build/helper" includes="**/* " target="1.5" debug="on">
+		<javac srcdir="src_helper" destdir="build/helper" includes="**/* " target="1.6" source="1.6" debug="on">
 
 			<classpath>
 				<fileset dir="lib/">
@@ -129,7 +129,7 @@
 
 
 	<target name="compileWar" depends="init">
-		<javac srcdir="src_war" destdir="build/war" includes="**/* " target="1.5" debug="on">
+		<javac srcdir="src_war" destdir="build/war" includes="**/* " target="1.6" source="1.6"  debug="on">
 
 			<classpath>
 				<fileset dir="lib/">
@@ -152,7 +152,7 @@
 	</target>
 
 	<target name="compileTask">
-		<javac srcdir="src_tasks" destdir="build/tasks" includes="**/* " target="1.5" debug="on">
+		<javac srcdir="src_tasks" destdir="build/tasks" includes="**/* " target="1.6" source="1.6" debug="on">
 
 			<classpath>
 				<fileset dir="lib/">
