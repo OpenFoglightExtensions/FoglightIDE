@@ -336,6 +336,14 @@ createObject = {n->
      obj.setString(p.attributes().name,p.text())
    }
    
+   n.stringListProperty.each{ p-> 
+     def stringValues = []
+     p.stringValue.each{ v->
+        stringValues.add (v.text())
+     }
+     obj.set(p.attributes().name,stringValues)
+   }
+   
    n.property.each{p->
      obj.setString(p.attributes().name,p.attributes().value)
    }
@@ -491,7 +499,8 @@ exportObject = { obj,shouldIncludeContainments ->
         	
         	props = props - containments
 
-        	props.findAll{it.isIdentity()}.each{ exportProperty.call(obj,it,shouldIncludeContainments)}
+			// export all Identity Props
+			obj.topologyType.properties.findAll{it.isIdentity()}.each{ exportProperty.call(obj,it,shouldIncludeContainments)}
 
         	if (typesToInclude.find{type->type.isAssignableFrom(obj.topologyType)}!= null) {
         		props.findAll{!it.isIdentity()}.each{ exportProperty.call(obj,it,shouldIncludeContainments)}
@@ -524,10 +533,19 @@ exportProperty = {obj, prop ,shouldIncludeContainments->
 		}
 	} else {
 		try {
-		if (prop.valueType.name == "String") {
-xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
-
-		}
+			if (prop.valueType.name == "String") {
+ 		
+ 				if (prop.isMany()){
+ 					xml.stringListProperty(name:prop.name){
+ 						obj.getList(prop).each { sVal->
+ 							xml.stringValue("xml:space":"preserve",sVal)
+ 						}
+ 					}
+	 			}  else {
+   					xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
+				}
+			}
+		
 } catch (Exception ex) {
 }
 		/*
@@ -689,6 +707,14 @@ createObject = {n->
    
    n.stringProperty.each{p->
      obj.setString(p.attributes().name,p.text())
+   }
+     
+   n.stringListProperty.each{ p-> 
+     def stringValues = []
+     p.stringValue.each{ v->
+        stringValues.add (v.text())
+     }
+     obj.set(p.attributes().name,stringValues)
    }
    
    n.property.each{p->
