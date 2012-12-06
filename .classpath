@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="scriptsPrototypes.groovy" kind="src" path="src"/>
+	<classpathentry kind="src" output="build/helper" path="src_helper"/>
+	<classpathentry kind="src" path="src_tasks"/>
+	<classpathentry kind="src" path="src_war"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/helper/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/wcf/wcf-core.jar" sourcepath="/opt/dev/main/WCF/core/src/java"/>
+	<classpathentry kind="lib" path="lib/wcf/wcf-data.jar"/>
+	<classpathentry kind="lib" path="lib/wcf/wcf-datasource.jar"/>
+	<classpathentry kind="lib" path="lib/wcf/wcf-datasupport.jar"/>
+	<classpathentry kind="lib" path="lib/wcf/wcf-oem.jar"/>
+	<classpathentry kind="lib" path="lib/fgl/foglight.jar"/>
+	<classpathentry kind="lib" path="lib/jboss/jboss-jmx.jar"/>
+	<classpathentry kind="lib" path="lib/fgl/jibx-run.jar"/>
+	<classpathentry kind="lib" path="lib/fgl/commons-io.jar"/>
+	<classpathentry kind="lib" path="lib/fgl/servlet-api.jar"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_DSL_SUPPORT"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
