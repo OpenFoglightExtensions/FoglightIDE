@@ -25,7 +25,7 @@
 			<annotation name='DerivationExprType' value='Script' />
 			<annotation name='DerivationExpression'>
 				<value><![CDATA[
-					def f = new File("state"+File.separator+"fglide"+File.separator+"cartridgeExports");
+					def f = new File("../../state"+File.separator+"fglide"+File.separator+"cartridgeExports");
 	
 					// make sure the Path exists
 					f.mkdirs()
