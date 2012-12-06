@@ -12,9 +12,9 @@ def name = args[1]
 def cars = server.CartridgeService.getAllCartridges()
 
 car = cars.find{it.name == name && it.cartridgeStatus.name() == "ACTIVATED"}
-File f = new File(".")
+File f = new File("../../")
 f = new File(f,"state")
-f = new File(f,"cartridge.exploded")
+f = new File(f,"cartridge")
 f = new File (f,name+"-"+car.version.replace(".","_"))
 ]]>
 		</body>
