@@ -1707,7 +1707,7 @@
             </property>
         </config>
     </view>
-    <view id="40" display-name="CartidgeEditor Toolbar" ts="1278073661168" public="false" component="wcf.toolbar">
+    <view id="40" display-name="CartidgeEditor Toolbar" ts="1353592092844" public="false" component="wcf.toolbar">
         <uuid>0cb3b1ea-77f5-4627-a178-451b1b0153f2</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -1741,6 +1741,12 @@
                                     <function-rv id="system:development_export_scripts.64">
                                         <context-rv input-key="car" path="name"/>
                                     </function-rv>
+                                </entry>
+                                <entry key="filename">
+                                    <string-rv>
+                                        <value xml:space="preserve">CarProject_{0}.zip</value>
+                                        <context-rv input-key="car" path="name"/>
+                                    </string-rv>
                                 </entry>
                             </context>
                         </invoke-task>
@@ -2678,10 +2684,13 @@ last modified {1}</value>
             </property>
         </config>
     </task>
-    <task id="63" display-name="DownloadFileByPath" ts="1300794037689" public="false" component="wcf.download-file">
+    <task id="63" display-name="DownloadFileByPath" ts="1353592135116" public="false" component="wcf.download-file">
         <uuid>4cd3386f-516b-4283-9885-f6731c4cda80</uuid>
         <inputs>
             <entry key="path" data-type="wcf:String"/>
+            <entry key="filename" data-type="wcf:String" usage="optional">
+                <context-rv input-key="path"/>
+            </entry>
         </inputs>
         <context>
             <entry key="file">
@@ -2693,7 +2702,7 @@ last modified {1}</value>
         <flow/>
         <config>
             <property name="fileName">
-                <context-rv input-key="path"/>
+                <context-rv input-key="filename"/>
             </property>
             <property name="file">
                 <context-rv input-key="file"/>

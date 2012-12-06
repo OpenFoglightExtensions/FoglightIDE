@@ -3,7 +3,7 @@ def query = exportDefinition.get("query",null)
 def includeContainments = exportDefinition.get("includeContainments",null)
 def typeList = exportDefinition.get("typeList",null)
 
-def dir = new File("state"+File.separator+"fglide"+File.separator+"dataExports")
+def dir = new File("../../state"+File.separator+"fglide"+File.separator+"dataExports")
 dir.mkdirs();
 
 def output = File.createTempFile("MyFile_", "."+format ,dir)

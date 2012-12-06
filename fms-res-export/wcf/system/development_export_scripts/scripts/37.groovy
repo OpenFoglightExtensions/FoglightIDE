@@ -18,7 +18,7 @@ tmpDir.mkdirs();
 msg.append("Exporting to Cartridge !!! (tmp:"+tmpDir+"\n----------------------\n");
 
 // create Cartridge File
-File exportDir = new File("state" + File.separator + "fglide" + File.separator + "cartridgeExports");
+File exportDir = new File("../../state" + File.separator + "fglide" + File.separator + "cartridgeExports");
 exportDir.mkdirs();
 CartridgeBuilder builder = new CartridgeBuilder(exportDir);
 
