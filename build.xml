@@ -4,9 +4,9 @@
 
 	<property name="cartridgeName" value="fglIDE" />
 
-	<property name="cartridgeVersion" value="5.6.2.4" />
-	<property name="cartridgeFileName" value="fglIDE-5_6_2_4.car" />
-	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_2_4.car" />
+	<property name="cartridgeVersion" value="5.6.4" />
+	<property name="cartridgeFileName" value="fglIDE-5_6_4.car" />
+	<property name="cartridgeExportFileName" value="fglIDE-export-5_6_4.car" />
 	<import file="${basedir}/env.xml" />
 
  
