@@ -32,7 +32,7 @@
             <datasource-root-reference datasource-type="foglight-5" path="IDE_Type_Instance_StatisticsModel/stats"/>
         </root>
     </query>
-    <composite-view id="2" display-name="TypeDetails" ts="1257841147927" component="wcf.tab-container">
+    <composite-view id="2" display-name="CorpTypeDetails" ts="1359138487275" component="wcf.tab-container">
         <uuid>c6ecc869-9ff2-412e-8449-0a14b69f0937</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -66,16 +66,38 @@
                 </object>
             </property>
         </config>
+        <window id="1" view="system:development_topology.9">
+            <size/>
+            <context>
+                <entry key="properties">
+                    <context-rv input-key="type" path="directProperties"/>
+                </entry>
+                <entry key="title">
+                    <string-rv>
+                        <value xml:space="preserve">Properties Defined on {0}</value>
+                        <context-rv input-key="type" path="name"/>
+                    </string-rv>
+                </entry>
+            </context>
+            <config>
+                <property name="tabID">
+                    <string xml:space="preserve">LocalProperties</string>
+                </property>
+            </config>
+        </window>
         <window id="0" view="system:development_topology.9">
             <size/>
             <context>
                 <entry key="properties">
                     <context-rv input-key="type" path="properties"/>
                 </entry>
+                <entry key="title">
+                    <string xml:space="preserve">All Properties</string>
+                </entry>
             </context>
             <config>
                 <property name="tabID">
-                    <string xml:space="preserve">Property</string>
+                    <string xml:space="preserve">AllProperties</string>
                 </property>
             </config>
         </window>
@@ -1128,7 +1150,7 @@
             </property>
         </config>
     </view>
-    <view id="9" display-name="Properties" ts="1273678036939" component="wcf.table.row-table">
+    <view id="9" display-name="Properties" ts="1359138399840" component="wcf.table.row-table">
         <uuid>29ab06ca-60e0-4f51-8a1d-de911b378086</uuid>
         <purpose name="pagelet"/>
         <inputs>
@@ -1136,6 +1158,9 @@
                 <lastn-time-range unit="hour" num-units="4" granularity="-2"/>
             </entry>
             <entry key="properties" data-type="foglight-5:IDE_Type_Property" list="true"/>
+            <entry key="title" data-type="wcf:String" usage="optional">
+                <string xml:space="preserve">Properties</string>
+            </entry>
         </inputs>
         <flow>
             <on action="cellSelection">
@@ -1522,6 +1547,9 @@
                         <boolean value="true"/>
                     </property>
                 </object>
+            </property>
+            <property name="title">
+                <context-rv input-key="title"/>
             </property>
             <property name="sizing">
                 <component-sizing>

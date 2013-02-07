@@ -1,4 +1,4 @@
-package system.development_topology.scripts;
+package system._development_topology.scripts;
 def type = server.TopologyService.getType(typename)
 
 def types = server.TopologyService.getDescendentTypes(server.TopologyService.getType("DataObject")).toArray()
