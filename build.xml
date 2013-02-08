@@ -11,7 +11,7 @@
 
  
 	<target name="buildProjectTemplate" depends="init">
-		<zip destfile="${basedir}/build/ProjectTemplate.zip" basedir="${basedir}/res/ProjectTemplate"></zip>
+		<zip destfile="${basedir}/build/ProjectTemplate.zip" basedir="${basedir}/res/ProjectTemplate"/>
 	</target>
 	<!-- MAIN Targets -->
 	<target name="cartridge" depends="init,compileHelperSar,compileTaskJar,compileWarWar,buildProjectTemplate" description="Full Cartridge Build">
@@ -193,7 +193,7 @@
 
 	<target name="installCar" depends="cartridge" description="Install Car">
 		<echo message="Installing ${basedir}/build/${cartridgeFileName}" />
-		<java jar="${fgldev.server.dir}/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
+		<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
 			<arg line='-usr ${fgldev.usr} -srv ${fgldev.Server} -pwd ${fgldev.pwd} -cmd ${fgldev.cmd.installCar} -f "${basedir}/build/${cartridgeFileName}" ' />
 			<classpath path="${fgldev.server.dir}/client">
 			</classpath>
@@ -240,8 +240,6 @@
 		<sequential>
 			<java jar="${basedir}/lib/client/foglight-cmdline-client.jar" fork="true" failonerror="true">
 				<arg line='-usr ${fgldev.usr} -pwd ${fgldev.usr} -srv @{server}  -cmd @{command}' />
-				<classpath path="${fglclient.dir}">
-				</classpath>
 			</java>
 		</sequential>
 	</macrodef>
