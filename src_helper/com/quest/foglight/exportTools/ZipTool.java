@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.zip.*;
 
 public class ZipTool {
-	public void ZipTool () {}
+	public ZipTool () {}
 
 	public static final void zipDirectory(String dir, OutputStream os) throws IOException, IllegalArgumentException {
 		zipDirectory(dir, os,".");
