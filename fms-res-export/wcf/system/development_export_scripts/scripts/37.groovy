@@ -1,4 +1,4 @@
-package system._devExpTTT.scripts;
+package system._development_export_scripts.scripts;
 def _car = car
 def msg = new StringBuffer()
 
@@ -24,6 +24,9 @@ CartridgeBuilder builder = new CartridgeBuilder(exportDir);
 
 // Create service cartridge
 Cartridge cartridge = new Cartridge(new Identity(_car.getString("name"), version, _car.getString("author")));
+
+// create a free Cartridge by Default
+cartridge.setType("free")
 
 msg.append("Cartidge Name :"+_car.getString("name")+"\nVersion: "+version+"\n");
 

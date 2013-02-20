@@ -77,7 +77,7 @@
             <input name="strings" type-name="wcf:String" list="true"/>
         </inputs>
     </script-function>
-    <script-function type="groovy" id="37" display-name="createCartridgeExport" ts="1275649607188" public="false" output-type="wcf:String">
+    <script-function type="groovy" id="37" display-name="createCartridgeExport" ts="1361361078560" public="false" output-type="wcf:String">
         <uuid>779cf9b1-4e81-4c88-96a0-0a9a03e7b8a1</uuid>
         <inputs>
             <input name="car" type-name="foglight-5:IDE_CAR_ExportContainer"/>
