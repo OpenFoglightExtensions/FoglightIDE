@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<foglight-config exported-on="2010-06-08T20:03:26.58Z"
+                 version="1.0.3.0">
+
+
+    <persistable-script name="exportCartridgeNamespaces">
+        <signature>
+
+
+            <arg name="cartridge" type="java.lang.String">
+                <description><![CDATA[Name of the Cartridge]]></description>
+            </arg>
+
+
+            <arg name="file" type="java.io.OutputStream">
+                <description><![CDATA[Filename (ZIP Format)]]></description>
+            </arg>
+
+        </signature>
+
+
+        <documentation>
+            <description>Exports the Cartridge contents as Zip
+            </description>
+        </documentation>
+
+        <annotation name="cmdlet">
+            <attribute name="name">
+                <value>util:exportNamespaces</value>
+            </attribute>
+        </annotation>
+
+        <annotation name="access">
+            <attribute name="requiredRoles">
+                <value>Cartridge Developer</value>
+            </attribute>
+        </annotation>
+
+
+        <body><![CDATA[
+
+		def name = args[1]
+
+        // Imports
+        import org.apache.commons.io.FileUtils;
+        import com.quest.nitro.service.cartridge.api.*
+
+
+        File tmpDir = new File(System.getProperty("java.io.tmpdir") +
+        File.separator + name +
+        	"_tmp_"	+ System.currentTimeMillis());
+        if (tmpDir.exists()) {
+	        FileUtils.forceDelete(tmpDir);
+        }
+
+        tmpDir.mkdirs();
+
+        import org.jboss.mx.util.MBeanServerLocator;
+        import javax.management.ObjectName;
+
+
+        def mbeanServer = MBeanServerLocator.locateJBoss()
+        def namespaceExportBean= new GroovyMBean(mbeanServer, new ObjectName("com.quest.nitro:service=NamespaceExportManager"))
+
+        namespaceExportBean.diagnosticExportNamespaces(name,tmpDir)
+
+// enrich with Template
+def ZT = createZipTool()
+
+		ZT.zipDirectory (tmpDir.absolutePath,args[2],args[1])
+		return "done"
+]]></body>
+    </persistable-script>
+
+
+</foglight-config>
+

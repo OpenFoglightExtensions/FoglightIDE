@@ -38,7 +38,8 @@
 					<fileset dir="build/" includes="IDEHelper.jar" />
 
 				</jarcomponent>
-				<monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" federateDeployType="ALWAYS_DEPLOY" />
+                <monitoringpolicy name="HelperScripts" version="${cartridgeVersion}" file="${basedir}/src/HelperScripts.xml" federateDeployType="ALWAYS_DEPLOY" />
+                <monitoringpolicy name="NamespacesExport" version="${cartridgeVersion}" file="${basedir}/src/ExportNamespace.xml" federateDeployType="ALWAYS_DEPLOY" />
 
 				<component name="Web App" type="JBoss Artifact" deploymentitem="build/fglide.war" federateDeployType="ALWAYS_DEPLOY">
 					<fileset file="build/fglide.war" />
