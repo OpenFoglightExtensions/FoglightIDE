@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/helper/commons-fileupload-1.2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/wcf/wcf-core.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/wcf/wcf-data.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/wcf/wcf-datasource.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/wcf/wcf-datasupport.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/wcf/wcf-oem.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/fgl/foglight.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jboss/jboss-jmx.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/fgl/jibx-run.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/fgl/commons-io.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/fgl/servlet-api.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+      <src_folder value="file://$MODULE_DIR$/src_helper" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/src_tasks" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/src_war" expected_position="3" />
+      <src_folder value="GROOVY_DSL_SUPPORT" expected_position="16" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_helper" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_tasks" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_war" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="commons-fileupload-1.2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/helper/commons-fileupload-1.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wcf-core.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wcf/wcf-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file:///opt/dev/main/WCF/core/src/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wcf-data.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wcf/wcf-data.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wcf-datasource.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wcf/wcf-datasource.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wcf-datasupport.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wcf/wcf-datasupport.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="wcf-oem.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wcf/wcf-oem.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="foglight.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/fgl/foglight.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jboss-jmx.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jboss/jboss-jmx.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jibx-run.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/fgl/jibx-run.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/fgl/commons-io.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="servlet-api.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/fgl/servlet-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

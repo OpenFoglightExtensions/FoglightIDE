@@ -486,28 +486,31 @@ exportObject = { obj,shouldIncludeContainments ->
         	
         	props = props - containments
 
-        	props.findAll{it.isIdentity()}.each{ exportProperty.call(obj,it,shouldIncludeContainments)}
+        	props.findAll{it.isIdentity()}.each{
+
+        	exportProperty.call(obj,it,shouldIncludeContainments)
+        	}
 
         	if (typesToInclude.find{type->type.isAssignableFrom(obj.topologyType)}!= null) {
         		props.findAll{!it.isIdentity()}.each{ exportProperty.call(obj,it,shouldIncludeContainments)}
-        	
+
         		// Containments
         		if (!containments.isEmpty() ){
         			if (shouldIncludeContainments) {
-        			
+
         				containments.each{ containment -> exportProperty.call(obj,containment,shouldIncludeContainments)}
         			} else {
         				containments.each{ containment -> exportContainment.call(obj,containment,shouldIncludeContainments)}
-        			
+
         			}
         		}
-        		
-        	} 
-        	
-        	 
-        	
+
+        	}
+
+
+
         }
-        	
+
 }
 
 exportProperty = {obj, prop ,shouldIncludeContainments->
@@ -519,22 +522,13 @@ exportProperty = {obj, prop ,shouldIncludeContainments->
 		}
 	} else {
 		try {
-		if (prop.valueType.name == "String") {
-xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
-
-		}
-} catch (Exception ex) {
-}
-		/*
-		if (prop.valueType.name == "String") {
-			xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop)){
-				// use encoding
-				//writer  << "<!["<<"CDATA"<<"[" <<obj.getString(prop)<<"]"<<"]>"
+			if (prop.valueType.name == "String") {
+				xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
+			} else {
+				xml.property(name:prop.name,value:obj.getString(prop))
 			}
-		}
-		*//* else {
-			xml.property(name:prop.name,value:obj.getString(prop))
-		}*/
+		} catch (Exception ex) {}
+
 	}
 }
 
