@@ -524,22 +524,15 @@ exportProperty = {obj, prop ,shouldIncludeContainments->
 		}
 	} else {
 		try {
-		if (prop.valueType.name == "String") {
-xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
+		    if (prop.valueType.name == "String") {
+                xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop))
 
-		}
-} catch (Exception ex) {
-}
-		/*
-		if (prop.valueType.name == "String") {
-			xml.stringProperty(name:prop.name,"xml:space":"preserve",obj.getString(prop)){
-				// use encoding
-				//writer  << "<!["<<"CDATA"<<"[" <<obj.getString(prop)<<"]"<<"]>"
-			}
-		}
-		*//* else {
-			xml.property(name:prop.name,value:obj.getString(prop))
-		}*/
+		    }   else {
+		        xml.property(name:prop.name,value:obj.getString(prop))
+		    }
+        } catch (Exception ex) {
+    }
+
 	}
 }
 
